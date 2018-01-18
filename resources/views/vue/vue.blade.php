@@ -1,13 +1,13 @@
 @extends('index')
 
-@section('title', 'GAME TITLE (TO DO)')
+@section('title', 'BlackJack')
 
 @section('content')
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
 	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
-	<router-link to="/" class="navbar-brand">GAME NAME (TO DO)</router-link>
+	<router-link to="/" class="navbar-brand">BlackJack</router-link>
 	<div class="collapse navbar-collapse" id="navbarNav">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">

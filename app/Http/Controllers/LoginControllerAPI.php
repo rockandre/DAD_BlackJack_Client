@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 define('YOUR_SERVER_URL', 'http://blackjack.dad');
 // Check "oauth_clients" table for next 2 values:
 define('CLIENT_ID', '2');
-define('CLIENT_SECRET','2eQ4uyJdhwf3bhidtAUApfEOVDO1m82XN1M3F2Ci');
+define('CLIENT_SECRET','rf0jbDMOoUSO3xldjqiOUX0riYsLydUofzHiDMY2');
 
 
 class LoginControllerAPI extends Controller
@@ -27,6 +27,7 @@ class LoginControllerAPI extends Controller
 			'exceptions' => false,
 		]);
 		$errorCode= $response->getStatusCode();
+
 		if ($errorCode=='200') {
 			return json_decode((string) $response->getBody(), true);
 		} else {

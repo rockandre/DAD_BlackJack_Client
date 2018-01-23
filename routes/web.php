@@ -11,6 +11,13 @@
 |
 */
 
+Route::get('/admin', function() {
+	return view('admin');
+});
+
 Route::get('/', function () {
     return view('vue.vue');
-});
+})->name('home');
+
+
+Route::get('/user/{id}/confirmation/{token}', 'RegisterControllerAPI@confirmation')->name('confirmation');

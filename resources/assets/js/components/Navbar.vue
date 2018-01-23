@@ -8,7 +8,7 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav mr-auto" v-if="this.$root.user.logged()">
 				<li class="nav-item">
-					<router-link to="/gamelobby" class="nav-link">Join Game</router-link>
+					<router-link to="/game" class="nav-link">Join Game</router-link>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Pricing</a>

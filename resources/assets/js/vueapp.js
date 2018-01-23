@@ -9,11 +9,14 @@ require('./bootstrap');
 
 import VueRouter from 'vue-router';
 import User from './classes/user.js';
+import VueSocketio from 'vue-socket.io';
 
 window.Vue = require('vue');
 
 
 Vue.use(VueRouter);
+
+Vue.use(VueSocketio, 'http://192.168.10.10:8080');
 /**
 <<<<<<< HEAD
  * Next, we will create a fresh Vue application instance and attach it to
@@ -26,7 +29,7 @@ Vue.use(VueRouter);
  const home = Vue.component('home', require('./components/Home.vue'));
  const adminUsers = Vue.component('users-component', require('./components/admin/user.vue'));
  const adminDashboard = Vue.component('dashboard-component', require('./components/admin/dashboard.vue'));
- const gamelobby = Vue.component('gamelobby', require('./components/game/gamelobby.vue'));
+ const gamearea = Vue.component('gamearea', require('./components/game/game-area.vue'));
 
 
  const routes = [
@@ -35,7 +38,7 @@ Vue.use(VueRouter);
  { path: '/admin', redirect: '/admin/dashboard' },
  { path: '/admin/dashboard', component: adminDashboard},
  { path: '/admin/users', component: adminUsers },
- { path: '/gamelobby', component: gamelobby}
+ { path: '/game', component: gamearea}
  ];
 
  const router = new VueRouter({

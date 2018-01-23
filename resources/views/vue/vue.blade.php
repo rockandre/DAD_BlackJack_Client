@@ -22,6 +22,9 @@
 		</ul>
 		<ul class="navbar-nav justify-content-end">
 			<li class="nav-item">
+				<a href="{{ url('admin') }}">Painel de Administracao</a>
+			</li>
+			<li class="nav-item">
 				<router-link to="/login" class="nav-link">Login</router-link>
 			</li>
 			<li class="nav-item">

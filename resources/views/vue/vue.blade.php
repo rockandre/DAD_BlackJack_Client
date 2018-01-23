@@ -4,7 +4,7 @@
 
 @section('content')
 <navbar :activated="{{json_encode( empty(session('status')) ? 2 : session('status') )}}"></navbar>
-<router-view></router-view>
+<router-view class="container"></router-view>
 @endsection
 
 @section('pagescript')

@@ -38,6 +38,8 @@ class UsersTableSeeder extends Seeder
             'nickname' => $nickname,
             'admin' => $admin,
             'blocked' => false,
+            'activated' => true,
+            'email_token' => 'ACTIVATED',
             'reason_blocked' => null,
             'reason_reactivated' => null,
             'total_points' => 0,

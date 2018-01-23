@@ -1,16 +1,22 @@
 <template>
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+		<div class="container">
 		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<router-link to="/" class="navbar-brand">BlackJack</router-link>
 		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav mr-auto">
+			<ul class="navbar-nav mr-auto" v-if="this.$root.user.logged()">
 				<li class="nav-item">
-					<a class="nav-link" href="#">Features</a>
+					<router-link to="/gamelobby" class="nav-link">Join Game</router-link>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Pricing</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav mr-auto" v-else>
+				<li class="nav-item">
+					<router-link to="/statistics" class="nav-link">Statistics</router-link>
 				</li>
 			</ul>
 			<ul class="navbar-nav justify-content-end">
@@ -29,6 +35,7 @@
 				</li>
 			</ul>
 		</div>
+		</div>
 	</nav>
 </template>
 <script type="text/javascript">
@@ -41,38 +48,23 @@ export default {
 	},
 	methods: {
 		logout: function() {
-			axios.post("api/logout", null, {
-				headers: {
-					"Accept": "application/json",
-					"Authorization": ("Bearer "+ this.$root.user.access_token),
-				}
-			})
+			axios.post("api/logout", null, this.$root.headers)
 			.then(response => {
 				this.$root.user = new User();
+				this.$root.headers = {};
 				window.localStorage.removeItem('authToken');
 			});
 
-		},
-		checkLoggedUser: function() {
-			axios.get("api/user", {
-				headers: {
-					"Accept": "application/json",
-					"Authorization": ("Bearer "+ this.$root.user.access_token),
-				}
-			}).then(response => {
-				console.log(response.data);
-			});
 		},
 	},
 	created() {
 		this.$root.user.access_token = (window.localStorage.getItem('authToken') === null ? '' : window.localStorage.getItem('authToken'));
 		if (this.$root.user.access_token != '') {
-			axios.get("api/user", {
-				headers: {
+			this.$root.headers = {headers: {
 					"Accept": "application/json",
 					"Authorization": ("Bearer "+ this.$root.user.access_token),
-				}
-			}).then(response => {
+				}};
+			axios.get("api/user", this.$root.headers).then(response => {
 				this.$root.user.parse(response.data);
 			}).catch(response => {
 				this.$root.user = new User();

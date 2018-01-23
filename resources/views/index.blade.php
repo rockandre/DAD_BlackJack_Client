@@ -9,7 +9,7 @@
     <title>@yield('title')</title>
     @yield('extrastyles') 
     <!-- Latest compiled and minified CSS & JS -->
-    <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}
+    <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
 </head>
 <body>
     <div id="app">

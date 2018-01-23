@@ -24,9 +24,13 @@ class RegisterControllerAPI extends Controller
 				'email_token' => str_random(25),
 			]);
 
-			Mail::to($user)->send(new MailConfirmation($user));
+			try {
+				Mail::to($user)->send(new MailConfirmation($user));
+			} catch(Exception $e) {
+				return response()->json("Error sending email!", 400);
+			}
 
-			return response()->json("Registado com Sucesso!", 200);
+			return response()->json("Registed with success!", 200);
 		}
 		return response()->json($validator->errors(), 400);
 	}

@@ -111,12 +111,12 @@ export default {
 				this.$root.user.access_token = response.data.access_token;
 				this.$root.user.refresh_token = response.data.refresh_token;
 				this.authToken = response.data.access_token;
-				axios.get("api/user", {
-					headers: {
-						"Accept": "application/json",
-						"Authorization": ("Bearer "+ this.$root.user.access_token),
-					}
-				}).then(response => {
+				this.$root.headers = {headers: {
+					"Accept": "application/json",
+					"Authorization": ("Bearer "+ this.$root.user.access_token),
+				}};
+				axios.get("api/user", this.$root.headers
+				).then(response => {
 					if(response.data.activated == 0) {
 						axios.post("api/logout", null, {
 							headers: {
@@ -127,6 +127,7 @@ export default {
 						.then(response => {
 							alert("Activate your account first! Check your email!");
 							this.$root.user = new User();
+							this.$root.headers = {};
 							window.localStorage.removeItem('authToken');
 						});
 					} else {

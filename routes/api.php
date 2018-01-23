@@ -13,15 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::post('login', 'LoginControllerAPI@login');
-Route::middleware('auth:api')->post('logout', 'LoginControllerAPI@logout');
-Route::middleware('auth:api')->get('teste', function () {
- return response()->json(['msg'=>'Só um teste'], 200);
-});
 
 // user
 Route::get('users', 'UserControllerAPI@getUsers');
@@ -30,3 +21,18 @@ Route::get('users/{id}', 'UserControllerAPI@getUser');
 Route::post('users', 'UserControllerAPI@store');
 Route::put('users/{id}', 'UserControllerAPI@update');
 Route::delete('users/{id}', 'UserControllerAPI@delete');
+
+
+// auth
+Route::post('login', 'LoginControllerAPI@login');
+Route::post('register', 'RegisterControllerAPI@register');
+
+Route::middleware(['auth:api'])->group( function () {
+
+	Route::get('/user', function (Request $request) {
+		return $request->user();
+	});
+
+	Route::post('logout', 'LoginControllerAPI@logout');
+
+});

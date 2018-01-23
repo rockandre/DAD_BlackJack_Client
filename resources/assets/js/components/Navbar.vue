@@ -14,6 +14,9 @@
 				</li>
 			</ul>
 			<ul class="navbar-nav justify-content-end">
+				<li class="nav-item" v-if="this.isAdmin">
+					<router-link to="/admin" class="nav-link">Administration Panel</router-link>
+				</li>
 				<li class="nav-item" v-if="!this.$root.user.logged()">
 					<router-link to="/login" class="nav-link">Login / Register</router-link>
 				</li>
@@ -40,6 +43,12 @@ export default {
 		}
 	},
 	methods: {
+		isAdmin: function() {
+			if (this.$root.user.logged())
+				if(this.$root.user == 1) 
+					return true;
+			return false
+		},
 		logout: function() {
 			axios.post("api/logout", null, {
 				headers: {

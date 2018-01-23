@@ -23,11 +23,16 @@
  Vue.component('navbar', require('./components/Navbar.vue'));
  const login = Vue.component('login', require('./components/Login.vue'));
  const home = Vue.component('home', require('./components/Home.vue'));
+ const adminUsers = Vue.component('users-component', require('./components/admin/user.vue'));
+ const adminDashboard = Vue.component('dashboard-component', require('./components/admin/dashboard.vue'));
 
 
  const routes = [
  { path: '/', component: home },
  { path: '/login', component: login },
+ { path: '/admin', redirect: '/admin/dashboard' },
+ { path: '/admin/dashboard', component: adminDashboard},
+ { path: '/admin/users', component: adminUsers }
  ];
 
  const router = new VueRouter({

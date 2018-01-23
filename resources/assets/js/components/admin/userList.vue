@@ -15,6 +15,9 @@
 	            <td>{{ user.nickname }}</td>
 	            <td>
 	                <a class="btn btn-xs btn-primary" v-on:click.prevent="editUser(user)">Edit</a>
+	                <a class="btn btn-xs btn-warning" v-on:click.prevent="blockUser(user)" v-if="!user.blocked">Block</a>
+	                <a class="btn btn-xs btn-warning" v-on:click.prevent="unblockUser(user)" v-if="user.blocked">Unblock</a>
+
 	                <a class="btn btn-xs btn-danger" v-on:click.prevent="deleteUser(user)">Delete</a>
 	            </td>
 	        </tr>
@@ -32,13 +35,21 @@
 			}
 		},
         methods: {
-            editUser: function(user){
+            editUser: function(user) {
                 this.editingUser = user;
                 this.$emit('edit-click', user);
             },		
-            deleteUser: function(user){
+            deleteUser: function(user) {
                 this.editingUser = null;
                 this.$emit('delete-click', user);
+			},
+			blockUser: function(user) {
+				this.editingUser = user;
+				this.$emit('block-clock', user);
+			},
+			unblockUser: function(user) {
+				this.function = user;
+				this.$emit('unblock-clock', user);
 			}
         },		
 	}

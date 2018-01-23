@@ -14,13 +14,6 @@ use Illuminate\Http\Request;
 */
 
 
-// user
-Route::get('users', 'UserControllerAPI@getUsers');
-Route::get('users/emailavailable', 'UserControllerAPI@emailAvailable');
-Route::get('users/{id}', 'UserControllerAPI@getUser');
-Route::post('users', 'UserControllerAPI@store');
-Route::put('users/{id}', 'UserControllerAPI@update');
-Route::delete('users/{id}', 'UserControllerAPI@delete');
 
 
 // auth
@@ -34,5 +27,13 @@ Route::middleware(['auth:api'])->group( function () {
 	});
 
 	Route::post('logout', 'LoginControllerAPI@logout');
+
+	// user
+	Route::get('users', 'UserControllerAPI@getUsers');
+	Route::get('users/emailavailable', 'UserControllerAPI@emailAvailable');
+	Route::get('users/{id}', 'UserControllerAPI@getUser');
+	Route::post('users', 'UserControllerAPI@store');
+	Route::put('users/{id}', 'UserControllerAPI@update');
+	Route::delete('users/{id}', 'UserControllerAPI@delete');
 
 });

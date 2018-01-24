@@ -10,8 +10,8 @@
             <hr>
             <h4>Pending games (<a @click.prevent="loadLobby">Refresh</a>)</h4>
             <lobby :games="lobbyGames" @join-click="join"></lobby>
-            <template v-for="game in activeGames">
-                <game :game="game" v-on:clickaction="play"></game>
+            <template v-for="game in activeGames" v-bind:game="game">
+                <game :game="game" v-on:clickaction="play" v-bind:key="game.gameID"></game>
             </template>
         </div>
     </div>
@@ -25,16 +25,23 @@
         data: function(){
 			return {
                 title: 'BlackJack',
-                currentPlayer: this.$root.user.nickname,
                 lobbyGames: [],
                 activeGames: [],
-                socketId: "",
+            }
+        },
+        computed: {
+            currentPlayer(){
+                //return this.user.nickname;
+                return this.$root.user.nickname;
+            },
+            socketId(){
+                return this.$socket.id;
             }
         },
         sockets:{
             connect(){
                 console.log('socket connected');
-                this.socketId = this.$socket.id;
+                //console.log(this.$socket.id);
             },
             discconnect(){
                 console.log('socket disconnected');
@@ -111,7 +118,6 @@
             'game': GameBlackJack,
         },
         mounted() {
-            this.currentPlayer = this.$root.user.nickname;
             this.loadLobby();
         }
 

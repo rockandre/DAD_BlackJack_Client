@@ -17,8 +17,7 @@ window.Vue = require('vue');
 Vue.use(VueRouter);
 
 Vue.use(VueSocketio, 'http://192.168.10.10:8080');
-/**
-<<<<<<< HEAD
+/*
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.

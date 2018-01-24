@@ -8,7 +8,7 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav mr-auto" v-if="this.$root.user.logged()">
 				<li class="nav-item">
-					<router-link to="/gamelobby" class="nav-link">Join Game</router-link>
+					<router-link to="/game" class="nav-link">Join Game</router-link>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Pricing</a>
@@ -20,6 +20,9 @@
 				</li>
 			</ul>
 			<ul class="navbar-nav justify-content-end">
+				<li class="nav-item" v-if="this.isAdmin">
+					<router-link to="/admin" class="nav-link">Administration Panel</router-link>
+				</li>
 				<li class="nav-item" v-if="!this.$root.user.logged()">
 					<router-link to="/login" class="nav-link">Login / Register</router-link>
 				</li>
@@ -47,6 +50,12 @@ export default {
 		}
 	},
 	methods: {
+		isAdmin: function() {
+			if (this.$root.user.logged())
+				if(this.$root.user == 1) 
+					return true;
+			return false
+		},
 		logout: function() {
 			axios.post("api/logout", null, this.$root.headers)
 			.then(response => {

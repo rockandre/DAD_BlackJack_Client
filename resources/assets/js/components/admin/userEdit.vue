@@ -34,16 +34,19 @@
 		props: ['user'],
 	    methods: {
 	        saveUser: function(){
-	            axios.put('api/users/'+this.user.id, this.user)
+	            axios.put('api/users/'+this.user.id, this.user, this.$root.headers)
 	                .then(response=>{
 	                	// Copy object properties from response.data.data to this.user
 	                	// without creating a new reference
 	                	Object.assign(this.user, response.data.data);
+	                	if (this.user.nickname == this.$root.user.nickname) {
+	                		this.$root.user.parse(this.user);
+	                	}
 	                	this.$emit('user-saved', this.user)
 	                });
 	        },
 	        cancelEdit: function(){
-	        	axios.get('api/users/'+this.user.id)
+	        	axios.get('api/users/'+this.user.id, this.$root.headers)
 	                .then(response=>{
 	                	// Copy object properties from response.data.data to this.user
 	                	// without creating a new reference

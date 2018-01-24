@@ -1,54 +1,37 @@
 <template>
-	<div class="padding-top">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Game ID</th>
-					<th>Game Creator</th>
-					<th>Created Date</th>
-					<th># of Players</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="game in games">
-					<td>{{ game.id }}</td>
-					<td>{{ game.created_by }}</td>
-					<td>{{ game.nickname }}</td>
-					<td>
-						<a class="btn btn-xs btn-primary" v-on:click.prevent="editUser(user)">Edit</a>
-						<a class="btn btn-xs btn-danger" v-on:click.prevent="deleteUser(user)">Delete</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+	<table class="table table-striped">
+	    <thead>
+	        <tr>
+	            <th>ID</th>
+	            <th>Creator</th>
+                <th># of Players</th>
+	            <th>Actions</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr v-for="game in games"  :key="game.gameID">
+	            <td>{{ game.gameID }}</td>
+	            <td>{{ game.playerList[0].name }}</td>
+                <td>{{ game.playerList.size }}</td>
+	            <td>
+	                <a class="btn btn-xs btn-primary" v-on:click.prevent="join(game)">Join</a>
+	            </td>
+	        </tr>
+	    </tbody>
+	</table>
 </template>
-<script>
-export default {
-	data: function(){
-		return {
-			games: {},
-		}
-	},
-	methods: {
-		getPendentGames: function() {
-			axios.get('api/pendentgames', this.$root.headers)
-			.then(response => {
-				console.log(response.data);
-			});
-		}
-	},
-	created() {
-		
-	},
-	mounted() {
-		
+<script type="text/javascript">
+	// Component code (not registered)
+	module.exports={
+		props: ['games'],
+        methods: {
+            join(game) {
+            	this.$emit('join-click', game);
+            },		
+        },		
 	}
-}
 </script>
-<style>
-.padding-top {
-	padding-top: 45px;
-}
+
+<style scoped>
+
 </style>

@@ -4,7 +4,7 @@
 			<h1>{{ title }}</h1>
 		</div>
 
-		<user-list :users="users" @edit-click="editUser" @delete-click="deleteUser" @message="childMessage" ref="usersListRef"></user-list>
+		<user-list :users="users" @edit-click="editUser" @delete-click="deleteUser" @block-click="blockUser" @unblock-click="unblockUser" @message="childMessage" ref="usersListRef"></user-list>
 
 		<div class="alert alert-success" v-if="showSuccess">
 			 
@@ -18,6 +18,7 @@
 <script type="text/javascript">
 	import UserList from './userList.vue';
 	import UserEdit from './userEdit.vue';
+	import UserReason from './userReason.vue';
 	
 	export default {
 		data: function(){
@@ -35,7 +36,7 @@
 	            this.showSuccess = false;
 	        },
 	        deleteUser: function(user){
-	            axios.delete('api/users/'+user.id)
+	            axios.delete('api/users/'+user.id, this.$root.headers)
 	                .then(response => {
 	                    this.showSuccess = true;
 	                    this.successMessage = 'User Deleted';
@@ -54,7 +55,7 @@
 	            this.showSuccess = false;
 	        },
 	        getUsers: function(){
-	            axios.get('api/users')
+	            axios.get('api/users', this.$root.headers)
 	                .then(response=>{this.users = response.data.data; });
 			},
 			childMessage: function(message){
@@ -64,7 +65,8 @@
 	    },
 	    components: {
 	    	'user-list': UserList,
-	    	'user-edit': UserEdit
+	    	'user-edit': UserEdit,
+	    	'block-click': UserReason
 	    },
 	    mounted() {
 			this.getUsers();

@@ -14,13 +14,6 @@ use Illuminate\Http\Request;
 */
 
 
-// user
-Route::get('users', 'UserControllerAPI@getUsers');
-Route::get('users/emailavailable', 'UserControllerAPI@emailAvailable');
-Route::get('users/{id}', 'UserControllerAPI@getUser');
-Route::post('users', 'UserControllerAPI@store');
-Route::put('users/{id}', 'UserControllerAPI@update');
-Route::delete('users/{id}', 'UserControllerAPI@delete');
 
 
 // auth
@@ -35,8 +28,18 @@ Route::middleware(['auth:api'])->group( function () {
 
 	Route::post('logout', 'LoginControllerAPI@logout');
 
+<<<<<<< HEAD
 
 	// Game
 	Route::get('pendentgames', 'GameControllerAPI@getPendentGames');
+=======
+	// user
+	Route::get('users', 'UserControllerAPI@getUsers');
+	Route::get('users/emailavailable', 'UserControllerAPI@emailAvailable');
+	Route::get('users/{id}', 'UserControllerAPI@getUser');
+	Route::post('users', 'UserControllerAPI@store');
+	Route::put('users/{id}', 'UserControllerAPI@update');
+	Route::delete('users/{id}', 'UserControllerAPI@delete');
+>>>>>>> 7f4e80f1a62852d4e224bee836f5238c7cff77dc
 
 });

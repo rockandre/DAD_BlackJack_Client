@@ -19,7 +19,7 @@ class RegisterControllerAPI extends Controller
 			$user = User::create([
 				'name' => $data['name'],
 				'email' => $data['email'],
-				'password' => bcrypt($data['password']),
+				'password' => (bcrypt($data['password'])),
 				'nickname' => $data['nickname'],
 				'email_token' => str_random(25),
 			]);

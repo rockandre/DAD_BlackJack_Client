@@ -52,3 +52,5 @@ Vue.use(VueSocketio, 'http://192.168.10.10:8080');
  		headers: {},
  	}
  });
+
+ 

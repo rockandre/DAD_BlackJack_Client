@@ -61898,11 +61898,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	methods: {
 		getPendentGames: function getPendentGames() {
-			axios.get('api/pendentgames', {
-				headers: {
-					"Accept": "application/json",
-					"Authorization": "Bearer " + this.$root.user.access_token
-				}
+			axios.get('api/pendentgames', this.$root.headers).then(function (response) {
+				console.log(response.data);
 			});
 		}
 	},

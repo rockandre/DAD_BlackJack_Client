@@ -33,12 +33,10 @@ export default {
 	},
 	methods: {
 		getPendentGames: function() {
-			axios.get('api/pendentgames', {
-					headers: {
-					"Accept": "application/json",
-					"Authorization": ("Bearer "+ this.$root.user.access_token),
-				}
-			})
+			axios.get('api/pendentgames', this.$root.headers)
+			.then(response => {
+				console.log(response.data);
+			});
 		}
 	},
 	created() {

@@ -10,8 +10,8 @@
             <hr>
             <h4>Pending games (<a @click.prevent="loadLobby">Refresh</a>)</h4>
             <lobby :games="lobbyGames" @join-click="join"></lobby>
-            <template v-for="game in activeGames">
-                <game :game="game" v-on:clickaction="play"></game>
+            <template v-for="game in activeGames" v-bind:game="game">
+                <game :game="game" v-on:clickaction="play" v-bind:key="game.gameID"></game>
             </template>
         </div>
     </div>
@@ -25,22 +25,29 @@ export default {
     data: function(){
         return {
             title: 'BlackJack',
-            currentPlayer: this.$root.user.nickname,
             lobbyGames: [],
             activeGames: [],
-            socketId: "",
+        }
+    },
+    computed: {
+        currentPlayer(){
+            //return this.user.nickname;
+            return this.$root.user.nickname;
+        },
+        socketId(){
+            return this.$socket.id;
         }
     },
     sockets:{
         connect(){
             console.log('socket connected');
-            this.socketId = this.$socket.id;
-        },
-        discconnect(){
-            console.log('socket disconnected');
-            this.socketId = "";
-        },
-        lobby_changed(){
+                //console.log(this.$socket.id);
+            },
+            discconnect(){
+                console.log('socket disconnected');
+                this.socketId = "";
+            },
+            lobby_changed(){
             // For this to work, websocket server must emit a message
             // named "lobby_changed"
             this.loadLobby();
@@ -71,10 +78,10 @@ export default {
     },
     methods: {
         loadLobby(){
-        /// send message to server to load the list of games on the lobby
-        this.$socket.emit('get_my_lobbygames');
-    },
-    loadActiveGames(){
+            /// send message to server to load the list of games on the lobby
+            this.$socket.emit('get_my_lobbygames');
+        },
+        loadActiveGames(){
             /// send message to server to load the list of games that player is playing
             this.$socket.emit('get_my_activegames');
         },
@@ -104,6 +111,7 @@ export default {
         close(game){
             // to close a game
             this.$socket.emit('remove_game', {gameID: game.gameID});
+
         }
     },
     components: {
@@ -111,7 +119,6 @@ export default {
         'game': GameBlackJack,
     },
     mounted() {
-        this.currentPlayer = this.$root.user.nickname;
         this.loadLobby();
     }
 

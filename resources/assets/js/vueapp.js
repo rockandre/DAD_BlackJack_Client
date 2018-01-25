@@ -27,7 +27,7 @@ Vue.use(VueRouter);
  const adminUsers = Vue.component('users-component', require('./components/admin/user.vue'));
  const adminDashboard = Vue.component('dashboard-component', require('./components/admin/dashboard.vue'));
  const gamelobby = Vue.component('gamelobby', require('./components/game/gamelobby.vue'));
-
+ const adminConfig = Vue.component('admin-config', require('./components/admin/config.vue'));
 
  const routes = [
  { path: '/', component: home },
@@ -35,6 +35,7 @@ Vue.use(VueRouter);
  { path: '/admin', redirect: '/admin/dashboard' },
  { path: '/admin/dashboard', component: adminDashboard},
  { path: '/admin/users', component: adminUsers },
+ { path: '/admin/config', component: adminConfig},
  { path: '/gamelobby', component: gamelobby}
  ];
 

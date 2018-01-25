@@ -20,8 +20,18 @@
 				</li>
 			</ul>
 			<ul class="navbar-nav justify-content-end">
-				<li class="nav-item" v-if="this.isAdmin">
-					<router-link to="/admin" class="nav-link">Administration Panel</router-link>
+				<li class="nav-item dropdown" v-if="this.$root.user.logged() && this.$root.user.admin">
+					<a class="nav-link nav-item dropdown-toggle" href="#" id="navbarDropdownAdminMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Administration Panel
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownAdminMenuLink">
+						<router-link to="/admin" class="dropdown-item">Dashboard</router-link>
+						<router-link to="/admin/users" class="dropdown-item">Users</router-link>
+						<router-link to="/admin" class="dropdown-item">Deck</router-link>
+						<router-link to="/admin" class="dropdown-item">Statistics</router-link>
+						<div class="dropdown-divider"></div>
+						<router-link to="/admin/config" class="dropdown-item">Administration Settings</router-link>
+					</div>
 				</li>
 				<li class="nav-item" v-if="!this.$root.user.logged()">
 					<router-link to="/login" class="nav-link">Login / Register</router-link>
@@ -50,12 +60,6 @@ export default {
 		}
 	},
 	methods: {
-		isAdmin: function() {
-			if (this.$root.user.logged())
-				if(this.$root.user == 1) 
-					return true;
-			return false
-		},
 		logout: function() {
 			axios.post("api/logout", null, this.$root.headers)
 			.then(response => {

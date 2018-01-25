@@ -4,14 +4,15 @@
 			<h1>{{ title }}</h1>
 		</div>
 
-		<user-list :users="users" @edit-click="editUser" @delete-click="deleteUser" @block-click="blockUser" @unblock-click="unblockUser" @message="childMessage" ref="usersListRef"></user-list>
+		<user-list :users="users" @edit-click="editUser" @delete-click="deleteUser" @block-click="blockUser" @message="childMessage" ref="usersListRef"></user-list>
 
 		<div class="alert alert-success" v-if="showSuccess">
 			 
 			<button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
 			<strong>{{ successMessage }}</strong>
 		</div>
-		<user-edit :user="currentUser" @user-saved="savedUser" @user-canceled="cancelEdit" v-if="currentUser"></user-edit>				
+		<user-edit :user="currentUser" @user-saved="savedUser" @user-canceled="cancelEdit" v-if="currentUser && action == 1"></user-edit>			
+		<user-block :user="currentUser" @user-saved="savedUser" @user-canceled="cancelEdit" v-if="currentUser && action == 2"></user-block>
 	</div>				
 </template>
 
@@ -27,12 +28,19 @@
 		        showSuccess: false,
 		        successMessage: '',
 		        currentUser: null,
+		        action: 0,
 		        users: []
 			}
 		},
 	    methods: {
 	        editUser: function(user){
 	            this.currentUser = user;
+	            this.action = 1;
+	            this.showSuccess = false;
+	        },
+	        blockUser: function(user) {
+	        	this.currentUser = user;
+	        	this.action = 2;
 	            this.showSuccess = false;
 	        },
 	        deleteUser: function(user){
@@ -45,12 +53,14 @@
 	        },
 	        savedUser: function(){
 	            this.currentUser = null;
+	            this.action = 0;
 	            this.$refs.usersListRef.editingUser = null;
 	            this.showSuccess = true;
 	            this.successMessage = 'User Saved';
 	        },
 	        cancelEdit: function(){
 	            this.currentUser = null;
+	            this.action = 0;
 	            this.$refs.usersListRef.editingUser = null;
 	            this.showSuccess = false;
 	        },
@@ -66,7 +76,7 @@
 	    components: {
 	    	'user-list': UserList,
 	    	'user-edit': UserEdit,
-	    	'block-click': UserReason
+	    	'user-block': UserReason
 	    },
 	    mounted() {
 			this.getUsers();

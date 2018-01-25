@@ -11,15 +11,25 @@
             <div class="board">
                 <div v-for="(player) in game.playerList" v-bind:player="player" v-bind:key="player.name" >
                     <h3>{{ player.name }}</h3>
-                    <div v-for="(card) in player.pubHand" v-bind:card="card" v-bind:key="card.id" >
-                        <img v-bind:src="cardImageURL(card.id)">
+                    <div v-if="player.name == currentPlayer">
+                        <img v-for="(card) in myHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)">
                     </div>
+                    <div v-if="player.name != currentPlayer">
+                        <img v-for="(card) in player.pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)">
+                    </div>
+                        
                 </div>
             </div>
-            <div id="playActions">
-                <button class="btn btn-s btn-primary" v-on:click="clickAction(hit)">HIT</button>
-                <button class="btn btn-s btn-danger" v-on:click="clickAction(stand)">STAND</button>
+            <div id="buttonsArea">
+                <div id="creatorArea">
+                    <button class="btn btn-s btn-success" v-on:click="startGame()">START GAME</button>
+                </div>
+                <div id="playActions">
+                    <button class="btn btn-s btn-primary" v-on:click="clickAction(hit)">HIT</button>
+                    <button class="btn btn-s btn-danger" v-on:click="clickAction(stand)">STAND</button>
+                </div>
             </div>
+            
             <hr>
         </div>  
     </div>			
@@ -34,7 +44,8 @@
                 hit: 1,
                 stand: 0,
                 socketID: "",
-                ownPlayerNumber: 0
+                ownPlayerNumber: 0,
+                myHand: []
             }
         },
         watch: {
@@ -47,6 +58,10 @@
             }
         },
         computed: {
+            currentPlayer(){
+                //return this.user.nickname;
+                return this.$root.user.nickname;
+            },
             numberOfPlayers(){
                 return this.game.playerList.length;
             },
@@ -86,10 +101,17 @@
                     }
             },
         },
+        sockets:{
+            my_hand_changed(data){
+                if(data.gameID == this.game.gameID){
+                    this.myHand.push(data.hand[data.hand.length-1]);
+                }
+            }
+        },
         methods: {
-            cardImageURL: function (cardid) {
+            cardImageURL(cardid) {
                 var imgSrc = String(cardid);
-                return 'img/baralho'+ baralhoImgID + "/" + imgSrc + '.png';
+                return 'img/baralho'+ this.baralhoImgID + "/" + imgSrc + '.png';
             },
             clickAction(action){
                 if(!this.game.gameEnded){
@@ -105,6 +127,12 @@
                         this.$emit('clickaction', this.game, this.stand);
                     }
                 }
+            },
+            startGame(){
+                if(this.game.gameCanBeStarted){
+                    this.$emit('startgame', this.game);
+                }
+                
             },
             closeGame(){
                 this.$parent.close(this.game);

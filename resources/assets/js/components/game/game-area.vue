@@ -11,7 +11,7 @@
             <h4>Pending games (<a @click.prevent="loadLobby">Refresh</a>)</h4>
             <lobby :games="lobbyGames" @join-click="join"></lobby>
             <template v-for="game in activeGames" v-bind:game="game">
-                <game :game="game" v-on:clickaction="play" v-bind:key="game.gameID"></game>
+                <game :game="game" v-on:startgame="startGame" v-on:clickaction="play" v-bind:key="game.gameID"></game>
             </template>
         </div>
     </div>
@@ -26,7 +26,7 @@
 			return {
                 title: 'BlackJack',
                 lobbyGames: [],
-                activeGames: [],
+                activeGames: []
             }
         },
         computed: {
@@ -74,7 +74,7 @@
                         break;
                     }
                 }
-            }
+            },
         },
         methods: {
             loadLobby(){
@@ -107,6 +107,9 @@
             play(game, action){
                 // play a game - Sends user action
                 this.$socket.emit('play', {gameID: game.gameID, action: action});
+            },
+            startGame(game){
+                this.$socket.emit('start_game', {gameID: game.gameID});
             },
             close(game){
                 // to close a game

@@ -62800,7 +62800,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -62968,6 +62968,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         play: function play(game, action) {
             // play a game - Sends user action
             this.$socket.emit('play', { gameID: game.gameID, action: action });
+        },
+        startGame: function startGame(game) {
+            this.$socket.emit('start_game', { gameID: game.gameID });
         },
         close: function close(game) {
             // to close a game
@@ -63304,6 +63307,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['game'],
@@ -63313,7 +63326,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             hit: 1,
             stand: 0,
             socketID: "",
-            ownPlayerNumber: 0
+            ownPlayerNumber: 0,
+            myHand: []
         };
     },
     watch: {
@@ -63326,6 +63340,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     computed: {
+        currentPlayer: function currentPlayer() {
+            //return this.user.nickname;
+            return this.$root.user.nickname;
+        },
         numberOfPlayers: function numberOfPlayers() {
             return this.game.playerList.length;
         },
@@ -63365,10 +63383,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         }
     },
+    sockets: {
+        my_hand_changed: function my_hand_changed(data) {
+            if (data.gameID == this.game.gameID) {
+                this.myHand.push(data.hand[data.hand.length - 1]);
+            }
+        }
+    },
     methods: {
         cardImageURL: function cardImageURL(cardid) {
             var imgSrc = String(cardid);
-            return 'img/baralho' + baralhoImgID + "/" + imgSrc + '.png';
+            return 'img/baralho' + this.baralhoImgID + "/" + imgSrc + '.png';
         },
         clickAction: function clickAction(action) {
             if (!this.game.gameEnded) {
@@ -63383,6 +63408,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     console.log("Stand " + this.stand);
                     this.$emit('clickaction', this.game, this.stand);
                 }
+            }
+        },
+        startGame: function startGame() {
+            if (this.game.gameCanBeStarted) {
+                this.$emit('startgame', this.game);
             }
         },
         closeGame: function closeGame() {
@@ -63447,49 +63477,79 @@ var render = function() {
         "div",
         { staticClass: "board" },
         _vm._l(_vm.game.playerList, function(player) {
-          return _c(
-            "div",
-            { key: player.name, attrs: { player: player } },
-            [
-              _c("h3", [_vm._v(_vm._s(player.name))]),
-              _vm._v(" "),
-              _vm._l(player.pubHand, function(card) {
-                return _c("div", { key: card.id, attrs: { card: card } }, [
-                  _c("img", { attrs: { src: _vm.cardImageURL(card.id) } })
-                ])
-              })
-            ],
-            2
-          )
+          return _c("div", { key: player.name, attrs: { player: player } }, [
+            _c("h3", [_vm._v(_vm._s(player.name))]),
+            _vm._v(" "),
+            player.name == _vm.currentPlayer
+              ? _c(
+                  "div",
+                  _vm._l(_vm.myHand, function(card) {
+                    return _c("img", {
+                      key: card.id,
+                      attrs: { card: card, src: _vm.cardImageURL(card.id) }
+                    })
+                  })
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            player.name != _vm.currentPlayer
+              ? _c(
+                  "div",
+                  _vm._l(player.pubHand, function(card) {
+                    return _c("img", {
+                      key: card.id,
+                      attrs: { card: card, src: _vm.cardImageURL(card.id) }
+                    })
+                  })
+                )
+              : _vm._e()
+          ])
         })
       ),
       _vm._v(" "),
-      _c("div", { attrs: { id: "playActions" } }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-s btn-primary",
-            on: {
-              click: function($event) {
-                _vm.clickAction(_vm.hit)
+      _c("div", { attrs: { id: "buttonsArea" } }, [
+        _c("div", { attrs: { id: "creatorArea" } }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-s btn-success",
+              on: {
+                click: function($event) {
+                  _vm.startGame()
+                }
               }
-            }
-          },
-          [_vm._v("HIT")]
-        ),
+            },
+            [_vm._v("START GAME")]
+          )
+        ]),
         _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-s btn-danger",
-            on: {
-              click: function($event) {
-                _vm.clickAction(_vm.stand)
+        _c("div", { attrs: { id: "playActions" } }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-s btn-primary",
+              on: {
+                click: function($event) {
+                  _vm.clickAction(_vm.hit)
+                }
               }
-            }
-          },
-          [_vm._v("STAND")]
-        )
+            },
+            [_vm._v("HIT")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-s btn-danger",
+              on: {
+                click: function($event) {
+                  _vm.clickAction(_vm.stand)
+                }
+              }
+            },
+            [_vm._v("STAND")]
+          )
+        ])
       ]),
       _vm._v(" "),
       _c("hr")
@@ -63573,7 +63633,7 @@ var render = function() {
             _c("game", {
               key: game.gameID,
               attrs: { game: game },
-              on: { clickaction: _vm.play }
+              on: { startgame: _vm.startGame, clickaction: _vm.play }
             })
           ]
         })

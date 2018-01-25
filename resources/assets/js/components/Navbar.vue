@@ -73,7 +73,6 @@ export default {
 					this.$root.headers = {};
 					window.localStorage.removeItem('authToken');
 				});
-
 			},
 		},
 		created() {

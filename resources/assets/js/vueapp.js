@@ -9,13 +9,15 @@ require('./bootstrap');
 
 import VueRouter from 'vue-router';
 import User from './classes/user.js';
+import VueSocketio from 'vue-socket.io';
 
 window.Vue = require('vue');
 
 
 Vue.use(VueRouter);
-/**
-<<<<<<< HEAD
+
+Vue.use(VueSocketio, 'http://192.168.10.10:8080');
+/*
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
@@ -24,19 +26,30 @@ Vue.use(VueRouter);
  Vue.component('navbar', require('./components/Navbar.vue'));
  const login = Vue.component('login', require('./components/Login.vue'));
  const home = Vue.component('home', require('./components/Home.vue'));
+
+ // game components
+ const gamelobby = Vue.component('gamelobby', require('./components/game/gamelobby.vue'));
+ const gamearea = Vue.component('gamearea', require('./components/game/game-area.vue'));
+
+ // admin components
  const adminUsers = Vue.component('users-component', require('./components/admin/user.vue'));
  const adminDashboard = Vue.component('dashboard-component', require('./components/admin/dashboard.vue'));
- const gamelobby = Vue.component('gamelobby', require('./components/game/gamelobby.vue'));
  const adminConfig = Vue.component('admin-config', require('./components/admin/config.vue'));
+
 
  const routes = [
  { path: '/', component: home },
  { path: '/login', component: login },
- { path: '/admin', redirect: '/admin/dashboard' },
+
+ // game routes
+ { path: '/gamelobby', component: gamelobby},
+ { path: '/game', component: gamearea},
+
+ //admin routes
+ { path: '/admin', redirect: '/admin/dashboard'},
  { path: '/admin/dashboard', component: adminDashboard},
  { path: '/admin/users', component: adminUsers },
- { path: '/admin/config', component: adminConfig},
- { path: '/gamelobby', component: gamelobby}
+ { path: '/admin/config', component: adminConfig}
  ];
 
  const router = new VueRouter({

@@ -67,7 +67,19 @@ export default {
 			},
 		},
 		created() {
-
+			this.$root.user.access_token = (window.localStorage.getItem('authToken') === null ? '' : window.localStorage.getItem('authToken'));
+			if (this.$root.user.access_token != '') {
+				this.$root.headers = {headers: {
+					"Accept": "application/json",
+					"Authorization": ("Bearer "+ this.$root.user.access_token),
+				}};
+				axios.get("api/user", this.$root.headers).then(response => {
+					this.$root.user.parse(response.data);
+				}).catch(response => {
+					this.$root.user = new User();
+					window.localStorage.removeItem('authToken');
+				});
+			}
 		},
 		mounted() {
 			if(this.activated == 1) {

@@ -9,7 +9,7 @@
             <p><button class="btn btn-xs btn-success" v-on:click.prevent="createGame">Create a New Game</button></p>
             <hr>
             <h4>Pending games (<a @click.prevent="loadLobby">Refresh</a>)</h4>
-            <lobby :games="lobbyGames" @join-click="join"></lobby>
+            <lobby :games="lobbyGames" @join-click="join" @resume-click="resume"></lobby>
             <template v-for="game in activeGames" v-bind:game="game">
                 <game :game="game" v-on:clickaction="play" v-bind:key="game.gameID"></game>
             </template>
@@ -29,9 +29,13 @@ export default {
             activeGames: [],
         }
     },
+    beforeRouteEnter (to, from, next) {
+        setTimeout(function(){ 
+            next();
+        }, 5000);
+    },
     computed: {
         currentPlayer(){
-            //return this.user.nickname;
             return this.$root.user.nickname;
         },
         socketId(){
@@ -41,13 +45,13 @@ export default {
     sockets:{
         connect(){
             console.log('socket connected');
-                //console.log(this.$socket.id);
-            },
-            discconnect(){
-                console.log('socket disconnected');
-                this.socketId = "";
-            },
-            lobby_changed(){
+            //console.log(this.$socket.id);
+        },
+        discconnect(){
+            console.log('socket disconnected');
+            this.socketId = "";
+        },
+        lobby_changed(){
             // For this to work, websocket server must emit a message
             // named "lobby_changed"
             this.loadLobby();
@@ -83,7 +87,7 @@ export default {
         },
         loadActiveGames(){
             /// send message to server to load the list of games that player is playing
-            this.$socket.emit('get_my_activegames');
+            this.$socket.emit('get_my_activegames', { nickname: this.currentPlayer });
         },
         createGame(){
             // For this to work, server must handle (on event) the "create_game" message
@@ -104,6 +108,9 @@ export default {
             });
             this.$socket.emit('join_game', {gameID: game.gameID, playerName: this.currentPlayer});
         },
+        resume(game) {
+            this.loadActiveGames();
+        },
         play(game, action){
             // play a game - Sends user action
             this.$socket.emit('play', {gameID: game.gameID, action: action});
@@ -120,6 +127,7 @@ export default {
     },
     mounted() {
         this.loadLobby();
+        this.loadActiveGames();
     }
 
 }

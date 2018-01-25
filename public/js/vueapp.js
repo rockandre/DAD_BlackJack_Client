@@ -1443,7 +1443,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(14);
-module.exports = __webpack_require__(87);
+module.exports = __webpack_require__(97);
 
 
 /***/ }),
@@ -60588,7 +60588,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -60699,7 +60699,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			});
 		}
 	},
-	created: function created() {},
+	created: function created() {
+		var _this2 = this;
+
+		this.$root.user.access_token = window.localStorage.getItem('authToken') === null ? '' : window.localStorage.getItem('authToken');
+		if (this.$root.user.access_token != '') {
+			this.$root.headers = { headers: {
+					"Accept": "application/json",
+					"Authorization": "Bearer " + this.$root.user.access_token
+				} };
+			axios.get("api/user", this.$root.headers).then(function (response) {
+				_this2.$root.user.parse(response.data);
+			}).catch(function (response) {
+				_this2.$root.user = new __WEBPACK_IMPORTED_MODULE_0__classes_user_js___default.a();
+				window.localStorage.removeItem('authToken');
+			});
+		}
+	},
 	mounted: function mounted() {
 		if (this.activated == 1) {
 			alert('Account activated with success! You can now login!');
@@ -62713,7 +62729,7 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(85)
 /* template */
-var __vue_template__ = __webpack_require__(86)
+var __vue_template__ = __webpack_require__(96)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -62786,7 +62802,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -62797,9 +62813,9 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__gamelobby_vue__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__gamelobby_vue__ = __webpack_require__(86);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__gamelobby_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__gamelobby_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game_blackjack_vue__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game_blackjack_vue__ = __webpack_require__(91);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game_blackjack_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__game_blackjack_vue__);
 //
 //
@@ -62832,9 +62848,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             activeGames: []
         };
     },
+    beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+        setTimeout(function () {
+            next();
+        }, 5000);
+    },
+
     computed: {
         currentPlayer: function currentPlayer() {
-            //return this.user.nickname;
             return this.$root.user.nickname;
         },
         socketId: function socketId() {
@@ -62929,7 +62950,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         loadActiveGames: function loadActiveGames() {
             /// send message to server to load the list of games that player is playing
-            this.$socket.emit('get_my_activegames');
+            this.$socket.emit('get_my_activegames', { nickname: this.currentPlayer });
         },
         createGame: function createGame() {
             // For this to work, server must handle (on event) the "create_game" message
@@ -62951,6 +62972,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             this.$socket.emit('join_game', { gameID: game.gameID, playerName: this.currentPlayer });
         },
+        resume: function resume(game) {
+            this.loadActiveGames();
+        },
         play: function play(game, action) {
             // play a game - Sends user action
             this.$socket.emit('play', { gameID: game.gameID, action: action });
@@ -62966,6 +62990,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.loadLobby();
+        this.loadActiveGames();
     }
 });
 
@@ -62973,111 +62998,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      [
-        _c("h3", { staticClass: "text-center" }, [_vm._v(_vm._s(_vm.title))]),
-        _vm._v(" "),
-        _c("br"),
-        _vm._v(" "),
-        _c("h2", [_vm._v("Current Player : " + _vm._s(_vm.currentPlayer))]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("h3", { staticClass: "text-center" }, [_vm._v("Lobby")]),
-        _vm._v(" "),
-        _c("p", [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-xs btn-success",
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  _vm.createGame($event)
-                }
-              }
-            },
-            [_vm._v("Create a New Game")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c("h4", [
-          _vm._v("Pending games ("),
-          _c(
-            "a",
-            {
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  _vm.loadLobby($event)
-                }
-              }
-            },
-            [_vm._v("Refresh")]
-          ),
-          _vm._v(")")
-        ]),
-        _vm._v(" "),
-        _c("lobby", {
-          attrs: { games: _vm.lobbyGames },
-          on: { "join-click": _vm.join }
-        }),
-        _vm._v(" "),
-        _vm._l(_vm.activeGames, function(game) {
-          return [
-            _c("game", {
-              key: game.gameID,
-              attrs: { game: game },
-              on: { clickaction: _vm.play }
-            })
-          ]
-        })
-      ],
-      2
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-165fd402", module.exports)
-  }
-}
-
-/***/ }),
-/* 87 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */
-/***/ (function(module, exports, __webpack_require__) {
-
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(92)
+  __webpack_require__(87)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(94)
+var __vue_script__ = __webpack_require__(89)
 /* template */
-var __vue_template__ = __webpack_require__(95)
+var __vue_template__ = __webpack_require__(90)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -63116,13 +63046,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 92 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(93);
+var content = __webpack_require__(88);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -63142,7 +63072,7 @@ if(false) {
 }
 
 /***/ }),
-/* 93 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(false);
@@ -63150,15 +63080,16 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 94 */
+/* 89 */
 /***/ (function(module, exports) {
 
+//
 //
 //
 //
@@ -63184,16 +63115,30 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 // Component code (not registered)
 module.exports = {
-    props: ['games'],
-    methods: {
-        join: function join(game) {
-            this.$emit('join-click', game);
-        }
-    }
+	props: ['games'],
+	methods: {
+		join: function join(game) {
+			this.$emit('join-click', game);
+		},
+		resume: function resume(game) {
+			this.$emit('resume-click', game);
+		},
+		alreadyIn: function alreadyIn(game) {
+			var _this = this;
+
+			game.playerList.forEach(function (player) {
+				console.log(player.name + " ---- " + _this.$root.user.nickname);
+				if (player.name == _this.$root.user.nickname) {
+					return true;
+				}
+			});
+			return false;
+		}
+	}
 };
 
 /***/ }),
-/* 95 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -63211,22 +63156,36 @@ var render = function() {
           _vm._v(" "),
           _c("td", [_vm._v(_vm._s(game.playerList[0].name))]),
           _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(game.playerList.size))]),
+          _c("td", [_vm._v(_vm._s(game.playerList.length))]),
           _vm._v(" "),
           _c("td", [
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-xs btn-primary",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    _vm.join(game)
-                  }
-                }
-              },
-              [_vm._v("Join")]
-            )
+            !_vm.alreadyIn(game)
+              ? _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-xs btn-primary",
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.join(game)
+                      }
+                    }
+                  },
+                  [_vm._v("Join")]
+                )
+              : _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-xs btn-primary",
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.resume(game)
+                      }
+                    }
+                  },
+                  [_vm._v("Resume")]
+                )
           ])
         ])
       })
@@ -63261,19 +63220,19 @@ if (false) {
 }
 
 /***/ }),
-/* 96 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(97)
+  __webpack_require__(92)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(99)
+var __vue_script__ = __webpack_require__(94)
 /* template */
-var __vue_template__ = __webpack_require__(100)
+var __vue_template__ = __webpack_require__(95)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -63312,13 +63271,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 97 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(98);
+var content = __webpack_require__(93);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -63338,7 +63297,7 @@ if(false) {
 }
 
 /***/ }),
-/* 98 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(false);
@@ -63352,11 +63311,54 @@ exports.push([module.i, "\n.gameseparator[data-v-7f7c26b9]{\r\n    border-style:
 
 
 /***/ }),
-/* 99 */
+/* 94 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -63399,9 +63401,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     watch: {
         // whenever socketID changes, this function will run
         socketID: function socketID() {
-            console.log("Entrou no watch");
-            console.log(this.calcOwnPlayerNumber());
-            console.log(this.socketID);
             this.ownPlayerNumber = this.calcOwnPlayerNumber();
         }
     },
@@ -63488,7 +63487,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 100 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -63523,26 +63522,91 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "board" },
-        _vm._l(_vm.game.playerList, function(player) {
-          return _c(
-            "div",
-            { key: player.name, attrs: { player: player } },
-            [
-              _c("h3", [_vm._v(_vm._s(player.name))]),
-              _vm._v(" "),
-              _vm._l(player.pubHand, function(card) {
-                return _c("div", { key: card.id, attrs: { card: card } }, [
-                  _c("img", { attrs: { src: _vm.cardImageURL(card.id) } })
-                ])
-              })
-            ],
-            2
-          )
-        })
-      ),
+      _c("div", { staticClass: "board" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-4" }),
+          _vm._v(" "),
+          _vm.game.playerList[0] != undefined
+            ? _c(
+                "div",
+                { staticClass: "col-4" },
+                [
+                  _c("h3", [_vm._v(_vm._s(_vm.game.playerList[0].name))]),
+                  _vm._v(" "),
+                  _vm._l(_vm.game.playerList[0].pubHand, function(card) {
+                    return _c("div", { key: card.id, attrs: { card: card } }, [
+                      _c("img", { attrs: { src: _vm.cardImageURL(card.id) } })
+                    ])
+                  })
+                ],
+                2
+              )
+            : _c("div", { staticClass: "col-4" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-4" })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _vm.game.playerList[1] != undefined
+            ? _c(
+                "div",
+                { staticClass: "col-4" },
+                [
+                  _c("h3", [_vm._v(_vm._s(_vm.game.playerList[1].name))]),
+                  _vm._v(" "),
+                  _vm._l(_vm.game.playerList[1].pubHand, function(card) {
+                    return _c("div", { key: card.id, attrs: { card: card } }, [
+                      _c("img", { attrs: { src: _vm.cardImageURL(card.id) } })
+                    ])
+                  })
+                ],
+                2
+              )
+            : _c("div", { staticClass: "col-4" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-4" }),
+          _vm._v(" "),
+          _vm.game.playerList[2] != undefined
+            ? _c(
+                "div",
+                { staticClass: "col-4" },
+                [
+                  _c("h3", [_vm._v(_vm._s(_vm.game.playerList[2].name))]),
+                  _vm._v(" "),
+                  _vm._l(_vm.game.playerList[2].pubHand, function(card) {
+                    return _c("div", { key: card.id, attrs: { card: card } }, [
+                      _c("img", { attrs: { src: _vm.cardImageURL(card.id) } })
+                    ])
+                  })
+                ],
+                2
+              )
+            : _c("div", { staticClass: "col-4" })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-4" }),
+          _vm._v(" "),
+          _vm.game.playerList[3] != undefined
+            ? _c(
+                "div",
+                { staticClass: "col-4" },
+                [
+                  _c("h3", [_vm._v(_vm._s(_vm.game.playerList[3].name))]),
+                  _vm._v(" "),
+                  _vm._l(_vm.game.playerList[3].pubHand, function(card) {
+                    return _c("div", { key: card.id, attrs: { card: card } }, [
+                      _c("img", { attrs: { src: _vm.cardImageURL(card.id) } })
+                    ])
+                  })
+                ],
+                2
+              )
+            : _c("div", { staticClass: "col-4" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-4" })
+        ])
+      ]),
       _vm._v(" "),
       _c("div", { attrs: { id: "playActions" } }, [
         _c(
@@ -63585,6 +63649,98 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-7f7c26b9", module.exports)
   }
 }
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      [
+        _c("h3", { staticClass: "text-center" }, [_vm._v(_vm._s(_vm.title))]),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _c("h2", [_vm._v("Current Player : " + _vm._s(_vm.currentPlayer))]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("h3", { staticClass: "text-center" }, [_vm._v("Lobby")]),
+        _vm._v(" "),
+        _c("p", [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-xs btn-success",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.createGame($event)
+                }
+              }
+            },
+            [_vm._v("Create a New Game")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("h4", [
+          _vm._v("Pending games ("),
+          _c(
+            "a",
+            {
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.loadLobby($event)
+                }
+              }
+            },
+            [_vm._v("Refresh")]
+          ),
+          _vm._v(")")
+        ]),
+        _vm._v(" "),
+        _c("lobby", {
+          attrs: { games: _vm.lobbyGames },
+          on: { "join-click": _vm.join, "resume-click": _vm.resume }
+        }),
+        _vm._v(" "),
+        _vm._l(_vm.activeGames, function(game) {
+          return [
+            _c("game", {
+              key: game.gameID,
+              attrs: { game: game },
+              on: { clickaction: _vm.play }
+            })
+          ]
+        })
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-165fd402", module.exports)
+  }
+}
+
+/***/ }),
+/* 97 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

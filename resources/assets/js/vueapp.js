@@ -38,7 +38,7 @@ Vue.use(VueSocketio, 'http://192.168.10.10:8080');
  { path: '/admin', redirect: '/admin/dashboard' },
  { path: '/admin/dashboard', component: adminDashboard},
  { path: '/admin/users', component: adminUsers },
- { path: '/game', component: gamearea}
+ { path: '/game', component: gamearea},
  ];
 
  const router = new VueRouter({

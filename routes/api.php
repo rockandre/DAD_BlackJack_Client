@@ -38,5 +38,9 @@ Route::middleware(['auth:api'])->group( function () {
 	Route::post('users', 'UserControllerAPI@store');
 	Route::put('users/{id}', 'UserControllerAPI@update');
 	Route::delete('users/{id}', 'UserControllerAPI@delete');
+	Route::put('user/password/update', 'UserControllerAPI@updatePassword');
+	Route::put('user/email/update', 'UserControllerAPI@updateEmail');
 
+	// settings
+	Route::post('/settings/update', 'ConfigEmailControllerAPI@update');
 });

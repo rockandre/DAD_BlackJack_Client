@@ -11,7 +11,7 @@
             <h4>Pending games (<a @click.prevent="loadLobby">Refresh</a>)</h4>
             <lobby :games="lobbyGames" @join-click="join" @resume-click="resume"></lobby>
             <template v-for="game in activeGames" v-bind:game="game">
-                <game :game="game" v-on:clickaction="play" v-bind:key="game.gameID"></game>
+                <game :game="game" v-on:startgame="startGame" v-on:clickaction="play" v-bind:key="game.gameID"></game>
             </template>
         </div>
     </div>

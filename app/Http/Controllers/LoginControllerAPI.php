@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 define('YOUR_SERVER_URL', 'http://blackjack.dad');
 // Check "oauth_clients" table for next 2 values:
 define('CLIENT_ID', '2');
-define('CLIENT_SECRET','rf0jbDMOoUSO3xldjqiOUX0riYsLydUofzHiDMY2');
+define('CLIENT_SECRET','v1ggNAH701I7CJQuEVwevj6TyFnwgLMwflhooUZh');
 
 class LoginControllerAPI extends Controller
 {

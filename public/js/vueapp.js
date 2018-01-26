@@ -61221,7 +61221,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.col-5 {\r\n\tpadding: 0;\n}\n.padding-top {\r\n\tpadding-top: 55px;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n.col-5 {\n\tpadding: 0;\n}\n.padding-top {\n\tpadding-top: 55px;\n}\n\n", ""]);
 
 // exports
 
@@ -62249,7 +62249,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     beforeRouteEnter: function beforeRouteEnter(to, from, next) {
         setTimeout(function () {
             next();
-        }, 5000);
+        }, 3000);
     },
 
     computed: {
@@ -62481,7 +62481,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.gameseparator[data-v-7f7c26b9]{\r\n    border-style: solid;\r\n    border-width: 2px 0 0 0;\r\n    border-color: black;\n}\r\n", ""]);
+exports.push([module.i, "\n.gameseparator[data-v-7f7c26b9]{\n    border-style: solid;\n    border-width: 2px 0 0 0;\n    border-color: black;\n}\n", ""]);
 
 // exports
 
@@ -62670,11 +62670,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         alert("You cant hit anymore.");
                     }
                 } else {
-                    alert("You cant hit anymore.");
+                    console.log("Stand " + this.stand);
+                    this.$emit('clickaction', this.game, this.stand);
                 }
             } else {
-                console.log("Stand " + this.stand);
-                this.$emit('clickaction', this.game, this.stand);
+                console.log("Game already ended");
             }
         },
         startGame: function startGame() {
@@ -63133,7 +63133,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\np[data-v-4fcc3662] {\r\n\tfont-size: 2em;\r\n\ttext-align: center;\n}\r\n", ""]);
+exports.push([module.i, "\np[data-v-4fcc3662] {\n\tfont-size: 2em;\n\ttext-align: center;\n}\n", ""]);
 
 // exports
 
@@ -63325,7 +63325,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\ntr.activerow[data-v-0258d720] {\r\n\tbackground: #123456  !important;\r\n\tcolor: #fff          !important;\n}\n.table td[data-v-0258d720] {\r\n\tborder-top: 0px !important;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\ntr.activerow[data-v-0258d720] {\n\tbackground: #123456  !important;\n\tcolor: #fff          !important;\n}\n.table td[data-v-0258d720] {\n\tborder-top: 0px !important;\n}\n\n", ""]);
 
 // exports
 
@@ -64335,7 +64335,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\np[data-v-c19252ce] {\r\n\tfont-size: 2em;\r\n\ttext-align: center;\n}\r\n", ""]);
+exports.push([module.i, "\np[data-v-c19252ce] {\n\tfont-size: 2em;\n\ttext-align: center;\n}\n", ""]);
 
 // exports
 

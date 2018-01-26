@@ -176,11 +176,11 @@ export default {
                         alert("You cant hit anymore.");
                     }
                 } else {
-                    alert("You cant hit anymore.");
+                    console.log("Stand "+this.stand);
+                    this.$emit('clickaction', this.game, this.stand);
                 }
             } else {
-                console.log("Stand "+this.stand);
-                this.$emit('clickaction', this.game, this.stand);
+                console.log("Game already ended");
             }
         },
         startGame(){

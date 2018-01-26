@@ -32,7 +32,7 @@ export default {
     beforeRouteEnter (to, from, next) {
         setTimeout(function(){ 
             next();
-        }, 5000);
+        }, 3000);
     },
     computed: {
         currentPlayer(){

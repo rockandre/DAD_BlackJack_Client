@@ -6,14 +6,19 @@
         </div>
         <div class="game-zone-content">       
             <div class="alert" :class="alerttype">
-                <strong>{{ message }} &nbsp;&nbsp;&nbsp;&nbsp;<a v-on:click.prevent="closeGame">Close Game</a></strong>
+                <p>{{ message }}<a v-on:click.prevent="closeGame">Close Game</a></p>
+            </div>
+            <div id="buttonsArea" class="btn-group" role="group" align="text-center">
+                <button class="btn btn-s btn-success btn-secundary" v-on:click="startGame()">START GAME</button>
+                <button class="btn btn-s btn-primary btn-secundary" v-on:click="clickAction(hit)">HIT</button>
+                <button class="btn btn-s btn-danger btn-secundary" v-on:click="clickAction(stand)">STAND</button>
             </div>
             <div class="board">
                 <div class="row">
                     <div class="col-4">
                     </div>    
                     <div class="col-4" v-if="game.playerList[0] != undefined">
-                        <h3>{{ game.playerList[0].name }}</h3>
+                        <h3 :class="game.playerList[0].name == currentPlayer ? 'text-primary' : ''">{{ game.playerList[0].name }}</h3>
 
                         <div v-if="game.playerList[0].name != currentPlayer">
                             <img v-for="(card) in game.playerList[0].pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">
@@ -30,7 +35,7 @@
                 <div class="row">
 
                     <div class="col-4" v-if="game.playerList[1] != undefined">
-                        <h3>{{ game.playerList[1].name }}</h3>
+                        <h3 :class="game.playerList[1].name == currentPlayer ? 'text-primary' : ''">{{ game.playerList[1].name }}</h3>
 
                         <div v-if="game.playerList[1].name != currentPlayer">
                             <img v-for="(card) in game.playerList[1].pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">
@@ -45,7 +50,7 @@
 
                     </div>
                     <div class="col-4" v-if="game.playerList[2] != undefined">
-                        <h3>{{ game.playerList[2].name }}</h3>
+                        <h3 :class="game.playerList[2].name == currentPlayer ? 'text-primary' : ''">{{ game.playerList[2].name }}</h3>
 
                         <div v-if="game.playerList[2].name != currentPlayer">
                             <img v-for="(card) in game.playerList[2].pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">
@@ -61,7 +66,7 @@
                     <div class="col-4">
                     </div>
                     <div class="col-4" v-if="game.playerList[3] != undefined">
-                        <h3>{{ game.playerList[3].name }}</h3>
+                        <h3 :class="game.playerList[3].name == currentPlayer ? 'text-primary' : ''">{{ game.playerList[3].name }}</h3>
 
                         <div v-if="game.playerList[3].name != currentPlayer">
                             <img v-for="(card) in game.playerList[3].pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">
@@ -74,15 +79,6 @@
                     </div>
                     <div class="col-4">
                     </div>
-                </div>
-            </div>
-            <div id="buttonsArea">
-                <div id="creatorArea">
-                    <button class="btn btn-s btn-success" v-on:click="startGame()">START GAME</button>
-                </div>
-                <div id="playActions">
-                    <button class="btn btn-s btn-primary" v-on:click="clickAction(hit)">HIT</button>
-                    <button class="btn btn-s btn-danger" v-on:click="clickAction(stand)">STAND</button>
                 </div>
             </div>
             
@@ -101,7 +97,7 @@ export default {
             stand: 0,
             socketID: "",
             ownPlayerNumber: 0,
-            myHand: []
+            myHand: [],
         }
     },
     watch: {
@@ -120,22 +116,25 @@ export default {
         },
         message(){
             if(!this.game.gameStarted){
-                return "Game not started yet";
-            } else if(this.game.gameEnded){
+                if(this.game.playerList.length<2) {
+                    return "Waiting for Players To Join";
+                } else {
+                    return "Ready to Start Game";
+                }
+            /*} else if(this.game.gameEnded){
                 if(this.game.winner == this.ownPlayerNumber){
                     return "Game has ended. You won :D";
                 } else if(this.game.winner == 0){
                     return "Game has ended. It's a tie!";
                 }
-                return "Game has ended. You lost :( " + this.adversaryPlayerName + " has won.";
+                return "Game has ended. You lost :( " + this.adversaryPlayerName + " has won.";*/
             } else {
-                if(this.game.playerTurn == this.ownPlayerNumber){
-                    return "It's your turn";
+                if(this.playAction == undefined){
+                    return "Select an action!";
                 } else {
-                    return "It's " + this.adversaryPlayerName + "'s turn";
+                    return "Wait for others Players";
                 }
             }
-            return "Game is insconsistent";
         },
         alerttype(){
             if(!this.game.gameStarted){
@@ -158,6 +157,10 @@ export default {
         my_hand_changed(data){
             if(data.gameID == this.game.gameID){
                 this.myHand.push(data.hand[data.hand.length-1]);
+            }
+
+            if(this.handSum == 21) {
+                this.$emit('clickaction', this.game, this.stand);
             }
         }
     },
@@ -202,6 +205,13 @@ export default {
                 i++;
             });
             return finali;
+        },
+        handSum() {
+            let sum = 0;
+            this.myHand.forEach(card => {
+                sum += card.value;
+            })
+            return sum;
         }
     },
     mounted(){

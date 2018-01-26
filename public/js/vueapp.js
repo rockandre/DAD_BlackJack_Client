@@ -62200,7 +62200,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -62215,10 +62215,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__gamelobby_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__gamelobby_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game_blackjack_vue__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game_blackjack_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__game_blackjack_vue__);
-//
-//
-//
-//
 //
 //
 //
@@ -62249,7 +62245,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     beforeRouteEnter: function beforeRouteEnter(to, from, next) {
         setTimeout(function () {
             next();
-        }, 5000);
+        }, 3000);
     },
 
     computed: {
@@ -62581,10 +62577,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['game'],
@@ -62614,22 +62606,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         message: function message() {
             if (!this.game.gameStarted) {
-                return "Game not started yet";
-            } else if (this.game.gameEnded) {
-                if (this.game.winner == this.ownPlayerNumber) {
-                    return "Game has ended. You won :D";
-                } else if (this.game.winner == 0) {
-                    return "Game has ended. It's a tie!";
-                }
-                return "Game has ended. You lost :( " + this.adversaryPlayerName + " has won.";
-            } else {
-                if (this.game.playerTurn == this.ownPlayerNumber) {
-                    return "It's your turn";
+                if (this.game.playerList.length < 2) {
+                    return "Waiting for Players To Join";
                 } else {
-                    return "It's " + this.adversaryPlayerName + "'s turn";
+                    return "Ready to Start Game";
+                }
+                /*} else if(this.game.gameEnded){
+                    if(this.game.winner == this.ownPlayerNumber){
+                        return "Game has ended. You won :D";
+                    } else if(this.game.winner == 0){
+                        return "Game has ended. It's a tie!";
+                    }
+                    return "Game has ended. You lost :( " + this.adversaryPlayerName + " has won.";*/
+            } else {
+                if (this.playAction == undefined) {
+                    return "Select an action!";
+                } else {
+                    return "Wait for others Players";
                 }
             }
-            return "Game is insconsistent";
         },
         alerttype: function alerttype() {
             if (!this.game.gameStarted) {
@@ -62652,6 +62647,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         my_hand_changed: function my_hand_changed(data) {
             if (data.gameID == this.game.gameID) {
                 this.myHand.push(data.hand[data.hand.length - 1]);
+            }
+
+            if (this.handSum == 21) {
+                this.$emit('clickaction', this.game, this.stand);
             }
         }
     },
@@ -62697,6 +62696,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 i++;
             });
             return finali;
+        },
+        handSum: function handSum() {
+            var sum = 0;
+            this.myHand.forEach(function (card) {
+                sum += card.value;
+            });
+            return sum;
         }
     },
     mounted: function mounted() {
@@ -62723,8 +62729,8 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "game-zone-content" }, [
       _c("div", { staticClass: "alert", class: _vm.alerttype }, [
-        _c("strong", [
-          _vm._v(_vm._s(_vm.message) + "     "),
+        _c("p", [
+          _vm._v(_vm._s(_vm.message)),
           _c(
             "a",
             {
@@ -62740,13 +62746,70 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "btn-group",
+          attrs: { id: "buttonsArea", role: "group", align: "text-center" }
+        },
+        [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-s btn-success btn-secundary",
+              on: {
+                click: function($event) {
+                  _vm.startGame()
+                }
+              }
+            },
+            [_vm._v("START GAME")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-s btn-primary btn-secundary",
+              on: {
+                click: function($event) {
+                  _vm.clickAction(_vm.hit)
+                }
+              }
+            },
+            [_vm._v("HIT")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-s btn-danger btn-secundary",
+              on: {
+                click: function($event) {
+                  _vm.clickAction(_vm.stand)
+                }
+              }
+            },
+            [_vm._v("STAND")]
+          )
+        ]
+      ),
+      _vm._v(" "),
       _c("div", { staticClass: "board" }, [
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-4" }),
           _vm._v(" "),
           _vm.game.playerList[0] != undefined
             ? _c("div", { staticClass: "col-4" }, [
-                _c("h3", [_vm._v(_vm._s(_vm.game.playerList[0].name))]),
+                _c(
+                  "h3",
+                  {
+                    class:
+                      _vm.game.playerList[0].name == _vm.currentPlayer
+                        ? "text-primary"
+                        : ""
+                  },
+                  [_vm._v(_vm._s(_vm.game.playerList[0].name))]
+                ),
                 _vm._v(" "),
                 _vm.game.playerList[0].name != _vm.currentPlayer
                   ? _c(
@@ -62786,7 +62849,16 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _vm.game.playerList[1] != undefined
             ? _c("div", { staticClass: "col-4" }, [
-                _c("h3", [_vm._v(_vm._s(_vm.game.playerList[1].name))]),
+                _c(
+                  "h3",
+                  {
+                    class:
+                      _vm.game.playerList[1].name == _vm.currentPlayer
+                        ? "text-primary"
+                        : ""
+                  },
+                  [_vm._v(_vm._s(_vm.game.playerList[1].name))]
+                ),
                 _vm._v(" "),
                 _vm.game.playerList[1].name != _vm.currentPlayer
                   ? _c(
@@ -62824,7 +62896,16 @@ var render = function() {
           _vm._v(" "),
           _vm.game.playerList[2] != undefined
             ? _c("div", { staticClass: "col-4" }, [
-                _c("h3", [_vm._v(_vm._s(_vm.game.playerList[2].name))]),
+                _c(
+                  "h3",
+                  {
+                    class:
+                      _vm.game.playerList[2].name == _vm.currentPlayer
+                        ? "text-primary"
+                        : ""
+                  },
+                  [_vm._v(_vm._s(_vm.game.playerList[2].name))]
+                ),
                 _vm._v(" "),
                 _vm.game.playerList[2].name != _vm.currentPlayer
                   ? _c(
@@ -62864,7 +62945,16 @@ var render = function() {
           _vm._v(" "),
           _vm.game.playerList[3] != undefined
             ? _c("div", { staticClass: "col-4" }, [
-                _c("h3", [_vm._v(_vm._s(_vm.game.playerList[3].name))]),
+                _c(
+                  "h3",
+                  {
+                    class:
+                      _vm.game.playerList[3].name == _vm.currentPlayer
+                        ? "text-primary"
+                        : ""
+                  },
+                  [_vm._v(_vm._s(_vm.game.playerList[3].name))]
+                ),
                 _vm._v(" "),
                 _vm.game.playerList[3].name != _vm.currentPlayer
                   ? _c(
@@ -62902,51 +62992,6 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { attrs: { id: "buttonsArea" } }, [
-        _c("div", { attrs: { id: "creatorArea" } }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-s btn-success",
-              on: {
-                click: function($event) {
-                  _vm.startGame()
-                }
-              }
-            },
-            [_vm._v("START GAME")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { attrs: { id: "playActions" } }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-s btn-primary",
-              on: {
-                click: function($event) {
-                  _vm.clickAction(_vm.hit)
-                }
-              }
-            },
-            [_vm._v("HIT")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-s btn-danger",
-              on: {
-                click: function($event) {
-                  _vm.clickAction(_vm.stand)
-                }
-              }
-            },
-            [_vm._v("STAND")]
-          )
-        ])
-      ]),
-      _vm._v(" "),
       _c("hr")
     ])
   ])
@@ -62973,14 +63018,6 @@ var render = function() {
     _c(
       "div",
       [
-        _c("h3", { staticClass: "text-center" }, [_vm._v(_vm._s(_vm.title))]),
-        _vm._v(" "),
-        _c("br"),
-        _vm._v(" "),
-        _c("h2", [_vm._v("Current Player : " + _vm._s(_vm.currentPlayer))]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
         _c("h3", { staticClass: "text-center" }, [_vm._v("Lobby")]),
         _vm._v(" "),
         _c("p", [

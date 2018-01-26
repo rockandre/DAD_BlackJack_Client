@@ -1,10 +1,6 @@
 <template>
     <div>
         <div>
-            <h3 class="text-center">{{ title }}</h3>
-            <br>
-            <h2>Current Player : {{ currentPlayer }}</h2>
-            <hr>
             <h3 class="text-center">Lobby</h3>
             <p><button class="btn btn-xs btn-success" v-on:click.prevent="createGame">Create a New Game</button></p>
             <hr>
@@ -32,7 +28,7 @@ export default {
     beforeRouteEnter (to, from, next) {
         setTimeout(function(){ 
             next();
-        }, 5000);
+        }, 3000);
     },
     computed: {
         currentPlayer(){

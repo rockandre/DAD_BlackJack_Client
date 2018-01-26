@@ -62200,7 +62200,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -62376,6 +62376,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         play: function play(game, action) {
             // play a game - Sends user action
             this.$socket.emit('play', { gameID: game.gameID, action: action });
+        },
+        startGame: function startGame(game) {
+            this.$socket.emit('start_game', { gameID: game.gameID });
         },
         close: function close(game) {
             // to close a game
@@ -62742,39 +62745,39 @@ var render = function() {
           _c("div", { staticClass: "col-4" }),
           _vm._v(" "),
           _vm.game.playerList[0] != undefined
-            ? _c(
-                "div",
-                { staticClass: "col-4" },
-                [
-                  _c("h3", [_vm._v(_vm._s(_vm.game.playerList[0].name))]),
-                  _vm._v(" "),
-                  _vm.game.playerList[0].name != _vm.currentPlayer
-                    ? _c(
-                        "div",
-                        _vm._l(_vm.player.pubHand, function(card) {
-                          return _c("img", {
-                            key: card.id,
-                            attrs: {
-                              card: card,
-                              src: _vm.cardImageURL(card.id)
-                            }
-                          })
+            ? _c("div", { staticClass: "col-4" }, [
+                _c("h3", [_vm._v(_vm._s(_vm.game.playerList[0].name))]),
+                _vm._v(" "),
+                _vm.game.playerList[0].name != _vm.currentPlayer
+                  ? _c(
+                      "div",
+                      _vm._l(_vm.game.playerList[0].pubHand, function(card) {
+                        return _c("img", {
+                          key: card.id,
+                          attrs: {
+                            card: card,
+                            src: _vm.cardImageURL(card.id),
+                            width: "70",
+                            height: "100"
+                          }
                         })
-                      )
-                    : _vm._l(_vm.game.playerList[0].pubHand, function(card) {
-                        return _c(
-                          "div",
-                          { key: card.id, attrs: { card: card } },
-                          [
-                            _c("img", {
-                              attrs: { src: _vm.cardImageURL(card.id) }
-                            })
-                          ]
-                        )
                       })
-                ],
-                2
-              )
+                    )
+                  : _c(
+                      "div",
+                      _vm._l(_vm.myHand, function(card) {
+                        return _c("img", {
+                          key: card.id,
+                          attrs: {
+                            card: card,
+                            src: _vm.cardImageURL(card.id),
+                            width: "70",
+                            height: "100"
+                          }
+                        })
+                      })
+                    )
+              ])
             : _c("div", { staticClass: "col-4" }),
           _vm._v(" "),
           _c("div", { staticClass: "col-4" })
@@ -62782,77 +62785,77 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _vm.game.playerList[1] != undefined
-            ? _c(
-                "div",
-                { staticClass: "col-4" },
-                [
-                  _c("h3", [_vm._v(_vm._s(_vm.game.playerList[1].name))]),
-                  _vm._v(" "),
-                  _vm.game.playerList[1].name != _vm.currentPlayer
-                    ? _c(
-                        "div",
-                        _vm._l(_vm.player.pubHand, function(card) {
-                          return _c("img", {
-                            key: card.id,
-                            attrs: {
-                              card: card,
-                              src: _vm.cardImageURL(card.id)
-                            }
-                          })
+            ? _c("div", { staticClass: "col-4" }, [
+                _c("h3", [_vm._v(_vm._s(_vm.game.playerList[1].name))]),
+                _vm._v(" "),
+                _vm.game.playerList[1].name != _vm.currentPlayer
+                  ? _c(
+                      "div",
+                      _vm._l(_vm.game.playerList[1].pubHand, function(card) {
+                        return _c("img", {
+                          key: card.id,
+                          attrs: {
+                            card: card,
+                            src: _vm.cardImageURL(card.id),
+                            width: "70",
+                            height: "100"
+                          }
                         })
-                      )
-                    : _vm._l(_vm.game.playerList[1].pubHand, function(card) {
-                        return _c(
-                          "div",
-                          { key: card.id, attrs: { card: card } },
-                          [
-                            _c("img", {
-                              attrs: { src: _vm.cardImageURL(card.id) }
-                            })
-                          ]
-                        )
                       })
-                ],
-                2
-              )
+                    )
+                  : _c(
+                      "div",
+                      _vm._l(_vm.myHand, function(card) {
+                        return _c("img", {
+                          key: card.id,
+                          attrs: {
+                            card: card,
+                            src: _vm.cardImageURL(card.id),
+                            width: "70",
+                            height: "100"
+                          }
+                        })
+                      })
+                    )
+              ])
             : _c("div", { staticClass: "col-4" }),
           _vm._v(" "),
           _c("div", { staticClass: "col-4" }),
           _vm._v(" "),
           _vm.game.playerList[2] != undefined
-            ? _c(
-                "div",
-                { staticClass: "col-4" },
-                [
-                  _c("h3", [_vm._v(_vm._s(_vm.game.playerList[2].name))]),
-                  _vm._v(" "),
-                  _vm.game.playerList[2].name != _vm.currentPlayer
-                    ? _c(
-                        "div",
-                        _vm._l(_vm.player.pubHand, function(card) {
-                          return _c("img", {
-                            key: card.id,
-                            attrs: {
-                              card: card,
-                              src: _vm.cardImageURL(card.id)
-                            }
-                          })
+            ? _c("div", { staticClass: "col-4" }, [
+                _c("h3", [_vm._v(_vm._s(_vm.game.playerList[2].name))]),
+                _vm._v(" "),
+                _vm.game.playerList[2].name != _vm.currentPlayer
+                  ? _c(
+                      "div",
+                      _vm._l(_vm.game.playerList[2].pubHand, function(card) {
+                        return _c("img", {
+                          key: card.id,
+                          attrs: {
+                            card: card,
+                            src: _vm.cardImageURL(card.id),
+                            width: "70",
+                            height: "100"
+                          }
                         })
-                      )
-                    : _vm._l(_vm.game.playerList[2].pubHand, function(card) {
-                        return _c(
-                          "div",
-                          { key: card.id, attrs: { card: card } },
-                          [
-                            _c("img", {
-                              attrs: { src: _vm.cardImageURL(card.id) }
-                            })
-                          ]
-                        )
                       })
-                ],
-                2
-              )
+                    )
+                  : _c(
+                      "div",
+                      _vm._l(_vm.myHand, function(card) {
+                        return _c("img", {
+                          key: card.id,
+                          attrs: {
+                            card: card,
+                            src: _vm.cardImageURL(card.id),
+                            width: "70",
+                            height: "100"
+                          }
+                        })
+                      })
+                    )
+              ])
             : _c("div", { staticClass: "col-4" })
         ]),
         _vm._v(" "),
@@ -62860,39 +62863,39 @@ var render = function() {
           _c("div", { staticClass: "col-4" }),
           _vm._v(" "),
           _vm.game.playerList[3] != undefined
-            ? _c(
-                "div",
-                { staticClass: "col-4" },
-                [
-                  _c("h3", [_vm._v(_vm._s(_vm.game.playerList[3].name))]),
-                  _vm._v(" "),
-                  _vm.game.playerList[3].name != _vm.currentPlayer
-                    ? _c(
-                        "div",
-                        _vm._l(_vm.player.pubHand, function(card) {
-                          return _c("img", {
-                            key: card.id,
-                            attrs: {
-                              card: card,
-                              src: _vm.cardImageURL(card.id)
-                            }
-                          })
+            ? _c("div", { staticClass: "col-4" }, [
+                _c("h3", [_vm._v(_vm._s(_vm.game.playerList[3].name))]),
+                _vm._v(" "),
+                _vm.game.playerList[3].name != _vm.currentPlayer
+                  ? _c(
+                      "div",
+                      _vm._l(_vm.game.playerList[3].pubHand, function(card) {
+                        return _c("img", {
+                          key: card.id,
+                          attrs: {
+                            card: card,
+                            src: _vm.cardImageURL(card.id),
+                            width: "70",
+                            height: "100"
+                          }
                         })
-                      )
-                    : _vm._l(_vm.game.playerList[3].pubHand, function(card) {
-                        return _c(
-                          "div",
-                          { key: card.id, attrs: { card: card } },
-                          [
-                            _c("img", {
-                              attrs: { src: _vm.cardImageURL(card.id) }
-                            })
-                          ]
-                        )
                       })
-                ],
-                2
-              )
+                    )
+                  : _c(
+                      "div",
+                      _vm._l(_vm.myHand, function(card) {
+                        return _c("img", {
+                          key: card.id,
+                          attrs: {
+                            card: card,
+                            src: _vm.cardImageURL(card.id),
+                            width: "70",
+                            height: "100"
+                          }
+                        })
+                      })
+                    )
+              ])
             : _c("div", { staticClass: "col-4" }),
           _vm._v(" "),
           _c("div", { staticClass: "col-4" })

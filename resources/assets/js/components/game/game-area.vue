@@ -115,6 +115,9 @@ export default {
             // play a game - Sends user action
             this.$socket.emit('play', {gameID: game.gameID, action: action});
         },
+        startGame(game){
+            this.$socket.emit('start_game', {gameID: game.gameID});
+        },
         close(game){
             // to close a game
             this.$socket.emit('remove_game', {gameID: game.gameID});

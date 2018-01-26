@@ -16,10 +16,10 @@
                         <h3>{{ game.playerList[0].name }}</h3>
 
                         <div v-if="game.playerList[0].name != currentPlayer">
-                            <img v-for="(card) in player.pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)">
+                            <img v-for="(card) in game.playerList[0].pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">
                         </div>
-                        <div v-else v-for="(card) in game.playerList[0].pubHand" v-bind:card="card" v-bind:key="card.id" >
-                            <img v-bind:src="cardImageURL(card.id)">
+                        <div v-else>
+                            <img v-for="(card) in myHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)"width="70" height="100" >
                         </div>
                     </div>
                     <div class="col-4" v-else>
@@ -33,10 +33,10 @@
                         <h3>{{ game.playerList[1].name }}</h3>
 
                         <div v-if="game.playerList[1].name != currentPlayer">
-                            <img v-for="(card) in player.pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)">
+                            <img v-for="(card) in game.playerList[1].pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">
                         </div>
-                        <div v-else v-for="(card) in game.playerList[1].pubHand" v-bind:card="card" v-bind:key="card.id" >
-                            <img v-bind:src="cardImageURL(card.id)">
+                        <div v-else>
+                            <img v-for="(card) in myHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">
                         </div>
                     </div>
                     <div class="col-4" v-else>
@@ -48,10 +48,10 @@
                         <h3>{{ game.playerList[2].name }}</h3>
 
                         <div v-if="game.playerList[2].name != currentPlayer">
-                            <img v-for="(card) in player.pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)">
+                            <img v-for="(card) in game.playerList[2].pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">
                         </div>
-                        <div v-else v-for="(card) in game.playerList[2].pubHand" v-bind:card="card" v-bind:key="card.id" >
-                            <img v-bind:src="cardImageURL(card.id)">
+                        <div v-else>
+                            <img v-for="(card) in myHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">
                         </div>
                     </div>
                     <div class="col-4" v-else>
@@ -64,10 +64,10 @@
                         <h3>{{ game.playerList[3].name }}</h3>
 
                         <div v-if="game.playerList[3].name != currentPlayer">
-                            <img v-for="(card) in player.pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)">
+                            <img v-for="(card) in game.playerList[3].pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">
                         </div>
-                        <div v-else v-for="(card) in game.playerList[3].pubHand" v-bind:card="card" v-bind:key="card.id" >
-                            <img v-bind:src="cardImageURL(card.id)">
+                        <div v-else>
+                            <img v-for="(card) in myHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">
                         </div>
                     </div>
                     <div class="col-4" v-else>

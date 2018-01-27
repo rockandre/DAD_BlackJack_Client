@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div>
+        <div class="padding-top">
             <h3 class="text-center">Lobby</h3>
             <p><button class="btn btn-xs btn-success" v-on:click.prevent="createGame">Create a New Game</button></p>
             <hr>
-            <h4>Pending games (<a @click.prevent="loadLobby">Refresh</a>)</h4>
+            <h4>Pending games (<a href="#" @click.prevent="loadLobby">Refresh</a>)</h4>
             <lobby :games="lobbyGames" @join-click="join" @resume-click="resume"></lobby>
             <template v-for="game in activeGames" v-bind:game="game">
                 <game :game="game" v-on:startgame="startGame" v-on:clickaction="play" v-bind:key="game.gameID"></game>
@@ -133,5 +133,8 @@ export default {
 </script>
 
 <style>	
+.padding-top {
+    padding-top: 55px;
+}
 
 </style>

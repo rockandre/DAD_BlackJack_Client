@@ -61221,7 +61221,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.col-5 {\n\tpadding: 0;\n}\n.padding-top {\n\tpadding-top: 55px;\n}\n\n", ""]);
+exports.push([module.i, "\n.col-5 {\r\n\tpadding: 0;\n}\n.padding-top {\r\n\tpadding-top: 55px;\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -61975,7 +61975,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -61984,6 +61984,8 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /* 67 */
 /***/ (function(module, exports) {
 
+//
+//
 //
 //
 //
@@ -62040,51 +62042,53 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("table", { staticClass: "table table-striped" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "tbody",
-      _vm._l(_vm.games, function(game) {
-        return _c("tr", { key: game.gameID }, [
-          _c("td", [_vm._v(_vm._s(game.gameID))]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(game.playerList[0].name))]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(game.playerList.length))]),
-          _vm._v(" "),
-          _c("td", [
-            !_vm.alreadyIn(game)
-              ? _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-xs btn-primary",
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        _vm.join(game)
+  return _c("div", [
+    _c("table", { staticClass: "table table-striped" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.games, function(game) {
+          return _c("tr", { key: game.gameID }, [
+            _c("td", [_vm._v(_vm._s(game.gameID))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(game.playerList[0].name))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(game.playerList.length))]),
+            _vm._v(" "),
+            _c("td", [
+              !_vm.alreadyIn(game)
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-xs btn-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.join(game)
+                        }
                       }
-                    }
-                  },
-                  [_vm._v("Join")]
-                )
-              : _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-xs btn-primary",
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        _vm.resume(game)
+                    },
+                    [_vm._v("Join")]
+                  )
+                : _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-xs btn-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.resume(game)
+                        }
                       }
-                    }
-                  },
-                  [_vm._v("Resume")]
-                )
+                    },
+                    [_vm._v("Resume")]
+                  )
+            ])
           ])
-        ])
-      })
-    )
+        })
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -62200,7 +62204,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.padding-top {\r\n    padding-top: 55px;\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -62477,7 +62481,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.gameseparator[data-v-7f7c26b9]{\n    border-style: solid;\n    border-width: 2px 0 0 0;\n    border-color: black;\n}\n", ""]);
+exports.push([module.i, "\n.gameseparator[data-v-7f7c26b9]{\r\n    border-style: solid;\r\n    border-width: 2px 0 0 0;\r\n    border-color: black;\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -62576,7 +62580,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['game'],
@@ -62587,7 +62590,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             stand: 0,
             socketID: "",
             ownPlayerNumber: 0,
-            myHand: []
+            myHand: [],
+            playerAction: false
         };
     },
     watch: {
@@ -62609,47 +62613,77 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (this.game.playerList.length < 2) {
                     return "Waiting for Players To Join";
                 } else {
-                    return "Ready to Start Game";
-                }
-                /*} else if(this.game.gameEnded){
-                    if(this.game.winner == this.ownPlayerNumber){
-                        return "Game has ended. You won :D";
-                    } else if(this.game.winner == 0){
-                        return "Game has ended. It's a tie!";
+                    if (this.ownPlayerNumber == 0) {
+                        return "Ready to Start Game";
+                    } else {
+                        return "Waiting for Game Owner to start the Game!";
                     }
-                    return "Game has ended. You lost :( " + this.adversaryPlayerName + " has won.";*/
+                }
+            } else if (this.game.gameEnded) {
+                if (this.game.winners.length == 1) {
+                    if (this.game.winners[0].name == this.$root.user.nickname) {
+                        return "Congratulations you WIN !!!!";
+                    } else {
+                        return this.game.winners[0].name + " win! You lose!!";
+                    }
+                } else {
+                    return "The game ended in a Tie!";
+                }
             } else {
-                if (this.playAction == undefined) {
+                if (!this.playerAction && this.game.playerList[this.ownPlayerNumber].stand == 0) {
                     return "Select an action!";
                 } else {
-                    return "Wait for others Players";
+                    if (this.game.playerList[this.ownPlayerNumber].stand == 1) {
+                        return "Other Players are finishing the game!";
+                    } else {
+                        return "Wait for others Players";
+                    }
                 }
             }
         },
         alerttype: function alerttype() {
             if (!this.game.gameStarted) {
-                return "alert-warning";
-            } else if (this.game.gameEnded) {
-                if (this.game.winner == this.ownPlayerNumber) {
-                    return "alert-success";
-                } else if (this.game.winner == 0) {
-                    return "alert-info";
+                if (this.game.playerList.length < 2) {
+                    return "alert-warning";
+                } else {
+                    if (this.ownPlayerNumber == 0) {
+                        return "alert-success";
+                    } else {
+                        return "alert-success";
+                    }
                 }
-                return "alert-danger";
-            } else if (this.game.playerTurn == this.ownPlayerNumber) {
-                return "alert-success";
+            } else if (this.game.gameEnded) {
+                if (this.game.winners.length == 1) {
+                    if (this.game.winners[0].name == this.$root.nickname) {
+                        return "alert-success";
+                    } else {
+                        return "alert-danger";
+                    }
+                } else {
+                    return "alert-warning";
+                }
             } else {
-                return "alert-warning";
+                if (!this.playerAction) {
+                    return "alert-info";
+                } else {
+                    if (this.game.playerList[this.ownPlayerNumber].stand == 1) {
+                        return "alert-success";
+                    } else {
+                        return "alert-warning";
+                    }
+                }
             }
         }
     },
     sockets: {
         my_hand_changed: function my_hand_changed(data) {
             if (data.gameID == this.game.gameID) {
+                this.playerAction = false;
                 this.myHand.push(data.hand[data.hand.length - 1]);
             }
-
+            this.playerAction = false;
             if (this.handSum == 21) {
+                this.playerAction = true;
                 this.$emit('clickaction', this.game, this.stand);
             }
         }
@@ -62661,8 +62695,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         clickAction: function clickAction(action) {
             if (!this.game.gameEnded) {
+                this.playerAction = true;
                 if (action == this.hit) {
-                    console.log("Hit " + this.hit);
                     if (this.game.playerList[this.ownPlayerNumber].stand == 0 && this.game.playerList[this.ownPlayerNumber].pubHand.length < 4) {
                         this.$emit('clickaction', this.game, this.hit);
                     } else {
@@ -62678,6 +62712,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         startGame: function startGame() {
             if (this.game.gameCanBeStarted) {
+                this.playerAction = false;
                 this.$emit('startgame', this.game);
             }
         },
@@ -62729,21 +62764,20 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "game-zone-content" }, [
       _c("div", { staticClass: "alert", class: _vm.alerttype }, [
-        _c("p", [
-          _vm._v(_vm._s(_vm.message)),
-          _c(
-            "a",
-            {
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  _vm.closeGame($event)
-                }
+        _c("h4", [_vm._v(_vm._s(_vm.message))]),
+        _c(
+          "a",
+          {
+            attrs: { href: "#" },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                _vm.closeGame($event)
               }
-            },
-            [_vm._v("Close Game")]
-          )
-        ])
+            }
+          },
+          [_vm._v("Leave Game")]
+        )
       ]),
       _vm._v(" "),
       _c(
@@ -62753,44 +62787,52 @@ var render = function() {
           attrs: { id: "buttonsArea", role: "group", align: "text-center" }
         },
         [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-s btn-success btn-secundary",
-              on: {
-                click: function($event) {
-                  _vm.startGame()
-                }
-              }
-            },
-            [_vm._v("START GAME")]
-          ),
+          _vm.ownPlayerNumber == 0 &&
+          this.game.gameCanBeStarted &&
+          !this.game.gameStarted
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-s btn-success btn-secundary",
+                  on: {
+                    click: function($event) {
+                      _vm.startGame()
+                    }
+                  }
+                },
+                [_vm._v("START GAME")]
+              )
+            : _vm._e(),
           _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-s btn-primary btn-secundary",
-              on: {
-                click: function($event) {
-                  _vm.clickAction(_vm.hit)
-                }
-              }
-            },
-            [_vm._v("HIT")]
-          ),
+          !_vm.playerAction && this.game.gameStarted
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-s btn-primary btn-secundary",
+                  on: {
+                    click: function($event) {
+                      _vm.clickAction(_vm.hit)
+                    }
+                  }
+                },
+                [_vm._v("HIT")]
+              )
+            : _vm._e(),
           _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-s btn-danger btn-secundary",
-              on: {
-                click: function($event) {
-                  _vm.clickAction(_vm.stand)
-                }
-              }
-            },
-            [_vm._v("STAND")]
-          )
+          !_vm.playerAction && this.game.gameStarted
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-s btn-danger btn-secundary",
+                  on: {
+                    click: function($event) {
+                      _vm.clickAction(_vm.stand)
+                    }
+                  }
+                },
+                [_vm._v("STAND")]
+              )
+            : _vm._e()
         ]
       ),
       _vm._v(" "),
@@ -63017,6 +63059,7 @@ var render = function() {
   return _c("div", [
     _c(
       "div",
+      { staticClass: "padding-top" },
       [
         _c("h3", { staticClass: "text-center" }, [_vm._v("Lobby")]),
         _vm._v(" "),
@@ -63043,6 +63086,7 @@ var render = function() {
           _c(
             "a",
             {
+              attrs: { href: "#" },
               on: {
                 click: function($event) {
                   $event.preventDefault()
@@ -63170,7 +63214,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\np[data-v-4fcc3662] {\n\tfont-size: 2em;\n\ttext-align: center;\n}\n", ""]);
+exports.push([module.i, "\np[data-v-4fcc3662] {\r\n\tfont-size: 2em;\r\n\ttext-align: center;\n}\r\n", ""]);
 
 // exports
 
@@ -63362,7 +63406,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\ntr.activerow[data-v-0258d720] {\n\tbackground: #123456  !important;\n\tcolor: #fff          !important;\n}\n.table td[data-v-0258d720] {\n\tborder-top: 0px !important;\n}\n\n", ""]);
+exports.push([module.i, "\ntr.activerow[data-v-0258d720] {\r\n\tbackground: #123456  !important;\r\n\tcolor: #fff          !important;\n}\n.table td[data-v-0258d720] {\r\n\tborder-top: 0px !important;\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -64372,7 +64416,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\np[data-v-c19252ce] {\n\tfont-size: 2em;\n\ttext-align: center;\n}\n", ""]);
+exports.push([module.i, "\np[data-v-c19252ce] {\r\n\tfont-size: 2em;\r\n\ttext-align: center;\n}\r\n", ""]);
 
 // exports
 

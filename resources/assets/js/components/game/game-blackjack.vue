@@ -6,12 +6,12 @@
         </div>
         <div class="game-zone-content">       
             <div class="alert" :class="alerttype">
-                <p>{{ message }}<a v-on:click.prevent="closeGame">Close Game</a></p>
+                <h4>{{ message }}</h4><a href="#" v-on:click.prevent="closeGame">Leave Game</a>
             </div>
             <div id="buttonsArea" class="btn-group" role="group" align="text-center">
-                <button class="btn btn-s btn-success btn-secundary" v-on:click="startGame()">START GAME</button>
-                <button class="btn btn-s btn-primary btn-secundary" v-on:click="clickAction(hit)">HIT</button>
-                <button class="btn btn-s btn-danger btn-secundary" v-on:click="clickAction(stand)">STAND</button>
+                <button class="btn btn-s btn-success btn-secundary" v-on:click="startGame()" v-if="ownPlayerNumber==0 && this.game.gameCanBeStarted && !this.game.gameStarted">START GAME</button>
+                <button class="btn btn-s btn-primary btn-secundary" v-on:click="clickAction(hit)" v-if="!playerAction && this.game.gameStarted">HIT</button>
+                <button class="btn btn-s btn-danger btn-secundary" v-on:click="clickAction(stand)" v-if="!playerAction && this.game.gameStarted">STAND</button>
             </div>
             <div class="board">
                 <div class="row">
@@ -47,7 +47,6 @@
                     <div class="col-4" v-else>
                     </div>
                     <div class="col-4">
-
                     </div>
                     <div class="col-4" v-if="game.playerList[2] != undefined">
                         <h3 :class="game.playerList[2].name == currentPlayer ? 'text-primary' : ''">{{ game.playerList[2].name }}</h3>
@@ -98,6 +97,7 @@ export default {
             socketID: "",
             ownPlayerNumber: 0,
             myHand: [],
+            playerAction: false
         }
     },
     watch: {
@@ -119,47 +119,77 @@ export default {
                 if(this.game.playerList.length<2) {
                     return "Waiting for Players To Join";
                 } else {
-                    return "Ready to Start Game";
+                    if(this.ownPlayerNumber == 0) {
+                        return "Ready to Start Game";
+                    } else {
+                        return "Waiting for Game Owner to start the Game!";
+                    }
                 }
-            /*} else if(this.game.gameEnded){
-                if(this.game.winner == this.ownPlayerNumber){
-                    return "Game has ended. You won :D";
-                } else if(this.game.winner == 0){
-                    return "Game has ended. It's a tie!";
+            } else if(this.game.gameEnded) {
+                if(this.game.winners.length == 1) {
+                    if(this.game.winners[0].name == this.$root.user.nickname) {
+                        return "Congratulations you WIN !!!!";
+                    } else {
+                        return this.game.winners[0].name+" win! You lose!!";
+                    }
+                } else {
+                    return "The game ended in a Tie!";
                 }
-                return "Game has ended. You lost :( " + this.adversaryPlayerName + " has won.";*/
             } else {
-                if(this.playAction == undefined){
+                if(!this.playerAction && this.game.playerList[this.ownPlayerNumber].stand == 0){
                     return "Select an action!";
                 } else {
-                    return "Wait for others Players";
+                    if(this.game.playerList[this.ownPlayerNumber].stand == 1) {
+                        return "Other Players are finishing the game!";
+                    } else {
+                        return "Wait for others Players";
+                    }
                 }
             }
         },
         alerttype(){
             if(!this.game.gameStarted){
-                return "alert-warning";
-            } else if (this.game.gameEnded){
-                if(this.game.winner == this.ownPlayerNumber){
-                    return "alert-success";
-                } else if(this.game.winner == 0){
-                    return "alert-info";
+                if(this.game.playerList.length<2) {
+                    return "alert-warning";
+                } else {
+                    if(this.ownPlayerNumber == 0) {
+                        return "alert-success";
+                    } else {
+                        return "alert-success";
+                    }
                 }
-                return "alert-danger";
-            }  else if(this.game.playerTurn == this.ownPlayerNumber){
-                return "alert-success";
+            } else if(this.game.gameEnded) {
+                if(this.game.winners.length == 1) {
+                    if(this.game.winners[0].name == this.$root.nickname) {
+                        return "alert-success";
+                    } else {
+                        return "alert-danger";
+                    }
+                } else {
+                    return "alert-warning";
+                }
             } else {
-                return "alert-warning";
+                if(!this.playerAction){
+                    return "alert-info";
+                } else {
+                    if(this.game.playerList[this.ownPlayerNumber].stand == 1) {
+                        return "alert-success";
+                    } else {
+                        return "alert-warning";
+                    }
+                }
             }
         },
     },
     sockets:{
         my_hand_changed(data){
             if(data.gameID == this.game.gameID){
+                this.playerAction = false;
                 this.myHand.push(data.hand[data.hand.length-1]);
             }
-
+            this.playerAction = false;
             if(this.handSum == 21) {
+                this.playerAction = true;
                 this.$emit('clickaction', this.game, this.stand);
             }
         }
@@ -171,8 +201,8 @@ export default {
         },
         clickAction(action){
             if(!this.game.gameEnded){
+                this.playerAction = true;
                 if(action == this.hit){
-                    console.log("Hit "+this.hit);
                     if(this.game.playerList[this.ownPlayerNumber].stand==0 && this.game.playerList[this.ownPlayerNumber].pubHand.length<4){
                         this.$emit('clickaction', this.game, this.hit);
                     } else {
@@ -188,6 +218,7 @@ export default {
         },
         startGame(){
             if(this.game.gameCanBeStarted){
+                this.playerAction = false;
                 this.$emit('startgame', this.game);
             }
 
@@ -197,9 +228,9 @@ export default {
         },
         calcOwnPlayerNumber(){
             var i=0;
-            var finali = -1
+            var finali = -1;
             this.game.playerSocketList.forEach(element => {
-                if( this.socketID == element){
+                if(this.socketID == element){
                     finali = i;
                 }
                 i++;
@@ -226,4 +257,5 @@ export default {
     border-width: 2px 0 0 0;
     border-color: black;
 }
+
 </style>

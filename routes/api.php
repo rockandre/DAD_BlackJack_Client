@@ -40,4 +40,10 @@ Route::middleware(['auth:api'])->group( function () {
 
 	// settings
 	Route::post('/settings/update', 'ConfigEmailControllerAPI@update');
+
+	// decks
+	Route::get('decks', 'DecksControllerAPI@getDecks');
+	Route::delete('decks/{id}', 'DecksControllerAPI@destroy');
+	Route::put('decks/{id}', 'DecksControllerAPI@update');
+
 });

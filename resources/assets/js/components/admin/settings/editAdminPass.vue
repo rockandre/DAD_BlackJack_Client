@@ -25,11 +25,15 @@
 		</div>
 		<button type="submit" class="btn btn-primary" @click.prevent="changePassword">Change Password</button>
 	</form>
+	<div class="alert alert-success mt-2" v-if="success">
+		<button type="button" class="close-btn" v-on:click="success=false">&times;</button>
+		<strong>{{ successMessage }}</strong>
+	</div>
 </div>
 </template>
 
 <script type="text/javascript">
-import Errors from'../../classes/errors.js';
+import Errors from'../../../classes/errors.js';
 export default {
 	data: function(){
 		return {
@@ -37,7 +41,7 @@ export default {
 			newPassword: '',
 			confirmNewPassword: '',
 			submited: false,
-			errorMessage: '',
+			successMessage: '',
 			success: false,
 			errors: new Errors(),
 		}
@@ -85,6 +89,7 @@ export default {
 				axios.put('api/user/password/update', data, this.$root.headers)
 				.then((response) => {
 					this.success = true;
+					this.successMessage = 'Administrator Password Changed.';
 					this.cancel();
 				})
 				.catch((error) => {

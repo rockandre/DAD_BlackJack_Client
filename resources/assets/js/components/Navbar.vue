@@ -27,7 +27,7 @@
 					<div class="dropdown-menu" aria-labelledby="navbarDropdownAdminMenuLink">
 						<router-link to="/admin" class="dropdown-item">Dashboard</router-link>
 						<router-link to="/admin/users" class="dropdown-item">Users</router-link>
-						<router-link to="/admin" class="dropdown-item">Deck</router-link>
+						<router-link to="/admin/decks" class="dropdown-item">Deck</router-link>
 						<router-link to="/admin" class="dropdown-item">Statistics</router-link>
 						<div class="dropdown-divider"></div>
 						<router-link to="/admin/config" class="dropdown-item">Administration Settings</router-link>

@@ -22,12 +22,15 @@ Route::post('register', 'RegisterControllerAPI@register');
 
 Route::middleware(['auth:api'])->group( function () {
 
-	Route::get('/user', function (Request $request) {
+	Route::get('user', function (Request $request) {
 		return $request->user();
 	});
 
 	Route::post('logout', 'LoginControllerAPI@logout');
 
+	// Game
+	Route::get('pendentgames', 'GameControllerAPI@getPendentGames');
+	
 	// user
 	Route::get('users', 'UserControllerAPI@getUsers');
 	Route::get('users/emailavailable', 'UserControllerAPI@emailAvailable');
@@ -45,5 +48,5 @@ Route::middleware(['auth:api'])->group( function () {
 	Route::get('decks', 'DecksControllerAPI@getDecks');
 	Route::delete('decks/{id}', 'DecksControllerAPI@destroy');
 	Route::put('decks/{id}', 'DecksControllerAPI@update');
-
+	Route::post('deck', 'DecksControllerAPI@store');
 });

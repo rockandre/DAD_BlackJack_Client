@@ -116,28 +116,29 @@ export default {
 					"Authorization": ("Bearer "+ this.$root.user.access_token),
 				}};
 				axios.get("api/user", this.$root.headers
-				).then(response => {
-					if(response.data.activated == 0) {
-						axios.post("api/logout", null, {
-							headers: {
-								"Accept": "application/json",
-								"Authorization": ("Bearer "+ this.$root.user.access_token),
-							}
-						})
-						.then(response => {
-							alert("Activate your account first! Check your email!");
-							this.$root.user = new User();
-							this.$root.headers = {};
-							window.localStorage.removeItem('authToken');
-						});
-					} else {
-						this.$root.user.parse(response.data);
-						window.localStorage.setItem('authToken', this.authToken);
-					}
-					
+					).then(response => {
+						if(response.data.activated == 0) {
+							axios.post("api/logout", null, {
+								headers: {
+									"Accept": "application/json",
+									"Authorization": ("Bearer "+ this.$root.user.access_token),
+								}
+							})
+							.then(response => {
+								alert("Activate your account first! Check your email!");
+								this.$root.user = new User();
+								this.$root.headers = {};
+								window.localStorage.removeItem('authToken');
+							});
+						} else {
+							this.$root.user.parse(response.data);
+							window.localStorage.setItem('authToken', this.authToken);
+
+							this.$router.push("/");
+						}
+
+					});
 				});
-				this.$router.push("/");
-			});
 		},
 		register: function() {
 			this.errors = new Errors();

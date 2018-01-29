@@ -10,7 +10,10 @@
 			<button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
 			<strong>{{ successMessage }}</strong>
 		</div>
-		<button type="button" class="btn btn-primary mt-2">Add deck</button>
+
+		
+		<router-link to="/admin/decks/add" class="btn btn-primary mt-2">Add Deck</router-link>
+
 	</div>				
 </template>
 

@@ -17,7 +17,8 @@ window.Vue = require('vue');
 Vue.use(VueRouter);
 
 Vue.use(VueSocketio, 'http://192.168.10.10:8080');
-/*
+
+/**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
@@ -35,6 +36,7 @@ Vue.use(VueSocketio, 'http://192.168.10.10:8080');
  const adminDashboard = Vue.component('dashboard-component', require('./components/admin/dashboard.vue'));
  const adminUsers = Vue.component('users-component', require('./components/admin/users/user.vue'));
  const adminDecks = Vue.component('deck-component', require('./components/admin/decks/deck.vue'));
+ const adminDecksAdd = Vue.component('deck-add-component', require('./components/admin/decks/deckAdd.vue'));
  const adminConfig = Vue.component('admin-config', require('./components/admin/settings/config.vue'));
 
  const routes = [
@@ -50,7 +52,8 @@ Vue.use(VueSocketio, 'http://192.168.10.10:8080');
  { path: '/admin/dashboard', component: adminDashboard},
  { path: '/admin/users', component: adminUsers },
  { path: '/admin/config', component: adminConfig},
- { path: '/admin/decks', component: adminDecks}
+ { path: '/admin/decks', component: adminDecks},
+ { path: '/admin/decks/add', component: adminDecksAdd}
  ];
 
  const router = new VueRouter({
@@ -65,3 +68,5 @@ Vue.use(VueSocketio, 'http://192.168.10.10:8080');
  		headers: {},
  	}
  });
+
+ 

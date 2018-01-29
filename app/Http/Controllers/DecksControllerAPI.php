@@ -42,7 +42,7 @@ class DecksControllerAPI extends Controller
      */
     public function create()
     {
-        //
+    
     }
 
     /**
@@ -53,7 +53,25 @@ class DecksControllerAPI extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'image' => 'required|image64:jpeg,jpg,png'
+        ]);
+
+        if ($request->wantsJson() && !$validator->fails()) {
+
+            $name = $request->get('name');
+            $image = $request->get('image');
+            $imagePath = $image->path;
+
+            $deckCreated = Deck::create(['name' => $name, 'image' => $imagePath, 'active' => 0, 'complete' => 0]);
+
+            $deckCreated->save();
+        } else {
+            return response()->json(['msg' => 'Request inválido.'], 400);
+        }
+
+        return response()->json(['img' => $imageData, 'face' => $face], 200);
     }
 
     /**
@@ -96,7 +114,7 @@ class DecksControllerAPI extends Controller
         $request->validate([
                 'name' => 'required|string|max:255',
                 //'hidden_face_image_path' => 'mimes:jpeg,png',
-                'hidden_face_image_path' => 'required|string|max:255',
+                'image' => 'required|image64:jpeg,jpg,png',
                 'active' => 'required|integer',
                 'complete' => 'required|integer'
             ]);

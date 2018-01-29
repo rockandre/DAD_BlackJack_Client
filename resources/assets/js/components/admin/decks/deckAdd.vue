@@ -13,8 +13,13 @@
 
 		<div class="form-group">
 			<label for="image">Hidden Face Image</label>
-			<input type="file" class="form-control-file" id="image" @change="processFile($event)" aria-describedby="fileHelp">
-			<small id="fileHelp" class="form-text text-muted">Insert here the image of the hidden face of your deck.</small>
+			<div v-if="!image">
+				<input type="file" class="form-control-file" @change="onFileChange" aria-describedby="fileHelp">
+			</div>
+			<div v-else>
+				<img :src="image" />
+				<button @click="removeImage" class="btn btn-warning">Remove image</button>
+			</div>
 		</div>
 
 		<div class="form-group">
@@ -31,27 +36,42 @@ export default {
 		return { 
 			title: 'Add Deck',
 			deckName: '',
-			deckImage: ''
+			image: ''
 		}
 	},
 	methods: {
-		processFile(event) {
-			this.deckImage = event.target.files[0]
+		onFileChange(e) {
+			var files = e.target.files || e.dataTransfer.files;
+			if (!files.length)
+				return;
+			this.createImage(files[0]);
 		},
-		addDeck: function(deck){
-			axios.put('api/deck', this.$root.headers)
+		createImage(file) {
+			var image = new Image();
+			var reader = new FileReader();
+			var vm = this;
+
+			reader.onload = (e) => {
+				vm.image = e.target.result;
+			};
+			reader.readAsDataURL(file);
+		},
+		removeImage: function (e) {
+			this.image = '';
+		},
+		addDeck: function(){
+			axios.put('api/deck', {'name': this.deckName, 'image': this.image}, this.$root.headers)
 			.then(response=>{
 	                	// Copy object properties from response.data.data to this.user
 	                	// without creating a new reference
-	                	Object.assign(this.deckName, response.data.data.name);
-	                	Object.assign(this.deckImage, response.data.data.image);
-	                	this.$emit('deck-added');
+	                	console.log(response.data);
+	                	this.$router.push('/admin/decks');
+	                	
 	                });
-			console.log(response.data.data.name);
 		},
 		cancelDeck: function(deck) {
 			this.deckName='';
-			this.deckImage='';
+			this.deckImage = new Image();
 		}
 	},
 	components: {
@@ -62,15 +82,18 @@ export default {
 
 }
 
-$('input[type=file]').change(function () {
-	console.log(this.files[0].mozFullPath);
-});
-
 </script>
 
 <style scoped>	
 p {
 	font-size: 2em;
 	text-align: center;
+}
+
+img {
+  width: 15%;
+  margin: auto;
+  display: block;
+  margin-bottom: 10px;
 }
 </style>

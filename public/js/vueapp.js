@@ -1568,7 +1568,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(16);
-module.exports = __webpack_require__(125);
+module.exports = __webpack_require__(133);
 
 
 /***/ }),
@@ -1619,8 +1619,8 @@ var gamearea = Vue.component('gamearea', __webpack_require__(69));
 var adminDashboard = Vue.component('dashboard-component', __webpack_require__(79));
 var adminUsers = Vue.component('users-component', __webpack_require__(81));
 var adminDecks = Vue.component('deck-component', __webpack_require__(101));
-var adminDecksAdd = Vue.component('deck-add-component', __webpack_require__(129));
-var adminConfig = Vue.component('admin-config', __webpack_require__(111));
+var adminDecksAdd = Vue.component('deck-add-component', __webpack_require__(114));
+var adminConfig = Vue.component('admin-config', __webpack_require__(119));
 
 var routes = [{ path: '/', component: home }, { path: '/login', component: login },
 
@@ -64381,7 +64381,7 @@ var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(104)
 /* template */
-var __vue_template__ = __webpack_require__(110)
+var __vue_template__ = __webpack_require__(113)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -64467,6 +64467,8 @@ exports.push([module.i, "\np[data-v-5eefcb42] {\r\n\tfont-size: 2em;\r\n\ttext-a
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__deckList_vue__ = __webpack_require__(105);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__deckList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__deckList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__deckEdit_vue__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__deckEdit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__deckEdit_vue__);
 //
 //
 //
@@ -64485,7 +64487,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
+
 
 
 
@@ -64519,19 +64521,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteDeck: function deleteDeck(deck) {
             var _this2 = this;
 
-            axios.delete('api/decks/' + deck.id, deck, this.$root.headers).then(function (response) {
+            axios.delete('api/decks/' + deck.id, this.$root.headers).then(function (response) {
                 _this2.showSuccess = true;
                 _this2.successMessage = 'Deck Deleted';
                 _this2.getDecks();
             });
         },
-        savedDeck: function savedDeck() {
+        savedEditDeck: function savedEditDeck() {
             this.currentUser = null;
             this.action = 0;
             this.$refs.usersListRef.editingUser = null;
             this.showSuccess = true;
             this.successMessage = 'Deck Saved';
         },
+        cancelEditDeck: function cancelEditDeck() {},
         getDecks: function getDecks() {
             var _this3 = this;
 
@@ -64545,7 +64548,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     components: {
-        'deck-list': __WEBPACK_IMPORTED_MODULE_0__deckList_vue___default.a
+        'deck-list': __WEBPACK_IMPORTED_MODULE_0__deckList_vue___default.a,
+        'edit-deck': __WEBPACK_IMPORTED_MODULE_1__deckEdit_vue___default.a
     },
     mounted: function mounted() {
         this.getDecks();
@@ -64685,7 +64689,7 @@ module.exports = {
 		};
 	},
 	methods: {
-		editeDeck: function editeDeck(deck) {
+		editDeck: function editDeck(deck) {
 			this.editingDeck = deck;
 			this.$emit('edit-click', deck);
 		},
@@ -64720,9 +64724,9 @@ var render = function() {
           [
             _c("td", [_vm._v(_vm._s(deck.name))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(deck.active))]),
+            _c("td", [_vm._v(_vm._s(deck.active ? "Yes" : "No"))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(deck.complete))]),
+            _c("td", [_vm._v(_vm._s(deck.complete ? "Yes" : "No"))]),
             _vm._v(" "),
             _c("td", { staticClass: "w-25 p-3" }, [
               _c(
@@ -64735,7 +64739,7 @@ var render = function() {
                   _c(
                     "a",
                     {
-                      staticClass: "btn btn-xs btn-primary col-4",
+                      staticClass: "btn btn-xs btn-primary",
                       on: {
                         click: function($event) {
                           $event.preventDefault()
@@ -64750,7 +64754,7 @@ var render = function() {
                     ? _c(
                         "a",
                         {
-                          staticClass: "btn btn-xs btn-warning col-4",
+                          staticClass: "btn btn-xs btn-warning",
                           on: {
                             click: function($event) {
                               $event.preventDefault()
@@ -64766,7 +64770,7 @@ var render = function() {
                     ? _c(
                         "a",
                         {
-                          staticClass: "btn btn-xs btn-warning col-4",
+                          staticClass: "btn btn-xs btn-warning",
                           on: {
                             click: function($event) {
                               $event.preventDefault()
@@ -64774,14 +64778,14 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Disable")]
+                        [_vm._v("Desactivate")]
                       )
                     : _vm._e(),
                   _vm._v(" "),
                   _c(
                     "a",
                     {
-                      staticClass: "btn btn-xs btn-danger col-4",
+                      staticClass: "btn btn-xs btn-danger",
                       on: {
                         click: function($event) {
                           $event.preventDefault()
@@ -64829,6 +64833,347 @@ if (false) {
 
 /***/ }),
 /* 110 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(137)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(111)
+/* template */
+var __vue_template__ = __webpack_require__(112)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\admin\\decks\\deckEdit.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-49a09c09", Component.options)
+  } else {
+    hotAPI.reload("data-v-49a09c09", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 111 */
+/***/ (function(module, exports) {
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+module.exports = {
+	props: ['deck'],
+	data: function data() {
+		return {
+			image: undefined,
+			currentCard: ''
+		};
+	},
+	computed: {
+		cards: function cards() {
+			var suites = ["Club", "Diamond", "Heart", "Spade"];
+			var values = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
+			var i = 0;
+			var cards = {};
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = suites[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var suite = _step.value;
+					var _iteratorNormalCompletion2 = true;
+					var _didIteratorError2 = false;
+					var _iteratorError2 = undefined;
+
+					try {
+						for (var _iterator2 = values[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+							var value = _step2.value;
+
+							cards[i] = { id: i, suite: suite, value: value, image: undefined };
+							i++;
+						}
+					} catch (err) {
+						_didIteratorError2 = true;
+						_iteratorError2 = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion2 && _iterator2.return) {
+								_iterator2.return();
+							}
+						} finally {
+							if (_didIteratorError2) {
+								throw _iteratorError2;
+							}
+						}
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return cards;
+		}
+	},
+	methods: {
+		onFileChange: function onFileChange(e) {
+			console.log(e);
+			var files = e.target.files || e.dataTransfer.files;
+			if (!files.length) return;
+			this.createImage(files[0]);
+		},
+		createImage: function createImage(file) {
+			var _this = this;
+
+			var image = new Image();
+			var reader = new FileReader();
+			var vm = this;
+
+			reader.onload = function (e) {
+				_this.cards[_this.currentCard].image = e.target.result;
+			};
+			reader.readAsDataURL(file);
+		},
+
+		removeImage: function removeImage(e) {
+			this.image = '';
+		},
+		changeCard: function changeCard(card) {
+			this.currentCard = card;
+		},
+
+		saveDeck: function saveDeck() {},
+		cancelEdit: function cancelEdit() {},
+		populateTable: function populateTable() {
+			var suites = ["Club", "Diamond", "Heart", "Spade"];
+			var values = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
+			var i = 0;
+			var _iteratorNormalCompletion3 = true;
+			var _didIteratorError3 = false;
+			var _iteratorError3 = undefined;
+
+			try {
+				for (var _iterator3 = suites[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+					var suite = _step3.value;
+					var _iteratorNormalCompletion4 = true;
+					var _didIteratorError4 = false;
+					var _iteratorError4 = undefined;
+
+					try {
+						for (var _iterator4 = values[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+							var value = _step4.value;
+
+							this.cards[i] = { suite: suite, value: value };
+							i++;
+						}
+					} catch (err) {
+						_didIteratorError4 = true;
+						_iteratorError4 = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion4 && _iterator4.return) {
+								_iterator4.return();
+							}
+						} finally {
+							if (_didIteratorError4) {
+								throw _iteratorError4;
+							}
+						}
+					}
+				}
+			} catch (err) {
+				_didIteratorError3 = true;
+				_iteratorError3 = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion3 && _iterator3.return) {
+						_iterator3.return();
+					}
+				} finally {
+					if (_didIteratorError3) {
+						throw _iteratorError3;
+					}
+				}
+			}
+		}
+	},
+	mounted: function mounted() {
+		this.populateTable();
+	}
+};
+
+/***/ }),
+/* 112 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "w-75 p-3" }, [
+        _c("div", { staticClass: "jumbotron" }, [
+          _c("h1", [_vm._v("Editting Deck: " + _vm._s(this.deck.name))])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-25 p-3" }, [
+        _c("img", {
+          staticClass: "img_hidden",
+          attrs: { src: "/api/storage/" + this.deck.hidden_face_image_path }
+        })
+      ])
+    ]),
+    _vm._v(" "),
+    _c("table", { staticClass: "table" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.cards, function(card, index) {
+          return _c("tr", [
+            _c("td", [_vm._v(_vm._s(card.suite))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(card.value))]),
+            _vm._v(" "),
+            _c("td", [
+              _c("img", { staticClass: "card", attrs: { src: card.image } })
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c("input", {
+                staticClass: "form-control-file",
+                attrs: { type: "file", "aria-describedby": "fileHelp" },
+                on: {
+                  change: _vm.onFileChange,
+                  click: function($event) {
+                    this.currentCard = card.id
+                  }
+                }
+              }),
+              _vm._v(" "),
+              card.image
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-warning",
+                      on: { click: _vm.removeImage }
+                    },
+                    [_vm._v("Remove image")]
+                  )
+                : _vm._e()
+            ])
+          ])
+        })
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Suite")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Value")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Preview")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-49a09c09", module.exports)
+  }
+}
+
+/***/ }),
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -64880,7 +65225,18 @@ var render = function() {
           attrs: { to: "/admin/decks/add" }
         },
         [_vm._v("Add Deck")]
-      )
+      ),
+      _vm._v(" "),
+      _vm.currentDeck && _vm.action == 1
+        ? _c("edit-deck", {
+            staticClass: "mt-5",
+            attrs: { deck: _vm.currentDeck },
+            on: {
+              "deck-saved": _vm.savedEditDeck,
+              "deck-canceled": _vm.cancelEditDeck
+            }
+          })
+        : _vm._e()
     ],
     1
   )
@@ -64896,19 +65252,303 @@ if (false) {
 }
 
 /***/ }),
-/* 111 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(112)
+  __webpack_require__(115)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(114)
+var __vue_script__ = __webpack_require__(117)
 /* template */
-var __vue_template__ = __webpack_require__(124)
+var __vue_template__ = __webpack_require__(118)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-48658d1c"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\admin\\decks\\deckAdd.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-48658d1c", Component.options)
+  } else {
+    hotAPI.reload("data-v-48658d1c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 115 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(116);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("7c95678c", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-48658d1c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./deckAdd.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-48658d1c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./deckAdd.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 116 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\np[data-v-48658d1c] {\r\n\tfont-size: 2em;\r\n\ttext-align: center;\n}\nimg[data-v-48658d1c] {\r\n  width: 15%;\r\n  margin: auto;\r\n  display: block;\r\n  margin-bottom: 10px;\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 117 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			title: 'Add Deck',
+			deckName: '',
+			image: ''
+		};
+	},
+	methods: {
+		onFileChange: function onFileChange(e) {
+			var files = e.target.files || e.dataTransfer.files;
+			if (!files.length) return;
+			this.createImage(files[0]);
+		},
+		createImage: function createImage(file) {
+			var image = new Image();
+			var reader = new FileReader();
+			var vm = this;
+
+			reader.onload = function (e) {
+				vm.image = e.target.result;
+			};
+			reader.readAsDataURL(file);
+		},
+
+		removeImage: function removeImage(e) {
+			this.image = '';
+		},
+		addDeck: function addDeck() {
+			var _this = this;
+
+			axios.put('api/deck', { 'name': this.deckName, 'image': this.image }, this.$root.headers).then(function (response) {
+				// Copy object properties from response.data.data to this.user
+				// without creating a new reference
+				console.log(response.data);
+				_this.$router.push('/admin/decks');
+			});
+		},
+		cancelDeck: function cancelDeck(deck) {
+			this.deckName = '';
+			this.deckImage = new Image();
+		}
+	},
+	components: {},
+	mounted: function mounted() {}
+});
+
+/***/ }),
+/* 118 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "jumbotron" }, [
+      _c("h1", [_vm._v(_vm._s(_vm.title))])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputName" } }, [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.deckName,
+            expression: "deckName"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          name: "name",
+          id: "name",
+          placeholder: "Deck Name"
+        },
+        domProps: { value: _vm.deckName },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.deckName = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "image" } }, [_vm._v("Hidden Face Image")]),
+      _vm._v(" "),
+      !_vm.image
+        ? _c("div", [
+            _c("input", {
+              staticClass: "form-control-file",
+              attrs: { type: "file", "aria-describedby": "fileHelp" },
+              on: { change: _vm.onFileChange }
+            })
+          ])
+        : _c("div", [
+            _c("img", { attrs: { src: _vm.image } }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-warning",
+                on: { click: _vm.removeImage }
+              },
+              [_vm._v("Remove image")]
+            )
+          ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "form-group" },
+      [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-primary",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                _vm.addDeck()
+              }
+            }
+          },
+          [_vm._v("Add")]
+        ),
+        _vm._v(" "),
+        _c(
+          "router-link",
+          { staticClass: "btn btn-danger", attrs: { to: "/admin/decks" } },
+          [_vm._v("Cancel")]
+        )
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-48658d1c", module.exports)
+  }
+}
+
+/***/ }),
+/* 119 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(120)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(122)
+/* template */
+var __vue_template__ = __webpack_require__(132)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -64947,13 +65587,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 112 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(113);
+var content = __webpack_require__(121);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -64973,7 +65613,7 @@ if(false) {
 }
 
 /***/ }),
-/* 113 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -64987,16 +65627,16 @@ exports.push([module.i, "\np[data-v-53bd3e72] {\r\n\tfont-size: 2em;\r\n\ttext-a
 
 
 /***/ }),
-/* 114 */
+/* 122 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__editAdminPass_vue__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__editAdminPass_vue__ = __webpack_require__(123);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__editAdminPass_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__editAdminPass_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__changeAdminEmail_vue__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__changeAdminEmail_vue__ = __webpack_require__(126);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__changeAdminEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__changeAdminEmail_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__changePlatformEmail_vue__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__changePlatformEmail_vue__ = __webpack_require__(129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__changePlatformEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__changePlatformEmail_vue__);
 //
 //
@@ -65051,15 +65691,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 115 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(116)
+var __vue_script__ = __webpack_require__(124)
 /* template */
-var __vue_template__ = __webpack_require__(117)
+var __vue_template__ = __webpack_require__(125)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -65098,7 +65738,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 116 */
+/* 124 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -65214,7 +65854,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 117 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -65385,15 +66025,15 @@ if (false) {
 }
 
 /***/ }),
-/* 118 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(119)
+var __vue_script__ = __webpack_require__(127)
 /* template */
-var __vue_template__ = __webpack_require__(120)
+var __vue_template__ = __webpack_require__(128)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -65432,7 +66072,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 119 */
+/* 127 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -65521,7 +66161,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 120 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -65643,15 +66283,15 @@ if (false) {
 }
 
 /***/ }),
-/* 121 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(122)
+var __vue_script__ = __webpack_require__(130)
 /* template */
-var __vue_template__ = __webpack_require__(123)
+var __vue_template__ = __webpack_require__(131)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -65690,7 +66330,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 122 */
+/* 130 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -65840,7 +66480,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 123 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -66113,7 +66753,7 @@ if (false) {
 }
 
 /***/ }),
-/* 124 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -66219,155 +66859,32 @@ if (false) {
 }
 
 /***/ }),
-/* 125 */
+/* 133 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 126 */,
-/* 127 */,
-/* 128 */,
-/* 129 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(131)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(130)
-/* template */
-var __vue_template__ = __webpack_require__(133)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-48658d1c"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\components\\admin\\decks\\deckAdd.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-48658d1c", Component.options)
-  } else {
-    hotAPI.reload("data-v-48658d1c", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 130 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			title: 'Add Deck',
-			deckName: '',
-			deckImage: ''
-		};
-	},
-	methods: {
-		processFile: function processFile(event) {
-			this.deckImage = event.target.files[0];
-		},
-
-		addDeck: function addDeck(deck) {
-			var _this = this;
-
-			axios.put('api/deck', this.$root.headers).then(function (response) {
-				// Copy object properties from response.data.data to this.user
-				// without creating a new reference
-				Object.assign(_this.deckName, response.data.data.name);
-				Object.assign(_this.deckImage, response.data.data.image);
-				_this.$emit('deck-added');
-			});
-			console.log(response.data.data.name);
-		},
-		cancelDeck: function cancelDeck(deck) {
-			this.deckName = '';
-			this.deckImage = '';
-		}
-	},
-	components: {},
-	mounted: function mounted() {}
-});
-
-$('input[type=file]').change(function () {
-	console.log(this.files[0].mozFullPath);
-});
-
-/***/ }),
-/* 131 */
+/* 134 */,
+/* 135 */,
+/* 136 */,
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(132);
+var content = __webpack_require__(138);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("7c95678c", content, false);
+var update = __webpack_require__(2)("76c7d9a6", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-48658d1c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./deckAdd.vue", function() {
-     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-48658d1c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./deckAdd.vue");
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-49a09c09\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./deckEdit.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-49a09c09\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./deckEdit.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -66377,7 +66894,7 @@ if(false) {
 }
 
 /***/ }),
-/* 132 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -66385,112 +66902,10 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\np[data-v-48658d1c] {\r\n\tfont-size: 2em;\r\n\ttext-align: center;\n}\r\n", ""]);
+exports.push([module.i, "\n.img_hidden {\r\n\twidth: 60%;\n}\n.card {\r\n\twidth: 15%;\n}\r\n\r\n", ""]);
 
 // exports
 
-
-/***/ }),
-/* 133 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "jumbotron" }, [
-      _c("h1", [_vm._v(_vm._s(_vm.title))])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "inputName" } }, [_vm._v("Name")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.deckName,
-            expression: "deckName"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          name: "name",
-          id: "name",
-          placeholder: "Deck Name"
-        },
-        domProps: { value: _vm.deckName },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.deckName = $event.target.value
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "image" } }, [_vm._v("Hidden Face Image")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control-file",
-        attrs: { type: "file", id: "image", "aria-describedby": "fileHelp" },
-        on: {
-          change: function($event) {
-            _vm.processFile($event)
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c(
-        "small",
-        { staticClass: "form-text text-muted", attrs: { id: "fileHelp" } },
-        [_vm._v("Insert here the image of the hidden face of your deck.")]
-      )
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "form-group" },
-      [
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-primary",
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                _vm.addDeck()
-              }
-            }
-          },
-          [_vm._v("Add")]
-        ),
-        _vm._v(" "),
-        _c(
-          "router-link",
-          { staticClass: "btn btn-danger", attrs: { to: "/admin/decks" } },
-          [_vm._v("Cancel")]
-        )
-      ],
-      1
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-48658d1c", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);

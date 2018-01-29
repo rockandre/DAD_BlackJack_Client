@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Http\Resources\DeckResource as DeckResource;
 use Illuminate\Support\Facades\DB;
-
+use Intervention\Image\ImageManagerStatic as Image;
 use App\Deck;
 use App\StoreUserRequest;
 use Hash;
@@ -53,25 +53,7 @@ class DecksControllerAPI extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'image' => 'required|image64:jpeg,jpg,png'
-        ]);
-
-        if ($request->wantsJson() && !$validator->fails()) {
-
-            $name = $request->get('name');
-            $image = $request->get('image');
-            $imagePath = $image->path;
-
-            $deckCreated = Deck::create(['name' => $name, 'image' => $imagePath, 'active' => 0, 'complete' => 0]);
-
-            $deckCreated->save();
-        } else {
-            return response()->json(['msg' => 'Request inválido.'], 400);
-        }
-
-        return response()->json(['img' => $imageData, 'face' => $face], 200);
+        
     }
 
     /**
@@ -105,6 +87,11 @@ class DecksControllerAPI extends Controller
     public function destroy($id)
     {
         $deck = Deck::findOrFail($id);
+
+        $dir = storage_path('app/public/decks/'.$deck->name);
+        array_map('unlink', glob($dir.'/*.*'));
+        rmdir($dir);
+
         $deck->delete();
         return response()->json(null, 204);
     }
@@ -112,9 +99,6 @@ class DecksControllerAPI extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-                'name' => 'required|string|max:255',
-                //'hidden_face_image_path' => 'mimes:jpeg,png',
-                'image' => 'required|image64:jpeg,jpg,png',
                 'active' => 'required|integer',
                 'complete' => 'required|integer'
             ]);
@@ -122,5 +106,36 @@ class DecksControllerAPI extends Controller
         $deck = Deck::findOrFail($id);
         $deck->update($request->all());
         return new DeckResource($deck);
+    }
+
+    public function addDeck(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:decks|string',
+            'image' => 'required'
+        ]);
+        if ($validator->passes()) {
+
+            $fileName = 'semFace.png';
+            // save in datatable
+            $name = $request->get('name');
+            $image = $request->get('image');
+            $imagePath = $name.'/'.$fileName;
+
+            $deckCreated = Deck::create(['name' => $name, 'hidden_face_image_path' => $imagePath, 'active' => 0, 'complete' => 0]);
+
+            $deckCreated->save();
+
+            // save in storage folder
+            $image = Image::make($image);
+            $image->heighten(726);
+            if (!file_exists(storage_path('app/public/decks/'.$name))) {
+                mkdir(storage_path('app/public/decks/'.$name), 777, true);
+            }
+            $image->save(storage_path('app/public/decks/'.$name.'/'.$fileName), 90);
+
+            return response()->json(['msg' => 'Deck Created.'], 200);
+        } else {
+            return response()->json(['msg' => 'Invalid Request.'], 400);
+        }
     }
 }

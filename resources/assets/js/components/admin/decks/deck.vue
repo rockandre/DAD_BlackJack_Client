@@ -4,21 +4,21 @@
 			<h1>{{ title }}</h1>
 		</div>
 
-		<deck-list :decks="decks" @edit-click="editDeck" @delete-click="deleteDeck" @active-click="activeDeck" @message="childMessage" ref="deckListRef"></deck-list>
+		<deck-list :decks="decks" @edit-click="editDeck" @delete-click="deleteDeck" @active-click="activeDeck" @message="childMessage" 
+					ref="deckListRef"></deck-list>
 
 		<div class="alert alert-success" v-if="showSuccess">
 			<button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
 			<strong>{{ successMessage }}</strong>
 		</div>
-
-		
 		<router-link to="/admin/decks/add" class="btn btn-primary mt-2">Add Deck</router-link>
-
+		<edit-deck class="mt-5" :deck="currentDeck" @deck-saved="savedEditDeck" @deck-canceled="cancelEditDeck" v-if="currentDeck && action == 1"></edit-deck>		
 	</div>				
 </template>
 
 <script type="text/javascript">
 	import DeckList from './deckList.vue';
+	import DeckEdit from './deckEdit.vue';
 
 	export default {
 		data: function(){
@@ -47,19 +47,22 @@
 	                });
 	        },
 	        deleteDeck: function(deck){
-	            axios.delete('api/decks/'+deck.id, deck, this.$root.headers)
+	            axios.delete('api/decks/'+deck.id, this.$root.headers)
 	                .then(response => {
 	                    this.showSuccess = true;
 	                    this.successMessage = 'Deck Deleted';
 	                    this.getDecks();
 	                });
 	        },
-	        savedDeck: function(){
+	        savedEditDeck: function(){
 	            this.currentUser = null;
 	            this.action = 0;
 	            this.$refs.usersListRef.editingUser = null;
 	            this.showSuccess = true;
 	            this.successMessage = 'Deck Saved';
+	        },
+	        cancelEditDeck: function() {
+
 	        },
 	        getDecks: function(){
 	            axios.get('api/decks', this.$root.headers)
@@ -71,7 +74,8 @@
 			}
 	    },
 	    components: {
-	    	'deck-list': DeckList
+	    	'deck-list': DeckList,
+	    	'edit-deck': DeckEdit
 	    },
 	    mounted() {
 			this.getDecks();

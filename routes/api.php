@@ -20,6 +20,16 @@ use Illuminate\Http\Request;
 Route::post('login', 'LoginControllerAPI@login');
 Route::post('register', 'RegisterControllerAPI@register');
 
+// image
+Route::get('storage/{deck}/{card}', function ($deck, $card)
+{
+    return Image::make(Storage::disk('local')->get('public/decks/'.$deck.'/'. $card))->response();
+});
+Route::get('storage/{deckpath}', function ($hidden_face_image_path)
+{
+    return Image::make(Storage::disk('local')->get('public/decks/'.$hidden_face_image_path))->response();
+});
+
 Route::middleware(['auth:api'])->group( function () {
 
 	Route::get('user', function (Request $request) {
@@ -48,5 +58,5 @@ Route::middleware(['auth:api'])->group( function () {
 	Route::get('decks', 'DecksControllerAPI@getDecks');
 	Route::delete('decks/{id}', 'DecksControllerAPI@destroy');
 	Route::put('decks/{id}', 'DecksControllerAPI@update');
-	Route::post('deck', 'DecksControllerAPI@store');
+	Route::put('deck', 'DecksControllerAPI@addDeck');
 });

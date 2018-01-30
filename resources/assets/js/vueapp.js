@@ -33,10 +33,11 @@ Vue.use(VueSocketio, 'http://192.168.10.10:8080');
  const gamearea = Vue.component('gamearea', require('./components/game/game-area.vue'));
 
  // admin components
- const adminUsers = Vue.component('users-component', require('./components/admin/user.vue'));
  const adminDashboard = Vue.component('dashboard-component', require('./components/admin/dashboard.vue'));
- const adminConfig = Vue.component('admin-config', require('./components/admin/config.vue'));
-
+ const adminUsers = Vue.component('users-component', require('./components/admin/users/user.vue'));
+ const adminDecks = Vue.component('deck-component', require('./components/admin/decks/deck.vue'));
+ const adminDecksAdd = Vue.component('deck-add-component', require('./components/admin/decks/deckAdd.vue'));
+ const adminConfig = Vue.component('admin-config', require('./components/admin/settings/config.vue'));
 
  const routes = [
  { path: '/', component: home },
@@ -50,7 +51,9 @@ Vue.use(VueSocketio, 'http://192.168.10.10:8080');
  { path: '/admin', redirect: '/admin/dashboard'},
  { path: '/admin/dashboard', component: adminDashboard},
  { path: '/admin/users', component: adminUsers },
- { path: '/admin/config', component: adminConfig}
+ { path: '/admin/config', component: adminConfig},
+ { path: '/admin/decks', component: adminDecks},
+ { path: '/admin/decks/add', component: adminDecksAdd}
  ];
 
  const router = new VueRouter({

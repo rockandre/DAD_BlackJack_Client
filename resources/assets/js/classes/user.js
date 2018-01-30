@@ -18,7 +18,13 @@ class User  {
 
         this.access_token = '';
 
+        this.blocked = false;
+
         this.admin = false;
+
+        this.total_points = 0;
+
+        this.total_games_played = 0;
     }
 
     set(field, value){
@@ -39,6 +45,9 @@ class User  {
         this.email = auth_user.email;
         this.nickname = auth_user.nickname;
         this.admin = auth_user.admin == 0 ? false : true;
+        this.blocked = auth_user.blocked == 0 ? false : true;
+        this.total_points = auth_user.total_points;
+        this.total_games_played = auth_user.total_games_played;
     }
     
     logged()

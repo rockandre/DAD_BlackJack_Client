@@ -5,6 +5,8 @@
 				<th>Name</th>
 				<th>Email</th>
 				<th>Nickname</th>
+				<th>Points</th>
+				<th>Games</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -13,11 +15,15 @@
 				<td>{{ user.name }}</td>
 				<td>{{ user.email }}</td>
 				<td>{{ user.nickname }}</td>
+				<td>{{ user.total_points}}</td>
+				<td>{{ user.total_games_played}}</td>
 				<td>
-					<a class="btn btn-xs btn-primary col-3" v-on:click.prevent="editUser(user)">Edit</a>
-					<a class="btn btn-xs btn-warning col-4" v-on:click.prevent="blockUser(user)" v-if="!user.blocked">Block</a>
-					<a class="btn btn-xs btn-warning col-4" v-on:click.prevent="blockUser(user)" v-if="user.blocked">Unblock</a>
-					<a class="btn btn-xs btn-danger col-3" v-on:click.prevent="deleteUser(user)">Delete</a>
+					<div class="btn-group col-12" role="group" aria-label="Basic example">
+						<a class="btn btn-xs btn-primary col-4" v-on:click.prevent="editUser(user)">Edit</a>
+						<a class="btn btn-xs btn-warning col-4" v-on:click.prevent="blockUser(user)" v-if="!user.blocked">Block</a>
+						<a class="btn btn-xs btn-warning col-4" v-on:click.prevent="blockUser(user)" v-if="user.blocked">Unblock</a>
+						<a class="btn btn-xs btn-danger col-4" v-on:click.prevent="deleteUser(user)">Delete</a>
+					</div>
 				</td>
 			</tr>
 		</tbody>

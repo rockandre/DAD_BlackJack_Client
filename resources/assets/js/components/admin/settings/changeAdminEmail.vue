@@ -11,17 +11,22 @@
 			</div>
 			<button type="submit" class="btn btn-primary" @click.prevent="changeAdminEmail">Change Email</button>
 		</form>
+		<div class="alert alert-success mt-2" v-if="success">
+			<button type="button" class="close-btn" v-on:click="success=false">&times;</button>
+			<strong>{{ successMessage }}</strong>
+		</div>
 	</div>
 </template>
 
 <script type="text/javascript">
-	import Errors from'../../classes/errors.js';
+	import Errors from'../../../classes/errors.js';
 	export default {
 		data: function(){
 			return {
 				newAdminEmail: '',
 				passwordToChangeAdminEmail: '',
 				submited: false,
+				successMessage: '',
 				success: false,
 				errors: new Errors(),
 			}
@@ -52,22 +57,23 @@
 
 				if (!this.hasErrors) {
 					const data = {
-						"newAdminEmail": this.currentPassword,
+						"newAdminEmail": this.newAdminEmail,
 						"password": this.passwordToChangeAdminEmail
 					};
 					axios.put('api/user/email/update', data, this.$root.headers)
 					.then((response) => {
 						this.success = true;
-						this.cancel();
+						this.successMessage = 'Administrator Email Changed.';
+						this.reset();
 					})
 					.catch((error) => {
 						this.errors.record(error.response.data);
 					});
 				}
 			},
-			cancel: function () {
+			reset: function () {
 				this.submited = false;
-				this.newAdminEmail = this.$root.user.email;
+				this.newAdminEmail = '';
 				this.passwordToChangeAdminEmail = '';
 			}
 		}

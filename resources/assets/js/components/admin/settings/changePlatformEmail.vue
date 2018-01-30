@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<h4>Platform Email</h4>
 		<form>
 			<div class="form-group">
 				<label for="platEmailDriver">Driver</label>
@@ -40,7 +39,7 @@
 </template>
 
 <script type="text/javascript">
-	import Errors from'../../classes/errors.js';
+	import Errors from'../../../classes/errors.js';
 	export default {
 		data: function(){
 			return {

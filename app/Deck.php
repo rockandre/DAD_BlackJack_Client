@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Deck extends Model
 {
-
 	protected $table = 'decks';
     /**
      * The attributes that are mass assignable.

@@ -21,7 +21,9 @@ class UserResource extends Resource
             'nickname' => $this->nickname,
             'blocked' => $this->blocked,
             'reason_blocked' => $this->reason_blocked,
-            'reason_reactivated' => $this->reason_reactivated
+            'reason_reactivated' => $this->reason_reactivated,
+            'total_points' => $this->total_points,
+            'total_games_played' => $this->total_games_played
         ];
     }
 }

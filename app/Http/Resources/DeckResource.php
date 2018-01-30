@@ -19,7 +19,8 @@ class DeckResource extends Resource
             'name' => $this->name,
             'hidden_face_image_path' => $this->hidden_face_image_path,
             'active' => $this->active,
-            'complete' => $this->complete
+            'complete' => $this->complete,
+            'cards' => $this->cards
         ];    
     }
 }

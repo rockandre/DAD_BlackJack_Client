@@ -25,9 +25,9 @@ Route::get('storage/{deck}/{card}', function ($deck, $card)
 {
     return Image::make(Storage::disk('local')->get('public/decks/'.$deck.'/'. $card))->response();
 });
-Route::get('storage/{deckpath}', function ($hidden_face_image_path)
+Route::get('storage/{deckpath}', function ($deckpath)
 {
-    return Image::make(Storage::disk('local')->get('public/decks/'.$hidden_face_image_path))->response();
+    return Image::make(Storage::disk('local')->get('public/decks/'.$deckpath))->response();
 });
 
 Route::middleware(['auth:api'])->group( function () {
@@ -58,5 +58,8 @@ Route::middleware(['auth:api'])->group( function () {
 	Route::get('decks', 'DecksControllerAPI@getDecks');
 	Route::delete('decks/{id}', 'DecksControllerAPI@destroy');
 	Route::put('decks/{id}', 'DecksControllerAPI@update');
-	Route::put('deck', 'DecksControllerAPI@addDeck');
+	Route::post('deck', 'DecksControllerAPI@addDeck');
+
+	// cards
+	Route::post('card', 'CardControllerAPI@addCard');
 });

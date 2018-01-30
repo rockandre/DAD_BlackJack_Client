@@ -4,7 +4,7 @@
 			<h1>{{ title }}</h1>
 		</div>
 		<!-- Nav tabs -->
-		<ul class="nav nav-tabs" role="tablist">
+		<ul class="nav nav-tabs nav-fill" role="tablist">
 		  <li class="nav-item">
 		    <a class="nav-link active" data-toggle="tab" href="#admin-password" role="tab">Change Administrator Password</a>
 		  </li>

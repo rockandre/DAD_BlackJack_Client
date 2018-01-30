@@ -62262,11 +62262,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     sockets: {
         connect: function connect() {
-            console.log('socket connected');
-            //console.log(this.$socket.id);
+            console.log('Socket Connected');
         },
         discconnect: function discconnect() {
-            console.log('socket disconnected');
+            console.log('Socket Disconnected');
             this.socketId = "";
         },
         lobby_changed: function lobby_changed() {
@@ -62377,12 +62376,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // play a game - Sends user action
             this.$socket.emit('play', { gameID: game.gameID, action: action });
         },
-        startGame: function startGame(game) {
+        start: function start(game) {
             this.$socket.emit('start_game', { gameID: game.gameID });
         },
         close: function close(game) {
-            // to close a game
-            this.$socket.emit('remove_game', { gameID: game.gameID });
+            this.$socket.emit('remove_game');
+        },
+        leave: function leave(game) {
+            this.$socket.emit('leave_game', { gameID: game.gameID });
         }
     },
     components: {
@@ -62580,6 +62581,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['game'],
@@ -62602,13 +62605,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         currentPlayer: function currentPlayer() {
-            //return this.user.nickname;
             return this.$root.user.nickname;
         },
         numberOfPlayers: function numberOfPlayers() {
             return this.game.playerList.length;
         },
         message: function message() {
+            var _this = this;
+
             if (!this.game.gameStarted) {
                 if (this.game.playerList.length < 2) {
                     return "Waiting for Players To Join";
@@ -62627,7 +62631,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         return this.game.winners[0].name + " win! You lose!!";
                     }
                 } else {
-                    return "The game ended in a Tie!";
+                    var winnersString = '';
+                    this.game.winners.forEach(function (player, index) {
+                        winnersString += player.name;
+                        if (index < _this.game.winners.length - 1) {
+                            winnersString += " / ";
+                        }
+                    });
+                    return "The game ended in a Tie! Players: " + winnersString;
                 }
             } else {
                 if (!this.playerAction && this.game.playerList[this.ownPlayerNumber].stand == 0) {
@@ -62654,7 +62665,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             } else if (this.game.gameEnded) {
                 if (this.game.winners.length == 1) {
-                    if (this.game.winners[0].name == this.$root.nickname) {
+                    if (this.game.winners[0].name == this.$root.user.nickname) {
                         return "alert-success";
                     } else {
                         return "alert-danger";
@@ -62682,9 +62693,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.myHand.push(data.hand[data.hand.length - 1]);
             }
             this.playerAction = false;
-            if (this.handSum == 21) {
+            if (this.handSum() >= 21) {
                 this.playerAction = true;
-                this.$emit('clickaction', this.game, this.stand);
             }
         }
     },
@@ -62716,16 +62726,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.$emit('startgame', this.game);
             }
         },
-        closeGame: function closeGame() {
-            this.$parent.close(this.game);
-        },
         calcOwnPlayerNumber: function calcOwnPlayerNumber() {
-            var _this = this;
+            var _this2 = this;
 
             var i = 0;
             var finali = -1;
-            this.game.playerSocketList.forEach(function (element) {
-                if (_this.socketID == element) {
+            this.game.playerList.forEach(function (element) {
+                if (_this2.currentPlayer == element.name) {
                     finali = i;
                 }
                 i++;
@@ -62738,6 +62745,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 sum += card.value;
             });
             return sum;
+        },
+        leaveGame: function leaveGame() {
+            this.$emit('leavegame', this.game);
+        },
+        closeGame: function closeGame() {
+            this.$emit('closegame');
         }
     },
     mounted: function mounted() {
@@ -62765,19 +62778,38 @@ var render = function() {
     _c("div", { staticClass: "game-zone-content" }, [
       _c("div", { staticClass: "alert", class: _vm.alerttype }, [
         _c("h4", [_vm._v(_vm._s(_vm.message))]),
-        _c(
-          "a",
-          {
-            attrs: { href: "#" },
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                _vm.closeGame($event)
-              }
-            }
-          },
-          [_vm._v("Leave Game")]
-        )
+        _vm._v(" "),
+        !this.game.gameStarted
+          ? _c(
+              "a",
+              {
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.leaveGame()
+                  }
+                }
+              },
+              [_vm._v("Leave Game")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        this.game.gameEnded
+          ? _c(
+              "a",
+              {
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.closeGame()
+                  }
+                }
+              },
+              [_vm._v("Close Game")]
+            )
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c(
@@ -63109,7 +63141,12 @@ var render = function() {
             _c("game", {
               key: game.gameID,
               attrs: { game: game },
-              on: { startgame: _vm.startGame, clickaction: _vm.play }
+              on: {
+                startgame: _vm.start,
+                clickaction: _vm.play,
+                leavegame: _vm.leave,
+                closegame: _vm.close
+              }
             })
           ]
         })

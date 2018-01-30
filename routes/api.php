@@ -44,3 +44,14 @@ Route::middleware(['auth:api'])->group( function () {
 	// settings
 	Route::post('/settings/update', 'ConfigEmailControllerAPI@update');
 });
+
+
+// Server to server
+Route::post('game/create', 'GameControllerAPI@create');
+Route::get('decks/quantity', 'DeckControllerAPI@getQuantity');
+Route::get('decks/{id}', 'DeckControllerAPI@getCardsByDeck');
+
+Route::get('/images/event/{filename}', function ($filename)
+{
+	return Image::make(Storage::disk('local')->get('public/deck1/' . $filename))->response();
+});

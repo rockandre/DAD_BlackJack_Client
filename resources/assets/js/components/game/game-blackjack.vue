@@ -204,7 +204,7 @@ export default {
     methods: {
         cardImageURL(cardid) {
             var imgSrc = String(cardid);
-            return 'img/baralho'+ this.baralhoImgID + "/" + imgSrc + '.png';
+            return '/api/storage/'+ this.game.deck.name + "/" + imgSrc + '.png';
         },
         clickAction(action){
             if(!this.game.gameEnded){

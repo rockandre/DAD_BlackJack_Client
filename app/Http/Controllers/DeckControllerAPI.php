@@ -150,7 +150,7 @@ class DeckControllerAPI extends Controller
         $deck = Deck::findOrFail($id);
 
         if(!is_null($deck)) {
-            return response()->json(['cards' => $deck->cards], 200);
+            return response()->json(['cards' => $deck->cards, 'name' => $deck->name], 200);
         }
 
         return response()->json(['error' => "Invalid Request"], 400);

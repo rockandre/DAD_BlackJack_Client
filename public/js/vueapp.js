@@ -991,63 +991,63 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var User = function () {
-        function User() {
-                _classCallCheck(this, User);
+    function User() {
+        _classCallCheck(this, User);
 
-                this.name = '';
+        this.name = '';
 
-                this.email = '';
+        this.email = '';
 
-                this.password = '';
+        this.password = '';
 
-                this.password_confirmation = '';
+        this.password_confirmation = '';
 
-                this.nickname = '';
+        this.nickname = '';
 
-                this.access_token = '';
+        this.access_token = '';
 
-                this.blocked = false;
+        this.blocked = false;
 
-                this.admin = false;
+        this.admin = false;
 
-                this.total_points = 0;
+        this.total_points = 0;
 
-                this.total_games_played = 0;
+        this.total_games_played = 0;
+    }
+
+    _createClass(User, [{
+        key: 'set',
+        value: function set(field, value) {
+
+            this[field] = value;
         }
+    }, {
+        key: 'get',
+        value: function get(field) {
 
-        _createClass(User, [{
-                key: 'set',
-                value: function set(field, value) {
+            if (this[field]) {
+                return this[field];
+            }
+        }
+    }, {
+        key: 'parse',
+        value: function parse(auth_user) {
+            this.name = auth_user.name;
+            this.email = auth_user.email;
+            this.nickname = auth_user.nickname;
+            this.admin = auth_user.admin == 0 ? false : true;
+            this.blocked = auth_user.blocked == 0 ? false : true;
+            this.total_points = auth_user.total_points;
+            this.total_games_played = auth_user.total_games_played;
+        }
+    }, {
+        key: 'logged',
+        value: function logged() {
+            return this.access_token != '' ? true : false;
+        }
+    }]);
 
-                        this[field] = value;
-                }
-        }, {
-                key: 'get',
-                value: function get(field) {
-
-                        if (this[field]) {
-                                return this[field];
-                        }
-                }
-        }, {
-                key: 'parse',
-                value: function parse(auth_user) {
-                        this.name = auth_user.name;
-                        this.email = auth_user.email;
-                        this.nickname = auth_user.nickname;
-                        this.admin = auth_user.admin == 0 ? false : true;
-                        this.blocked = auth_user.blocked == 0 ? false : true;
-                        this.total_points = auth_user.total_points;
-                        this.total_games_played = auth_user.total_games_played;
-                }
-        }, {
-                key: 'logged',
-                value: function logged() {
-                        return this.access_token != '' ? true : false;
-                }
-        }]);
-
-        return User;
+    return User;
 }();
 
 ;
@@ -61232,7 +61232,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.col-5 {\r\n\tpadding: 0;\n}\n.padding-top {\r\n\tpadding-top: 55px;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n.col-5 {\n\tpadding: 0;\n}\n.padding-top {\n\tpadding-top: 55px;\n}\n\n", ""]);
 
 // exports
 
@@ -62851,7 +62851,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.padding-top {\r\n    padding-top: 55px;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n.padding-top {\n    padding-top: 55px;\n}\n\n", ""]);
 
 // exports
 
@@ -63129,7 +63129,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.gameseparator[data-v-7f7c26b9]{\r\n    border-style: solid;\r\n    border-width: 2px 0 0 0;\r\n    border-color: black;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n.gameseparator[data-v-7f7c26b9]{\n    border-style: solid;\n    border-width: 2px 0 0 0;\n    border-color: black;\n}\n\n", ""]);
 
 // exports
 
@@ -63348,7 +63348,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         cardImageURL: function cardImageURL(cardid) {
             var imgSrc = String(cardid);
-            return 'img/baralho' + this.baralhoImgID + "/" + imgSrc + '.png';
+            return '/api/storage/' + this.game.deck.name + "/" + imgSrc + '.png';
         },
         clickAction: function clickAction(action) {
             if (!this.game.gameEnded) {
@@ -63969,7 +63969,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\np[data-v-678cf749] {\r\n\tfont-size: 2em;\r\n\ttext-align: center;\n}\r\n", ""]);
+exports.push([module.i, "\np[data-v-678cf749] {\n\tfont-size: 2em;\n\ttext-align: center;\n}\n", ""]);
 
 // exports
 
@@ -64161,7 +64161,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\ntr.activerow[data-v-4f1e66f2] {\r\n\tbackground: #123456  !important;\r\n\tcolor: #fff          !important;\n}\n.table td[data-v-4f1e66f2] {\r\n\tborder-top: 0px !important;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\ntr.activerow[data-v-4f1e66f2] {\n\tbackground: #123456  !important;\n\tcolor: #fff          !important;\n}\n.table td[data-v-4f1e66f2] {\n\tborder-top: 0px !important;\n}\n\n", ""]);
 
 // exports
 
@@ -65120,7 +65120,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\np[data-v-6cac7c85] {\r\n\tfont-size: 2em;\r\n\ttext-align: center;\n}\r\n", ""]);
+exports.push([module.i, "\np[data-v-6cac7c85] {\n\tfont-size: 2em;\n\ttext-align: center;\n}\n", ""]);
 
 // exports
 
@@ -65310,7 +65310,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\ntr.activerow[data-v-e8d9587a] {\r\n\tbackground: #123456  !important;\r\n\tcolor: #fff          !important;\n}\ntd\r\n.table td[data-v-e8d9587a] {\r\n\tborder-top: 0px !important;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\ntr.activerow[data-v-e8d9587a] {\n\tbackground: #123456  !important;\n\tcolor: #fff          !important;\n}\ntd\n.table td[data-v-e8d9587a] {\n\tborder-top: 0px !important;\n}\n\n", ""]);
 
 // exports
 
@@ -65585,7 +65585,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.img_hidden {\r\n\twidth: 60%;\n}\n.card {\r\n\twidth: 15%;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n.img_hidden {\n\twidth: 60%;\n}\n.card {\n\twidth: 15%;\n}\n\n", ""]);
 
 // exports
 
@@ -66236,7 +66236,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\np[data-v-49c6dd8c] {\r\n\tfont-size: 2em;\r\n\ttext-align: center;\n}\nimg[data-v-49c6dd8c] {\r\n  width: 15%;\r\n  margin: auto;\r\n  display: block;\r\n  margin-bottom: 10px;\n}\r\n", ""]);
+exports.push([module.i, "\np[data-v-49c6dd8c] {\n\tfont-size: 2em;\n\ttext-align: center;\n}\nimg[data-v-49c6dd8c] {\n  width: 15%;\n  margin: auto;\n  display: block;\n  margin-bottom: 10px;\n}\n", ""]);
 
 // exports
 
@@ -66520,7 +66520,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\np[data-v-340b6b67] {\r\n\tfont-size: 2em;\r\n\ttext-align: center;\n}\r\n", ""]);
+exports.push([module.i, "\np[data-v-340b6b67] {\n\tfont-size: 2em;\n\ttext-align: center;\n}\n", ""]);
 
 // exports
 

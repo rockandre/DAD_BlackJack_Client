@@ -70,7 +70,7 @@ Route::middleware(['auth:api'])->group( function () {
 // Server to server
 Route::post('game/create', 'GameControllerAPI@create');
 Route::put('game/update/{id}', 'GameControllerAPI@update');
-Route::get('decks/quantity', 'DeckControllerAPI@getQuantity');
+Route::get('decks/minMax', 'DeckControllerAPI@getMinMax');
 Route::get('decks/{id}', 'DeckControllerAPI@getCardsByDeck');
 
 Route::get('/images/event/{filename}', function ($filename)

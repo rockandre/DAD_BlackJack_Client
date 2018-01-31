@@ -139,10 +139,11 @@ class DeckControllerAPI extends Controller
         }
     }
 
-    public function getQuantity() {
+    public function getMinMax() {
+        $deck = Deck::where('complete', 1)->where('active', 1)->first();
         $count = Deck::where('complete', 1)->where('active', 1)->count();
 
-        return response()->json(['decks' => $count], 200);
+        return response()->json(['min' => $deck->id, 'max' => $count], 200);
     }
 
     public function getCardsByDeck($id) {

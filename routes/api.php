@@ -19,6 +19,8 @@ use Illuminate\Http\Request;
 // auth
 Route::post('login', 'LoginControllerAPI@login');
 Route::post('register', 'RegisterControllerAPI@register');
+Route::post('password/email', 'LoginControllerAPI@sendEmail');
+Route::post('password/reset', 'LoginControllerAPI@resetPassword');
 
 // image
 Route::get('storage/{deck}/{card}', function ($deck, $card)

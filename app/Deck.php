@@ -20,4 +20,8 @@ class Deck extends Model
     {
         return $this->belongsTo('App\Game', 'deck_used');
     }
+
+    public function cards() {
+    	return $this->hasMany('App\Card', 'deck_id');
+    }
 }

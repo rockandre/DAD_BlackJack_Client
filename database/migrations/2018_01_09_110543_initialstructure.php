@@ -27,6 +27,7 @@ class InitialStructure extends Migration
             $table->string('reason_reactivated')->nullable();
             $table->integer('total_points')->default(0);
             $table->integer('total_games_played')->default(0);
+            $table->string('avatar')->default('blank.png');
             $table->timestamps();
         });
 
@@ -79,7 +80,7 @@ class InitialStructure extends Migration
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->tinyint('status')->default(0);
+            $table->tinyInteger('status')->default(0);
         });
     }
 

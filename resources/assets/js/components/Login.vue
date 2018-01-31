@@ -25,6 +25,7 @@
 								<label class="col-4 col-form-label" for="password">Password</label>
 								<div class="col-8">
 									<input class="form-control" type="password" name="password" v-model="user.password">
+									<router-link to="/password/reset" class="ml-2" >Forget Password?</router-link>
 								</div>
 							</div>
 							<a type="submit" class="btn btn-primary" @click.prevent="login">Login</a>

@@ -15,7 +15,7 @@ use Hash;
 
 
 
-class DecksControllerAPI extends Controller
+class DeckControllerAPI extends Controller
 {
     public function getDecks(Request $request)
     {
@@ -42,7 +42,7 @@ class DecksControllerAPI extends Controller
      */
     public function create()
     {
-    
+        
     }
 
     /**
@@ -99,9 +99,9 @@ class DecksControllerAPI extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-                'active' => 'required|integer',
-                'complete' => 'required|integer'
-            ]);
+            'active' => 'required|integer',
+            'complete' => 'required|integer'
+        ]);
 
         $deck = Deck::findOrFail($id);
         $deck->update($request->all());
@@ -137,5 +137,21 @@ class DecksControllerAPI extends Controller
         } else {
             return response()->json(['msg' => 'Invalid Request.'], 400);
         }
+    }
+
+    public function getQuantity() {
+        $count = Deck::where('complete', 1)->where('active', 1)->count();
+
+        return response()->json(['decks' => $count], 200);
+    }
+
+    public function getCardsByDeck($id) {
+        $deck = Deck::findOrFail($id);
+
+        if(!is_null($deck)) {
+            return response()->json(['cards' => $deck->cards], 200);
+        }
+
+        return response()->json(['error' => "Invalid Request"], 400);
     }
 }

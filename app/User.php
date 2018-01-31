@@ -10,6 +10,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
+
+    protected $table = 'users';
     /**
      * The attributes that are mass assignable.
      *
@@ -27,4 +29,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function games()
+    {
+        return $this->belongsToMany('App\Game', 'game_user', 'user_id', 'game_id');
+    }
 }

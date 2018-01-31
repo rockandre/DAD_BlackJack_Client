@@ -79,7 +79,7 @@ class InitialStructure extends Migration
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->boolean('winner')->default(true);
+            $table->tinyint('status')->default(0);
         });
     }
 

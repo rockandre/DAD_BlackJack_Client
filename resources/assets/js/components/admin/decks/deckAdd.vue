@@ -60,7 +60,7 @@ export default {
 			this.image = '';
 		},
 		addDeck: function(){
-			axios.put('api/deck', {'name': this.deckName, 'image': this.image}, this.$root.headers)
+			axios.post('api/deck', {'name': this.deckName, 'image': this.image}, this.$root.headers)
 			.then(response=>{
 	                	// Copy object properties from response.data.data to this.user
 	                	// without creating a new reference

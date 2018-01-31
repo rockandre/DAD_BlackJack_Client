@@ -3,11 +3,11 @@
 		<div class="row">
 			<div class="w-75 p-3">
 				<div class="jumbotron">
-					<h1>Editting Deck: {{this.deck.name}}</h1>
+					<h1>Editting Deck: {{this.deckAux.name}}</h1>
 				</div>
 			</div>
 			<div class="w-25 p-3">
-				<img class="img_hidden" :src="'/api/storage/'+this.deck.hidden_face_image_path">
+				<img class="img_hidden" :src="'/api/storage/'+this.deckAux.hidden_face_image_path">
 			</div>
 		</div>
 		<table class="table">
@@ -20,49 +20,65 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(card, index) in cards">
+				<tr v-for="(card, index) in deckAux.cards">
 					<td>{{ card.suite }}</td>
 					<td>{{ card.value }}</td>
 					<td>
-						<img class="card" :src="card.image" />
+						<img class="card" v-if="card.image && card.image!='REMOVED'" :src="card.image" />
 					</td>
 					<td>
-						<input type="file" class="form-control-file" @change="onFileChange" @click="this.currentCard = card.id" aria-describedby="fileHelp">
-						<button v-if="card.image" @click="removeImage" class="btn btn-warning">Remove image</button>
+						<input v-if="!card.image || card.image=='REMOVED'" type="file" class="form-control-file " @change="onFileChange" @click="setCurrentCard(index)" aria-describedby="fileHelp">
+						<button v-if="card.image && card.image!='REMOVED'" @click="removeImage(index)" class="btn btn-warning">Remove image</button>
 					</td>
 				</tr>
 			</tbody>
-		</table>	
+		</table>
+		<div class="form-group">
+			<a class="btn btn-primary" v-on:click.prevent="saveCards">Save</a>
+			<a class="btn btn-danger" v-on:click.prevent="cancelCards()">Cancel</a>
+		</div>	
 	</div>
 </template>
 
 <script>
-module.exports={
+import Card from '../../../classes/card.js';
+import Deck from '../../../classes/deck.js';
+export default {
 	props: ['deck'],
 	data: function(){
 		return { 
-			image: undefined,
-			currentCard: ''
+			image: '',
+			currentCard: 0,
+			deckAux: new Deck(),
+			cardsWithImage: []
+
 		}
 	}, 
-	computed: {
-		cards() {
-			var suites = ["Club","Diamond","Heart","Spade"];
-			var values = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
-			let i = 0;
-			var cards = {};
-			for (var suite of suites) {
-				for (var value of values){
-					cards[i] = {id: i, suite: suite, value: value, image: undefined};
-					i++;
+	methods: {
+		getCardsWithImage: function () {
+			this.cardsWithImage = [];
+			for (var card of this.deckAux.cards) {
+				if (card.image != '' ) {
+					this.cardsWithImage.push(card);
 				}
 			}
-			return cards;
-		}
-	},
-	methods: {
+		},
+		saveCards: function(){
+			this.getCardsWithImage();
+			axios.post('api/card', {'deckId': this.deck.id,'deckName': this.deck.name, 'cards': this.deckAux.cards}, this.$root.headers)
+			.then(response => {
+				this.deck.complete = response.data.complete;
+				this.deckAux.complete = response.data.complete;
+				this.$emit('deck-saved', this.deck);
+			});
+		},
+		cancelCards: function(){
+			this.$emit('deck-canceled', this.deck);
+		},
+		setCurrentCard(card) {
+			this.currentCard=card;
+		},
 		onFileChange(e) {
-			console.log(e);
 			var files = e.target.files || e.dataTransfer.files;
 			if (!files.length)
 				return;
@@ -74,15 +90,13 @@ module.exports={
 			var vm = this;
 
 			reader.onload = (e) => {
-				this.cards[this.currentCard].image = e.target.result;
+				vm.deckAux.cards[vm.currentCard].image = e.target.result;
 			};
 			reader.readAsDataURL(file);
+
 		},
-		removeImage: function (e) {
-			this.image = '';
-		},
-		changeCard(card) {
-			this.currentCard = card;
+		removeImage: function (currentCard) {
+			this.deckAux.cards[currentCard].image = 'REMOVED';
 		},
 		saveDeck: function(){
 
@@ -90,20 +104,46 @@ module.exports={
 		cancelEdit: function(){
 
 		},
-		populateTable: function() {
+
+		populateCards(callback) {
 			var suites = ["Club","Diamond","Heart","Spade"];
 			var values = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
 			let i = 0;
+			let cards = [];
 			for (var suite of suites) {
 				for (var value of values){
-					this.cards[i] = {suite:suite, value: value};
+					let exists = 0;
+					let cardId = 0;
+					var image = new Image();
+					this.deck.cards.forEach(card => {
+						if(card.value == value && card.suite == suite) {
+							image.src = '/api/storage/'+card.path;
+							exists = 1;
+							cardId = card.id;
+						}
+					});
+
+					if(exists) {
+						cards[i] = new Card(cardId, this.deckAux.id, image.src, suite, value);
+					} else {
+						cards[i] = new Card(i, this.deckAux.id, '', suite, value);
+					}
+
+					console.log(""+i);
+					if(i == 51) {
+						callback(cards);
+					}
 					i++;
 				}
 			}
 		}
 	},
 	mounted() {
-		this.populateTable();
+		this.deckAux.parse(this.deck);
+		let vm = this;
+		this.populateCards(function(cardsAux) {
+			vm.deckAux.cards = cardsAux;
+		});
 	}
 }
 </script>
@@ -113,6 +153,8 @@ module.exports={
 .img_hidden {
 	width: 60%;
 }
+
+
 
 .card {
 	width: 15%;

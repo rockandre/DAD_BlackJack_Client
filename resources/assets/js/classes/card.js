@@ -4,15 +4,17 @@
 
 class Card  {
 
-    constructor(){
+    constructor(idAux, deck_idAux, imageAux, suiteAux, valueAux){
 
-        this.value =  '';
+        this.id =  idAux;
 
-        this.suite = '';
+        this.deck_id = deck_idAux;
 
-        this.deckId = '';
+        this.image = imageAux;
 
-        this.path = '';
+        this.suite = suiteAux;
+
+        this.value = valueAux;
     }
 
     set(field, value){
@@ -25,6 +27,15 @@ class Card  {
         if(this[field]) {
             return this[field];
         }
+    }
+
+    parse(card)
+    {
+        this.id = card.id;
+        this.deck_id = card.deck_id;
+        this.path = card.path;
+        this.suite = card.suite;
+        this.value = card.value;
     }
 };
 

@@ -19,6 +19,18 @@ use Illuminate\Http\Request;
 // auth
 Route::post('login', 'LoginControllerAPI@login');
 Route::post('register', 'RegisterControllerAPI@register');
+Route::post('password/email', 'LoginControllerAPI@sendEmail');
+Route::post('password/reset', 'LoginControllerAPI@resetPassword');
+
+// image
+Route::get('storage/{deck}/{card}', function ($deck, $card)
+{
+    return Image::make(Storage::disk('local')->get('public/decks/'.$deck.'/'. $card))->response();
+});
+Route::get('storage/{deckpath}', function ($deckpath)
+{
+    return Image::make(Storage::disk('local')->get('public/decks/'.$deckpath))->response();
+});
 
 Route::middleware(['auth:api'])->group( function () {
 
@@ -43,4 +55,13 @@ Route::middleware(['auth:api'])->group( function () {
 
 	// settings
 	Route::post('/settings/update', 'ConfigEmailControllerAPI@update');
+
+	// decks
+	Route::get('decks', 'DecksControllerAPI@getDecks');
+	Route::delete('decks/{id}', 'DecksControllerAPI@destroy');
+	Route::put('decks/{id}', 'DecksControllerAPI@update');
+	Route::post('deck', 'DecksControllerAPI@addDeck');
+
+	// cards
+	Route::post('card', 'CardControllerAPI@addCard');
 });

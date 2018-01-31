@@ -26,12 +26,18 @@ class ConfigEmailControllerAPI extends Controller
             'password' => 'required',
             'host' => 'required',
             'port' => 'required|integer|min:1',
-            'encryption' => 'required'
+            'encryption' => 'required',
+            'passwordAdmin' => 'required'
         ]);
 
         if ($request->wantsJson() && !$validator->fails()) {
 
             try{
+                if (!Hash::check($request->input('passwordAdmin'), $request->user()->password)) {
+                    return response()->json(
+                        ['passwordAdmin' => 'Admin Password incorrect.'], 400);
+                }
+
                 $email = $request->input('email');
 
                 config([

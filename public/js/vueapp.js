@@ -63348,7 +63348,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         cardImageURL: function cardImageURL(cardid) {
             var imgSrc = String(cardid);
-            return 'img/baralho' + this.baralhoImgID + "/" + imgSrc + '.png';
+            return '/api/storage/' + this.game.deck.name + "/" + imgSrc + '.png';
         },
         clickAction: function clickAction(action) {
             if (!this.game.gameEnded) {

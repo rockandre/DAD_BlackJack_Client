@@ -129,13 +129,13 @@ class DeckControllerAPI extends Controller
             $image = Image::make($image);
             $image->heighten(726);
             if (!file_exists(storage_path('app/public/decks/'.$name))) {
-                mkdir(storage_path('app/public/decks/'.$name), 777, true);
+                mkdir(storage_path('app/public/decks/'.$name), 0777, true);
             }
             $image->save(storage_path('app/public/decks/'.$name.'/'.$fileName), 90);
 
             return response()->json(['msg' => 'Deck Created.'], 200);
         } else {
-            return response()->json(['msg' => 'Invalid Request.'], 400);
+            return response()->json(['msg' => 'Invalid Request.', 'errors' => $validator->errors()], 400);
         }
     }
 

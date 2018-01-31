@@ -16,7 +16,7 @@ window.Vue = require('vue');
 
 Vue.use(VueRouter);
 
-Vue.use(VueSocketio, 'http://192.168.10.10:8080');
+Vue.use(VueSocketio, 'http://188.166.152.94:8080');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

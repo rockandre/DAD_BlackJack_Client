@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Game extends Model
 {
-    use HasApiTokens, Notifiable;
-
 
     protected $table = 'games';
     /**
@@ -17,7 +15,7 @@ class Game extends Model
      * @var array
      */
     protected $fillable = [
-        'status', 'total_players'
+        'status', 'total_players', 'created_by', 'deck_used'
     ];
 
     /**

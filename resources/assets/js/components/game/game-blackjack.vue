@@ -6,7 +6,9 @@
         </div>
         <div class="game-zone-content">       
             <div class="alert" :class="alerttype">
-                <h4>{{ message }}</h4><a href="#" v-on:click.prevent="closeGame">Leave Game</a>
+                <h4>{{ message }}</h4>
+                <a href="#" v-on:click.prevent="leaveGame()" v-if="!this.game.gameStarted">Leave Game</a>
+                <a href="#" v-on:click.prevent="closeGame()" v-if="this.game.gameEnded">Close Game</a>
             </div>
             <div id="buttonsArea" class="btn-group" role="group" align="text-center">
                 <button class="btn btn-s btn-success btn-secundary" v-on:click="startGame()" v-if="ownPlayerNumber==0 && this.game.gameCanBeStarted && !this.game.gameStarted">START GAME</button>
@@ -108,7 +110,6 @@ export default {
     },
     computed: {
         currentPlayer(){
-            //return this.user.nickname;
             return this.$root.user.nickname;
         },
         numberOfPlayers(){
@@ -133,7 +134,14 @@ export default {
                         return this.game.winners[0].name+" win! You lose!!";
                     }
                 } else {
-                    return "The game ended in a Tie!";
+                    let winnersString = '';
+                    this.game.winners.forEach((player, index)=> {
+                        winnersString += player.name;
+                        if(index < (this.game.winners.length-1)){
+                            winnersString += " / ";
+                        }
+                    });
+                    return "The game ended in a Tie! Players: "+winnersString;
                 }
             } else {
                 if(!this.playerAction && this.game.playerList[this.ownPlayerNumber].stand == 0){
@@ -160,7 +168,7 @@ export default {
                 }
             } else if(this.game.gameEnded) {
                 if(this.game.winners.length == 1) {
-                    if(this.game.winners[0].name == this.$root.nickname) {
+                    if(this.game.winners[0].name == this.$root.user.nickname) {
                         return "alert-success";
                     } else {
                         return "alert-danger";
@@ -188,16 +196,15 @@ export default {
                 this.myHand.push(data.hand[data.hand.length-1]);
             }
             this.playerAction = false;
-            if(this.handSum == 21) {
+            if(this.handSum() >= 21) {
                 this.playerAction = true;
-                this.$emit('clickaction', this.game, this.stand);
             }
         }
     },
     methods: {
         cardImageURL(cardid) {
             var imgSrc = String(cardid);
-            return 'img/baralho'+ this.baralhoImgID + "/" + imgSrc + '.png';
+            return '/api/storage/'+ this.game.deck.name + "/" + imgSrc + '.png';
         },
         clickAction(action){
             if(!this.game.gameEnded){
@@ -223,14 +230,11 @@ export default {
             }
 
         },
-        closeGame(){
-            this.$parent.close(this.game);
-        },
         calcOwnPlayerNumber(){
             var i=0;
             var finali = -1;
-            this.game.playerSocketList.forEach(element => {
-                if(this.socketID == element){
+            this.game.playerList.forEach(element => {
+                if(this.currentPlayer == element.name){
                     finali = i;
                 }
                 i++;
@@ -243,7 +247,14 @@ export default {
                 sum += card.value;
             })
             return sum;
-        }
+        },
+        leaveGame() {
+            this.$emit('leavegame', this.game);
+        },
+        closeGame() {
+            this.$emit('closegame');
+        },
+
     },
     mounted(){
         this.socketID = this.$socket.id;

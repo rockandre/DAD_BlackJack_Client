@@ -71,11 +71,23 @@ Route::middleware(['auth:api'])->group( function () {
 	Route::post('/settings/update', 'ConfigEmailControllerAPI@update');
 
 	// decks
-	Route::get('decks', 'DecksControllerAPI@getDecks');
-	Route::delete('decks/{id}', 'DecksControllerAPI@destroy');
-	Route::put('decks/{id}', 'DecksControllerAPI@update');
-	Route::post('deck', 'DecksControllerAPI@addDeck');
+	Route::get('decks', 'DeckControllerAPI@getDecks');
+	Route::delete('decks/{id}', 'DeckControllerAPI@destroy');
+	Route::put('decks/{id}', 'DeckControllerAPI@update');
+	Route::post('deck', 'DeckControllerAPI@addDeck');
 
 	// cards
 	Route::post('card', 'CardControllerAPI@addCard');
+});
+
+
+// Server to server
+Route::post('game/create', 'GameControllerAPI@create');
+Route::put('game/update/{id}', 'GameControllerAPI@update');
+Route::get('decks/minMax', 'DeckControllerAPI@getMinMax');
+Route::get('decks/{id}', 'DeckControllerAPI@getCardsByDeck');
+
+Route::get('/images/event/{filename}', function ($filename)
+{
+	return Image::make(Storage::disk('local')->get('public/deck1/' . $filename))->response();
 });

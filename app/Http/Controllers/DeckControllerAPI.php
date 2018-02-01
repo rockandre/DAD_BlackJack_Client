@@ -15,7 +15,7 @@ use Hash;
 
 
 
-class DecksControllerAPI extends Controller
+class DeckControllerAPI extends Controller
 {
     public function getDecks(Request $request)
     {
@@ -42,7 +42,7 @@ class DecksControllerAPI extends Controller
      */
     public function create()
     {
-    
+        
     }
 
     /**
@@ -99,9 +99,9 @@ class DecksControllerAPI extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-                'active' => 'required|integer',
-                'complete' => 'required|integer'
-            ]);
+            'active' => 'required|integer',
+            'complete' => 'required|integer'
+        ]);
 
         $deck = Deck::findOrFail($id);
         $deck->update($request->all());
@@ -129,13 +129,29 @@ class DecksControllerAPI extends Controller
             $image = Image::make($image);
             $image->heighten(726);
             if (!file_exists(storage_path('app/public/decks/'.$name))) {
-                mkdir(storage_path('app/public/decks/'.$name), 777, true);
+                mkdir(storage_path('app/public/decks/'.$name), 0777, true);
             }
             $image->save(storage_path('app/public/decks/'.$name.'/'.$fileName), 90);
 
             return response()->json(['msg' => 'Deck Created.'], 200);
         } else {
-            return response()->json(['msg' => 'Invalid Request.'], 400);
+            return response()->json(['msg' => 'Invalid Request.', 'errors' => $validator->errors()], 400);
         }
+    }
+
+    public function getMinMax() {
+        $ids = Deck::where('complete', 1)->where('active', 1)->pluck('id');
+       
+        return response()->json(['ids' => $ids], 200);
+    }
+
+    public function getCardsByDeck($id) {
+        $deck = Deck::findOrFail($id);
+
+        if(!is_null($deck)) {
+            return response()->json(['cards' => $deck->cards, 'name' => $deck->name], 200);
+        }
+
+        return response()->json(['error' => "Invalid Request"], 400);
     }
 }

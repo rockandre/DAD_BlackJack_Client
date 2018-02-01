@@ -6,8 +6,8 @@
             <hr>
             <h4>Pending games (<a href="#" @click.prevent="loadLobby">Refresh</a>)</h4>
             <lobby :games="lobbyGames" @join-click="join" @resume-click="resume"></lobby>
-            <template v-for="game in activeGames" v-bind:game="game">
-                <game :game="game" v-on:startgame="startGame" v-on:clickaction="play" v-bind:key="game.gameID"></game>
+            <template v-for="game in activeGames" :game="game">
+                <game :game="game" @startgame="start" @clickaction="play" :key="game.gameID" @leavegame="leave" @closegame="close"></game>
             </template>
         </div>
     </div>
@@ -40,11 +40,10 @@ export default {
     },
     sockets:{
         connect(){
-            console.log('socket connected');
-            //console.log(this.$socket.id);
+            console.log('Socket Connected');
         },
         discconnect(){
-            console.log('socket disconnected');
+            console.log('Socket Disconnected');
             this.socketId = "";
         },
         lobby_changed(){
@@ -111,13 +110,14 @@ export default {
             // play a game - Sends user action
             this.$socket.emit('play', {gameID: game.gameID, action: action});
         },
-        startGame(game){
+        start(game){
             this.$socket.emit('start_game', {gameID: game.gameID});
         },
-        close(game){
-            // to close a game
-            this.$socket.emit('remove_game', {gameID: game.gameID});
-
+        close(game) {
+            this.$socket.emit('remove_game');
+        },
+        leave(game) {
+            this.$socket.emit('leave_game', {gameID: game.gameID});
         }
     },
     components: {

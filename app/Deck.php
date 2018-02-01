@@ -6,11 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Deck extends Model
 {
-	protected $fillable = [
-		'name', 'hidden_face_image_path', 'active', 'complete'
-	];
+	protected $table = 'decks';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'hidden_face_image_path', 'active', 'complete'
+    ];
 
-	public function cards() {
-		return $this->hasMany('App\Card', 'deck_id');
-	}
+    public function games()
+    {
+        return $this->belongsTo('App\Game', 'deck_used');
+    }
+
+    public function cards() {
+    	return $this->hasMany('App\Card', 'deck_id');
+    }
 }

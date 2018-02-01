@@ -16,10 +16,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 
-define('YOUR_SERVER_URL', 'http://blackjack.dad');
+define('YOUR_SERVER_URL', 'http://blackjackdad.ga');
 // Check "oauth_clients" table for next 2 values:
 define('CLIENT_ID', '2');
-define('CLIENT_SECRET','AOy4KbJhtpqmM8oSDQY7DxEszOzOih5tWB9YZgIF');
+
+// lage pc
+// define('CLIENT_SECRET','AOy4KbJhtpqmM8oSDQY7DxEszOzOih5tWB9YZgIF');
+
+// server online
+define('CLIENT_SECRET','zAU1HuNKTz1sBW28xXdoVeNBadUbdZpG7LQZtO8z');
+
+
 
 class LoginControllerAPI extends Controller
 {

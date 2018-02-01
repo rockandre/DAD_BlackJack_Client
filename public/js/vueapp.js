@@ -1656,7 +1656,7 @@ window.Vue = __webpack_require__(47);
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
-Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_socket_io___default.a, 'http://blackjackdad.ga:8080');
+Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_socket_io___default.a, 'http://blackjack.dad:8080');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

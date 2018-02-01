@@ -20,13 +20,12 @@ define('YOUR_SERVER_URL', 'http://blackjack.dad');
 // Check "oauth_clients" table for next 2 values:
 define('CLIENT_ID', '2');
 
+
 // lage pc
 // define('CLIENT_SECRET','AOy4KbJhtpqmM8oSDQY7DxEszOzOih5tWB9YZgIF');
 
-// server online
-define('CLIENT_SECRET','AOy4KbJhtpqmM8oSDQY7DxEszOzOih5tWB9YZgIF');
 
-
+define('CLIENT_SECRET','rf0jbDMOoUSO3xldjqiOUX0riYsLydUofzHiDMY2');
 
 class LoginControllerAPI extends Controller
 {

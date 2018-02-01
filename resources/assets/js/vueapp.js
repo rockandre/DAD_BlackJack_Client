@@ -16,10 +16,9 @@ window.Vue = require('vue');
 
 Vue.use(VueRouter);
 
-<<<<<<< HEAD
+
 //Vue.use(VueSocketio, 'http://blackjackdad.ga:8080');
-=======
->>>>>>> 87f08ab70192911c7ca88c36bc2c88e285a2bc97
+
 Vue.use(VueSocketio, 'http://blackjack.dad:8080');
 
 /**

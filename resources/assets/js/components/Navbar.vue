@@ -41,7 +41,7 @@
 							Welcome, <b>{{this.$root.user.name}}</b>
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="#">Profile</a>
+							<router-link to="/user" class="dropdown-item">Profile</router-link>
 							<a class="dropdown-item" href="#">ScoreBoard</a>
 							<a class="dropdown-item" href="#" @click.prevent="logout">Logout</a>
 						</div>
@@ -72,6 +72,7 @@ export default {
 					this.$root.user = new User();
 					this.$root.headers = {};
 					window.localStorage.removeItem('authToken');
+					this.$router.push('/');
 				});
 			},
 		},

@@ -11,20 +11,22 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="user in users"  :key="user.id" :class="{activerow: editingUser === user} ">
+			<tr v-for="user in users"  :key="user.id" v-if="!user.admin" :class="{activerow: editingUser === user} ">
+				
 				<td>{{ user.name }}</td>
 				<td>{{ user.email }}</td>
 				<td>{{ user.nickname }}</td>
 				<td>{{ user.total_points}}</td>
 				<td>{{ user.total_games_played}}</td>
 				<td>
-					<div class="btn-group col-12" role="group" aria-label="Basic example">
-						<a class="btn btn-xs btn-primary col-4" v-on:click.prevent="editUser(user)">Edit</a>
-						<a class="btn btn-xs btn-warning col-4" v-on:click.prevent="blockUser(user)" v-if="!user.blocked">Block</a>
-						<a class="btn btn-xs btn-warning col-4" v-on:click.prevent="blockUser(user)" v-if="user.blocked">Unblock</a>
-						<a class="btn btn-xs btn-danger col-4" v-on:click.prevent="deleteUser(user)">Delete</a>
+					<div class="btn-group" role="group" aria-label="Basic example">
+						<a class="btn btn-xs btn-primary" v-on:click.prevent="editUser(user)">Edit</a>
+						<a class="btn btn-xs btn-warning" v-on:click.prevent="blockUser(user)" v-if="!user.blocked">Block</a>
+						<a class="btn btn-xs btn-warning" v-on:click.prevent="blockUser(user)" v-if="user.blocked">Unblock</a>
+						<a class="btn btn-xs btn-danger" v-on:click.prevent="deleteUser(user)">Delete</a>
 					</div>
 				</td>
+				
 			</tr>
 		</tbody>
 	</table>

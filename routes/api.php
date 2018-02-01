@@ -22,14 +22,26 @@ Route::post('register', 'RegisterControllerAPI@register');
 Route::post('password/email', 'LoginControllerAPI@sendEmail');
 Route::post('password/reset', 'LoginControllerAPI@resetPassword');
 
+
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+
 // image
 Route::get('storage/{deck}/{card}', function ($deck, $card)
 {
     return Image::make(Storage::disk('local')->get('public/decks/'.$deck.'/'. $card))->response();
 });
+
 Route::get('storage/{deckpath}', function ($deckpath)
 {
     return Image::make(Storage::disk('local')->get('public/decks/'.$deckpath))->response();
+});
+
+Route::get('storage/user/avatar/{avatarPath}', function ($avatarPath)
+{
+    return Image::make(Storage::disk('local')->get('public/users/'.$avatarPath))->response();
 });
 
 Route::middleware(['auth:api'])->group( function () {
@@ -49,9 +61,11 @@ Route::middleware(['auth:api'])->group( function () {
 	Route::get('users/{id}', 'UserControllerAPI@getUser');
 	Route::post('users', 'UserControllerAPI@store');
 	Route::put('users/{id}', 'UserControllerAPI@update');
+	Route::put('users/{id}/avatar', 'UserControllerAPI@updateAvatar');
 	Route::delete('users/{id}', 'UserControllerAPI@delete');
 	Route::put('user/password/update', 'UserControllerAPI@updatePassword');
 	Route::put('user/email/update', 'UserControllerAPI@updateEmail');
+
 
 	// settings
 	Route::post('/settings/update', 'ConfigEmailControllerAPI@update');
@@ -72,6 +86,7 @@ Route::post('game/create', 'GameControllerAPI@create');
 Route::put('game/update/{id}', 'GameControllerAPI@update');
 Route::get('decks/minMax', 'DeckControllerAPI@getMinMax');
 Route::get('decks/{id}', 'DeckControllerAPI@getCardsByDeck');
+Route::get('statistics', 'StatisticsControllerAPI@statistics');
 
 Route::get('/images/event/{filename}', function ($filename)
 {

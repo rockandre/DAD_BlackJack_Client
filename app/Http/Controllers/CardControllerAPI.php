@@ -86,7 +86,6 @@ class CardControllerAPI extends Controller
 						$cardCreated->save();
 
             			// save in storage folder
-						var_dump($card['image']);
 						$image = Image::make($card['image']);
 						$image->heighten(726);
 						$image->save(storage_path('app/public/decks/'.$path), 90);

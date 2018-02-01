@@ -114,7 +114,8 @@
                         port:  this.setting.port,
                         email:  this.setting.email,
                         password: this.setting.password,
-                        encryption: this.setting.encryption
+                        encryption: this.setting.encryption,
+                        passwordAdmin: this.passwordToChangePlatformEmail
                     };
                     axios.post('/api/settings/update', data, this.$root.headers)
                         .then((response) => {

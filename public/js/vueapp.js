@@ -62837,7 +62837,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				},
 				methods: {
 								userSaved: function userSaved(user) {
-												window.location.reload(true);
 												this.$root.user = user;
 												this.action = 0;
 								},
@@ -62953,12 +62952,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	props: ['user'],
+	props: ['userprop'],
 	data: function data() {
 		return {
 			image: '',
 			imageName: '',
-			originalImage: ''
+			originalImage: '',
+			user: new __WEBPACK_IMPORTED_MODULE_0__classes_user_js___default.a()
 		};
 	},
 	methods: {
@@ -62966,13 +62966,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var _this = this;
 
 			axios.put('api/users/' + this.user.id, { 'name': this.user.name, 'email': this.user.email, 'nickname': this.user.nickname }, this.$root.headers).then(function (response) {
-				// Copy object properties from response.data.data to this.user
-				// without creating a new reference
-				Object.assign(_this.user, response.data.data);
-				if (_this.user.nickname == _this.$root.user.nickname) {
-					_this.$root.user.parse(_this.user);
-					_this.$emit('user-saved', _this.user);
-				}
+				_this.$root.user.parse(_this.user);
+				_this.$emit('user-saved', _this.user);
 			});
 		},
 		saveImage: function saveImage() {
@@ -62980,10 +62975,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			if (this.image != this.imageName) {
 				axios.put('api/users/' + this.user.id + '/avatar', { 'avatar': this.image }, this.$root.headers).then(function (response) {
-					Object.assign(_this2.user, response.data.data);
-					if (_this2.user.nickname == _this2.$root.user.nickname) {
-						_this2.$root.user.parse(_this2.user);
-					}
+					Object.assign(_this2.user.avatar, response.data.avtar);
+
 					_this2.$emit('user-saved', _this2.user);
 				});
 			}
@@ -63014,6 +63007,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	mounted: function mounted() {
+		this.user = this.userprop;
 		this.originalImage = '/api/storage/user/avatar/' + this.user.avatar;
 		this.image = '/api/storage/user/avatar/' + this.user.avatar;
 	},
@@ -63317,7 +63311,7 @@ var render = function() {
       _vm._v(" "),
       _vm.action == 1
         ? _c("user-edit", {
-            attrs: { user: _vm.user },
+            attrs: { userprop: _vm.user },
             on: { "user-saved": _vm.userSaved, "user-canceled": _vm.cancelEdit }
           })
         : _vm._e()

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 
-define('YOUR_SERVER_URL', 'http://188.166.152.94');
+define('YOUR_SERVER_URL', 'http://blackjackdad.ga');
 // Check "oauth_clients" table for next 2 values:
 define('CLIENT_ID', '2');
 

@@ -29,7 +29,7 @@
 				</div>
 			</div>
 		</div>
-		<user-edit :user="user" @user-saved="userSaved" @user-canceled="cancelEdit" v-if="action == 1"></user-edit>
+		<user-edit :userprop="user" @user-saved="userSaved" @user-canceled="cancelEdit" v-if="action == 1"></user-edit>
 	</div>
 </template>
 
@@ -46,7 +46,6 @@
         },
         methods: {
             userSaved: function(user){
-	           	window.location.reload(true);
 	            this.$root.user = user;
 	            this.action=0;
 	        },

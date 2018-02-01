@@ -79,7 +79,7 @@ class UserControllerAPI extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$id,
             'nickname' => 'required|string|max:20|unique:users,nickname,'.$id,
@@ -123,6 +123,15 @@ class UserControllerAPI extends Controller
                 return response()->json("Error sending email!", 400);
             }
         }
+
+        if( $validator->passes()) {
+
+            $user->update($request->all());
+            $user->save();
+        } else {
+            return response()->json("Error updating user!", 400);
+        }
+
         return new UserResource($user);
     }
 

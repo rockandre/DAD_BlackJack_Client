@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Game;
 
+use App\Http\Resources\UserStatsResource;
+
+
 use DB;
 
 class StatisticsControllerAPI extends Controller
@@ -41,13 +44,13 @@ class StatisticsControllerAPI extends Controller
     public function top5MostGames() {
     	$users = User::orderBy('total_games_played', 'desc')->take(5)->get();
 
-    	return $users;
+    	return UserStatsResource::collection($users);
     }
 
     public function top5MostPoints() {
     	$users = User::orderBy('total_points', 'desc')->take(5)->get();
 
-    	return $users;
+    	return UserStatsResource::collection($users);
     }
 
     public function top5BestAvg() {
@@ -56,6 +59,6 @@ class StatisticsControllerAPI extends Controller
                 ->take(5)
                 ->get();
 
-    	return $users;
+    	return UserStatsResource::collection($users);
     }
 }

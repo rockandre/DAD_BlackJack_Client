@@ -16,7 +16,7 @@
 						<label for="inputName">Name</label>
 						<input
 						type="text" class="form-control" v-model="user.name"
-						name="name" id="inputName" 
+						name="name" id="inputName"
 						placeholder="Fullname"/>
 					</div>
 					<div class="form-group">
@@ -46,37 +46,32 @@
 	import User from '../../classes/user.js';
 
 	export default {
-		props: ['user'],
+		props: ['userprop'],
 		data: function () {
 			return {
 				image: '',
 				imageName: '',
-				originalImage: ''
+				originalImage: '',
+				user: new User()
 			}
 		},
 		methods: {
 			saveProfile: function(){
 				axios.put('api/users/'+this.user.id, {'name': this.user.name, 'email': this.user.email,'nickname': this.user.nickname}, this.$root.headers)
 				.then(response=>{
-	                	// Copy object properties from response.data.data to this.user
-	                	// without creating a new reference
-	                	Object.assign(this.user, response.data.data);
-	                	if (this.user.nickname == this.$root.user.nickname) {
-	                		this.$root.user.parse(this.user);
-	                		this.$emit('user-saved', this.user);
-	                	}
-	                });
+					this.$root.user.parse(this.user);
+					this.$emit('user-saved', this.user);
+					
+				});
 			},
 			saveImage: function () {
 				if (this.image != this.imageName) {
 					axios.put('api/users/'+this.user.id+'/avatar', {'avatar': this.image}, this.$root.headers)
 					.then(response=>{
-	                	Object.assign(this.user, response.data.data);
-	                	if (this.user.nickname == this.$root.user.nickname) {
-	                		this.$root.user.parse(this.user);
-	                	}
-	                	this.$emit('user-saved', this.user);
-	                });
+						Object.assign(this.user.avatar, response.data.avtar);
+						
+						this.$emit('user-saved', this.user);
+					});
 				}
 			},
 			cancelEdit: function(){
@@ -105,6 +100,7 @@
 			},
 		},
 		mounted: function () {
+			this.user = this.userprop;
 			this.originalImage = '/api/storage/user/avatar/'+this.user.avatar;
 			this.image = '/api/storage/user/avatar/'+this.user.avatar;
 		},

@@ -8,7 +8,7 @@
 				<label v-if="image == originalImage" for="file-upload" class="btn btn-primary mt-2">
 					<i class="fa fa-cloud-upload"></i> Insert New Image</label>
 					<input id="file-upload" type="file" @change="onFileChange"/>
-
+					<a v-if="image != originalImage" class="btn btn-success" v-on:click.prevent="saveImage()">Save image</a>
 					<button v-if="image != originalImage" @click="removeImage" class="btn btn-warning mt-2">Remove image</button>
 				</div>
 				<div class="col-9">
@@ -63,10 +63,12 @@
 	                	Object.assign(this.user, response.data.data);
 	                	if (this.user.nickname == this.$root.user.nickname) {
 	                		this.$root.user.parse(this.user);
+	                		this.$emit('user-saved', this.user);
 	                	}
 	                });
+			},
+			saveImage: function () {
 				if (this.image != this.imageName) {
-					console.log(this.user.id);
 					axios.put('api/users/'+this.user.id+'/avatar', {'avatar': this.image}, this.$root.headers)
 					.then(response=>{
 	                	Object.assign(this.user, response.data.data);
@@ -76,8 +78,6 @@
 	                	this.$emit('user-saved', this.user);
 	                });
 				}
-
-
 			},
 			cancelEdit: function(){
 				this.$emit('user-canceled');

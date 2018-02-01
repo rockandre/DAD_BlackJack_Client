@@ -72,6 +72,7 @@ Route::post('game/create', 'GameControllerAPI@create');
 Route::put('game/update/{id}', 'GameControllerAPI@update');
 Route::get('decks/minMax', 'DeckControllerAPI@getMinMax');
 Route::get('decks/{id}', 'DeckControllerAPI@getCardsByDeck');
+Route::get('statistics', 'StatisticsControllerAPI@statistics');
 
 Route::get('/images/event/{filename}', function ($filename)
 {

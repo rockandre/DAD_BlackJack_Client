@@ -55,11 +55,24 @@ class GameControllerAPI extends Controller
 				if(count($request['winners']) > 1) {
 					foreach($request['winners'] as $nickname) {
 						$user = User::where('nickname', $nickname)->first();
+						$user->total_points += $request['points'];
+						$user->save();
 						$game->players()->updateExistingPivot($user->id, array('status' => 1));
 					}
 				} else {
 					$user = User::where('nickname', $request['winners'])->first();
+					$user->total_points += $request['points'];
+					$user->save();
 					$game->players()->updateExistingPivot($user->id, array('status' => 2));
+				}
+			}
+
+			if($request['players']) {
+				foreach($request['players'] as $nickname) {
+					$user = User::where('nickname', $nickname)->first();
+					$user->total_games_played ++;
+					$user->save();
+					$game->players()->updateExistingPivot($user->id, array('status' => 1));
 				}
 			}
 		}

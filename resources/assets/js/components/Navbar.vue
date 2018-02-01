@@ -10,14 +10,6 @@
 					<li class="nav-item">
 						<router-link to="/game" class="nav-link">Join Game</router-link>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Pricing</a>
-					</li>
-				</ul>
-				<ul class="navbar-nav mr-auto" v-else>
-					<li class="nav-item">
-						<router-link to="/statistics" class="nav-link">Statistics</router-link>
-					</li>
 				</ul>
 				<ul class="navbar-nav justify-content-end">
 					<li class="nav-item dropdown" v-if="this.$root.user.logged() && this.$root.user.admin">
@@ -42,7 +34,6 @@
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 							<router-link to="/user" class="dropdown-item">Profile</router-link>
-							<a class="dropdown-item" href="#">ScoreBoard</a>
 							<a class="dropdown-item" href="#" @click.prevent="logout">Logout</a>
 						</div>
 					</li>

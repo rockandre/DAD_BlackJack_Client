@@ -19,7 +19,7 @@ Vue.use(VueRouter);
 
 //Vue.use(VueSocketio, 'http://blackjackdad.ga:8080');
 
-Vue.use(VueSocketio, 'http://blackjack.dad:8080');
+Vue.use(VueSocketio, 'http://blackjackdad.ga:8080');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

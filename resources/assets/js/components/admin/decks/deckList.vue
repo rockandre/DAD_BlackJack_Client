@@ -15,9 +15,9 @@
 				<td>{{ deck.complete ? 'Yes' : 'No'}}</td>
 				<td class="w-25 p-3">
 					<div class="btn-group col-12" role="group" aria-label="Basic example">
-						<a class="btn btn-xs btn-primary" v-on:click.prevent="editDeck(deck)">Edit</a>
-						<a class="btn btn-xs btn-warning" v-on:click.prevent="activeDeck(deck)" v-if="!deck.active">Activate</a>
-						<a class="btn btn-xs btn-warning" v-on:click.prevent="activeDeck(deck)" v-if="deck.active">Desactivate</a>
+						<a class="btn btn-xs btn-primary" v-on:click.prevent="editDeck(deck)">Manage Cards</a>
+						<a class="btn btn-xs btn-warning" v-on:click.prevent="activeDeck(deck)" v-if="!deck.active && deck.complete">Activate</a>
+						<a class="btn btn-xs btn-warning" v-on:click.prevent="activeDeck(deck)" v-if="deck.active && deck.complete">Desactivate</a>
 						<a class="btn btn-xs btn-danger" v-on:click.prevent="deleteDeck(deck)">Delete</a>
 					</div>
 				</td>

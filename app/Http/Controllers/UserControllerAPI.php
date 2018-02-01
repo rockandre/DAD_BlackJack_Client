@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Blocked;
+use App\Mail\Unblocked;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Facades\Validator;
-
+use Intervention\Image\ImageManagerStatic as Image;
 use App\Http\Resources\UserResource as UserResource;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\App;
+use Mail;
 use App\User;
 use App\StoreUserRequest;
+use Swift_Mailer;
 use Hash;
 
 class UserControllerAPI extends Controller
@@ -76,15 +80,49 @@ class UserControllerAPI extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users,email,'.$id,
-                'nickname' => 'required|string|max:20|unique:users,nickname,'.$id,
-                'reason_blocked' => 'nullable|string|max:250|min:6',
-                'reason_reactivated' => 'nullable|string|max:250|min:6'
-            ]);
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+            'nickname' => 'required|string|max:20|unique:users,nickname,'.$id,
+            'reason_blocked' => 'nullable|string|max:250|min:6',
+            'reason_reactivated' => 'nullable|string|max:250|min:6'
+        ]);
 
         $user = User::findOrFail($id);
-        $user->update($request->all());
+
+        if (!$user->blocked == $request->blocked) {
+            // block/unblock
+            try {
+                $config = DB::table('config')->first();
+                $mailConfigs = json_decode($config->platform_email_properties);
+                config([
+                 'mail.host' => $mailConfigs->host,
+                 'mail.port' => $mailConfigs->port,
+                 'mail.encryption' =>$mailConfigs->encryption,
+                 'mail.username' => $config->platform_email,
+                 'mail.password' => $mailConfigs->password
+             ]);
+
+                $app = App::getInstance();
+                $app->singleton('swift.transport', function ($app) {
+                    return new TransportManager($app);
+                });
+                $mailer = new Swift_Mailer($app['swift.transport']->driver());
+                Mail::setSwiftMailer($mailer);
+                
+                $user->update($request->all());
+                $user->save();
+                
+                if($request->blocked == 1) {
+                    // blocked
+                    Mail::to($user)->send(new Blocked($user));
+                } else {
+                    // unblocked
+                    Mail::to($user)->send(new Unblocked($user));
+                }
+            } catch(Exception $e) {
+                return response()->json("Error sending email!", 400);
+            }
+        }
         return new UserResource($user);
     }
 
@@ -104,4 +142,26 @@ class UserControllerAPI extends Controller
         }
         return response()->json($totalEmail == 0);
     }
+
+    public function updateAvatar(Request $request, $id) {
+
+        $request->validate([
+            'avatar' => 'required'
+        ]);
+
+        $fileName = $id.'.png';
+
+        // save in database
+        $user = User::findOrFail($id);
+        $user->avatar = $fileName;
+        $user->save();
+
+        // save in storage folder
+        $image = Image::make($request->avatar);
+        $image->heighten(200);
+        $image->save(storage_path('app/public/users/'.$fileName), 90);
+        return new UserResource($user);
+
+    }
+
 }

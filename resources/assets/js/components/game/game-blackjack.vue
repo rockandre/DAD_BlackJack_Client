@@ -20,7 +20,7 @@
                     <div class="col-4">
                     </div>    
                     <div class="col-4" v-if="game.playerList[0] != undefined">
-                        <h3 :class="game.playerList[0].name == currentPlayer ? 'text-primary' : ''">{{ game.playerList[0].name }}</h3>
+                        <h3 :class="game.playerList[0].name == currentPlayer ? 'text-primary' : ''">{{ game.playerList[0].name }}<i v-if="game.playerList[0].name == currentPlayer">  (points:{{ handSum() }})</i></h3>
 
                         <div v-if="game.playerList[0].name != currentPlayer">
                             <img v-for="(card) in game.playerList[0].pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">
@@ -37,7 +37,7 @@
                 <div class="row">
 
                     <div class="col-4" v-if="game.playerList[1] != undefined">
-                        <h3 :class="game.playerList[1].name == currentPlayer ? 'text-primary' : ''">{{ game.playerList[1].name }}</h3>
+                        <h3 :class="game.playerList[1].name == currentPlayer ? 'text-primary' : ''">{{ game.playerList[1].name }}<i v-if="game.playerList[1].name == currentPlayer">  (points:{{ handSum() }})</i></h3>
 
                         <div v-if="game.playerList[1].name != currentPlayer">
                             <img v-for="(card) in game.playerList[1].pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">
@@ -51,7 +51,7 @@
                     <div class="col-4">
                     </div>
                     <div class="col-4" v-if="game.playerList[2] != undefined">
-                        <h3 :class="game.playerList[2].name == currentPlayer ? 'text-primary' : ''">{{ game.playerList[2].name }}</h3>
+                        <h3 :class="game.playerList[2].name == currentPlayer ? 'text-primary' : ''">{{ game.playerList[2].name }}<i v-if="game.playerList[2].name == currentPlayer">  (points:{{ handSum() }})</i></h3>
 
                         <div v-if="game.playerList[2].name != currentPlayer">
                             <img v-for="(card) in game.playerList[2].pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">
@@ -67,7 +67,7 @@
                     <div class="col-4">
                     </div>
                     <div class="col-4" v-if="game.playerList[3] != undefined">
-                        <h3 :class="game.playerList[3].name == currentPlayer ? 'text-primary' : ''">{{ game.playerList[3].name }}</h3>
+                        <h3 :class="game.playerList[3].name == currentPlayer ? 'text-primary' : ''">{{ game.playerList[3].name }}<i v-if="game.playerList[3].name == currentPlayer">  (points:{{ handSum() }})</i></h3>
 
                         <div v-if="game.playerList[3].name != currentPlayer">
                             <img v-for="(card) in game.playerList[3].pubHand" v-bind:card="card" v-bind:key="card.id" v-bind:src="cardImageURL(card.id)" width="70" height="100">

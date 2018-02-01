@@ -10,7 +10,7 @@ use Swift_Mailer;
 use Validator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Mail\TransportManager;
-
+use Hash;
 
 class ConfigEmailControllerAPI extends Controller
 {
@@ -70,10 +70,10 @@ class ConfigEmailControllerAPI extends Controller
                 return response()->json(['msg' => 'Changes saved.']);
             }
             catch(\Exception $e){
-                return response()->json(['msg' => 'Configuration is not valid.'], 400);
+                return response()->json(['msg' => 'Configuration is not valid:'.$e], 400);
             }
         } else {
-            return response()->json(['msg' => 'Invalid request.'], 400);
+            return response()->json(['msg' => 'Invalid request.'.$validator->errors()], 400);
         }
 
     }

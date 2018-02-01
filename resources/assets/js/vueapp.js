@@ -29,6 +29,11 @@ Vue.use(VueSocketio, 'http://192.168.10.10:8080');
  const home = Vue.component('home', require('./components/Home.vue'));
  const passwordRequest = Vue.component('password-request-component', require('./components/passwordReset/password_request.vue'));
  const passwordReset = Vue.component('password-reset-component', require('./components/passwordReset/password_reset.vue'));
+
+ // user components
+ const userPage = Vue.component('user-info-component', require('./components/user/user.vue'));
+ const userEdit = Vue.component('user-edit-component', require('./components/user/userEdit.vue'));
+
  // game components
  const gamelobby = Vue.component('gamelobby', require('./components/game/gamelobby.vue'));
  const gamearea = Vue.component('gamearea', require('./components/game/game-area.vue'));
@@ -45,6 +50,11 @@ Vue.use(VueSocketio, 'http://192.168.10.10:8080');
  { path: '/login', component: login },
  { path: '/password/reset', component: passwordRequest },
  { path: '/password/reset/:token', component: passwordReset, props: true  },
+
+ // user routes
+ { path: '/user', component: userPage},
+ { path: '/user/edit', component: userEdit},
+
  // game routes
  { path: '/gamelobby', component: gamelobby},
  { path: '/game', component: gamearea},

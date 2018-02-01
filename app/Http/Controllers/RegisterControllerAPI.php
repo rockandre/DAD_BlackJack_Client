@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
+use Illuminate\Mail\TransportManager;
 use Mail;
+use Swift_Mailer;
 use App\Mail\MailConfirmation;
 
 class RegisterControllerAPI extends Controller
@@ -25,6 +28,23 @@ class RegisterControllerAPI extends Controller
 			]);
 
 			try {
+				$config = DB::table('config')->first();
+                $mailConfigs = json_decode($config->platform_email_properties);
+                config([
+                   'mail.host' => $mailConfigs->host,
+                   'mail.port' => $mailConfigs->port,
+                   'mail.encryption' =>$mailConfigs->encryption,
+                   'mail.username' => $config->platform_email,
+                   'mail.password' => $mailConfigs->password
+               ]);
+
+                $app = App::getInstance();
+                $app->singleton('swift.transport', function ($app) {
+                    return new TransportManager($app);
+                });
+                $mailer = new Swift_Mailer($app['swift.transport']->driver());
+                Mail::setSwiftMailer($mailer);
+
 				Mail::to($user)->send(new MailConfirmation($user));
 			} catch(Exception $e) {
 				return response()->json("Error sending email!", 400);

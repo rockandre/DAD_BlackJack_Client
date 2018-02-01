@@ -19,7 +19,7 @@ use Validator;
 define('YOUR_SERVER_URL', 'http://blackjack.dad');
 // Check "oauth_clients" table for next 2 values:
 define('CLIENT_ID', '2');
-define('CLIENT_SECRET','bWTnWVm0gW8czcN139ugXvRjpRaoaYm8hfvzMDz9');
+define('CLIENT_SECRET','AOy4KbJhtpqmM8oSDQY7DxEszOzOih5tWB9YZgIF');
 
 class LoginControllerAPI extends Controller
 {
@@ -28,6 +28,19 @@ class LoginControllerAPI extends Controller
 
 	public function login(Request $request)
 	{
+        $user = User::orWhere('email', $request->email)->orWhere('nickname', $request->email)->first();
+        if(!$user){
+            return response()->json(['msg'=>'User/Email dont exist'], 400);
+        }
+
+        if($user->activated == 0){
+            return response()->json(['msg'=>'User not active.'], 400);
+        }
+
+        if($user->blocked == 1){
+            return response()->json(['msg'=>'User blocked.'], 400);
+        }
+
 		$http = new \GuzzleHttp\Client;
 		$response = $http->post(YOUR_SERVER_URL.'/oauth/token', [
 			'form_params' => [
@@ -95,7 +108,7 @@ class LoginControllerAPI extends Controller
                 return response()->json(['data' => 'Email sended.']);
             }
             catch(\Exception $e){
-                return response()->json(['data' => 'Problems sending email.'], 400);
+                return response()->json(['data' => 'Problems sending email: '.$e], 400);
             }
         } else {
             return response()->json(['data' => 'Invalid request.'], 400);

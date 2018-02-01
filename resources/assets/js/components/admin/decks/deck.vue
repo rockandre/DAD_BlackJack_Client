@@ -38,6 +38,7 @@ export default {
 			this.showSuccess = false;
 		},
 		activeDeck: function(deck) {
+			this.action = 0;
 			deck.active == 0 ? deck.active = 1 : deck.active = 0;
 			axios.put('api/decks/'+deck.id, deck, this.$root.headers)
 			.then(response => {
@@ -47,6 +48,7 @@ export default {
 			});
 		},
 		deleteDeck: function(deck){
+			this.action = 0;
 			axios.delete('api/decks/'+deck.id, this.$root.headers)
 			.then(response => {
 				this.showSuccess = true;
